@@ -8,8 +8,9 @@ import {
     DrawerBody,
     DrawerFooter,
     Button,
+    Link,
+    User
 } from "@heroui/react";
-import { User } from "@heroui/react";
 
 export default function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen: (val: boolean) => void }) {
     return (
@@ -27,7 +28,7 @@ export default function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean; setIsO
                                 name="Jane Doe"
                                 className="flex flex-row items-center gap-3"
                             />
-                            <Button className="block text-sm text-neutral-100 hover:text-white">⚙️ Pengaturan</Button>
+                            <Button as={Link} variant="solid">⚙️ Pengaturan</Button>
                         </div>
                     </nav>
                 </div>
