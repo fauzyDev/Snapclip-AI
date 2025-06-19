@@ -18,29 +18,29 @@ export default function InputChannel() {
     >
       <Input
         isRequired
-        errorMessage="Please enter a valid username"
-        label="Username"
+        errorMessage="Please enter a valid ID"
+        label="Channel 1"
         labelPlacement="outside"
-        name="username"
-        placeholder="Enter your username"
+        name="ID Channel 1"
+        placeholder="Enter your ID Channel"
         type="text"
       />
 
       <Input
         isRequired
-        errorMessage="Please enter a valid email"
-        label="Email"
+        errorMessage="Please enter a ID"
+        label="Channel 2"
         labelPlacement="outside"
-        name="email"
-        placeholder="Enter your email"
-        type="email"
+        name="ID Channel 2"
+        placeholder="Enter your ID Channel"
+        type="text"
       />
 
       <div className="flex gap-2">
-        <Button color="primary" type="submit">
+        <Button color="primary" type="submit" variant="solid">
           Submit
         </Button>
-        <Button type="reset" variant="flat">
+        <Button color="danger" type="reset" variant="solid">
           Reset
         </Button>
       </div>

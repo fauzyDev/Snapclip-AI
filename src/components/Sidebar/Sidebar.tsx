@@ -28,7 +28,7 @@ export default function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean; setIsO
                                 name="Jane Doe"
                                 className="flex flex-row items-center gap-3"
                             />
-                            <Button as={Link} variant="solid">⚙️ Pengaturan</Button>
+                            <Button as={Link} href="/settings" variant="solid">⚙️ Pengaturan</Button>
                         </div>
                     </nav>
                 </div>

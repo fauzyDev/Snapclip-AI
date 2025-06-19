@@ -51,28 +51,28 @@ const ChatClient = () => {
                             {msg.role === "user" ? (
                                 <li className="flex justify-end gap-x-3 items-end pt-8">
                                     <div className="max-w-sm text-end space-y-3">
-                                        <div className="inline-block border border-gray-400 shadow-md bg-gray-700 rounded-2xl p-4 break-words">
-                                            <p className="text-base text-neutral-200">{msg.content}</p>
+                                        <div className="max-w-sm border border-gray-400 shadow-md bg-neutral-600 rounded-2xl p-3 break-words">
+                                            <p className="text-md text-neutral-200">{msg.content}</p>
                                         </div>
                                     </div>
                                     <Avatar
                                         size="sm"
                                         showFallback
                                         src="https://images.unsplash.com/broken"
-                                        className="text-white bg-neutral-700 inline-block w-10 h-10 sm:w-12 sm:h-12 rounded-full flex-shrink-0"
+                                        className="text-white bg-neutral-700 inline-block rounded-full flex-shrink-0"
                                     />
                                 </li>
                             ) : (
                                 <li className="flex gap-x-3 items-start">
                                     <Avatar
                                         size="sm"
-                                        className="inline-block w-10 h-10 sm:w-12 sm:h-12 rounded-full flex-shrink-0"
+                                        className="inline-block rounded-full flex-shrink-0"
                                         src="https://img.freepik.com/free-vector/chatbot-chat-message-vectorart_78370-4104.jpg"
                                         alt="Avatar"
                                     />
-                                    <div className="max-w-lg border border-gray-500 rounded-2xl p-4 space-y-3 shadow-md bg-neutral-700 break-words">
-                                        <h2 className="font-medium text-gray-200">Snapclip AI</h2>
-                                        <p className="text-base text-neutral-200">{msg.content}</p>
+                                    <div className="max-w-lg border border-gray-500 rounded-2xl p-3 space-y-3 shadow-md bg-neutral-700 break-words">
+                                        <h3 className="font-medium text-gray-200">Snapclip AI</h3>
+                                        <p className="whitespace-pre-line text-md text-neutral-200">{msg.content}</p>
                                     </div>
                                 </li>
                             )}
