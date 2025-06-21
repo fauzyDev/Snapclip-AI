@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import HeroButton from "@/components/ui/HeroButton";
 import Footer from "@/components/Footer/Footer";
@@ -19,7 +20,7 @@ export default function Home() {
           <p className="text-lg sm:text-xl max-w-2xl mx-auto text-gray-300 mb-10">
             Gak sempat nonton full? Ekstrak bagian penting & klip menarik dari YouTube cuma dalam hitungan detik. Powered by LLM.
           </p>
-          <HeroButton className="text-lg px-8 py-4 bg-pink-600 hover:bg-pink-700 transition shadow-lg hover:scale-105 duration-300">
+          <HeroButton as={Link} href="/snapclip" className="text-lg px-8 py-4 bg-pink-600 hover:bg-pink-700 transition shadow-lg hover:scale-105 duration-300">
             🚀 Login untuk Mulai
           </HeroButton>
         </div>
