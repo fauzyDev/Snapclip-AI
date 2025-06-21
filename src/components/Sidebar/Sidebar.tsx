@@ -7,10 +7,10 @@ import {
     DrawerHeader,
     DrawerBody,
     DrawerFooter,
-    Button,
     Link,
     User
 } from "@heroui/react";
+import HeroButton from "../ui/HeroButton";
 
 export default function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen: (val: boolean) => void }) {
     return (
@@ -28,7 +28,7 @@ export default function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean; setIsO
                                 name="Jane Doe"
                                 className="flex flex-row items-center gap-3"
                             />
-                            <Button as={Link} href="/settings" variant="solid">⚙️ Pengaturan</Button>
+                            <HeroButton as={Link} href="/settings" variant="solid">⚙️ Pengaturan</HeroButton>
                         </div>
                     </nav>
                 </div>
@@ -44,7 +44,7 @@ export default function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean; setIsO
                                 <p>Konten navigasi sidebar...</p>
                             </DrawerBody>
                             <DrawerFooter>
-                                <Button onPress={onClose}>Tutup</Button>
+                                <HeroButton onPress={onClose}>Tutup</HeroButton>
                             </DrawerFooter>
                         </>
                     )}

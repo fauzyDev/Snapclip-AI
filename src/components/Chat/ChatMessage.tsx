@@ -1,8 +1,8 @@
 "use client"
 
 import React from 'react';
-import { Avatar } from "@heroui/react";
-import { Button } from "@heroui/react";
+import HeroAvatar from '../ui/HeroAvatar';
+import HeroButton from '../ui/HeroButton';
 import Input from '../Input/Input';
 
 type Message = {
@@ -38,10 +38,10 @@ const ChatClient = () => {
                             ✨ Selamat Datang di Snapclip AI...
                         </h2>
                         <div className="flex flex-wrap justify-center gap-4 mt-3">
-                            <Button size="md" className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold">📽️ Buat Klip</Button>
-                            <Button size="md" className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold">🎞️ Ringkas Video</Button>
-                            <Button size="md" className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold">💬 Tanya AI</Button>
-                            <Button size="md" className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold">🔍 Cari Topik</Button>
+                            <HeroButton size="md" className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold">📽️ Buat Klip</HeroButton>
+                            <HeroButton size="md" className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold">🎞️ Ringkas Video</HeroButton>
+                            <HeroButton size="md" className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold">💬 Tanya AI</HeroButton>
+                            <HeroButton size="md" className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold">🔍 Cari Topik</HeroButton>
                         </div>
                     </div>
                 ) : (
@@ -55,7 +55,7 @@ const ChatClient = () => {
                                             <p className="text-md text-neutral-200">{msg.content}</p>
                                         </div>
                                     </div>
-                                    <Avatar
+                                    <HeroAvatar
                                         size="sm"
                                         showFallback
                                         src="https://images.unsplash.com/broken"
@@ -64,7 +64,7 @@ const ChatClient = () => {
                                 </li>
                             ) : (
                                 <li className="flex gap-x-3 items-start">
-                                    <Avatar
+                                    <HeroAvatar
                                         size="sm"
                                         className="inline-block rounded-full flex-shrink-0"
                                         src="https://img.freepik.com/free-vector/chatbot-chat-message-vectorart_78370-4104.jpg"
