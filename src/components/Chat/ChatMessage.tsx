@@ -29,12 +29,9 @@ const ChatClient = () => {
     }
 
     return (
-        <section className="flex flex-col min-h-screen w-full items-center px-4 sm:px-8 lg:px-8">
+        <section className="flex flex-col h-screen w-full overflow-hidden items-center px-4 sm:px-8 lg:px-8">
             {/* Chat Container */}
-            <div
-                className={`flex flex-col w-full max-w-5xl justify-center space-y-4 sm:p-3 relative z-10 ${message.length > 0 ? "h-full overflow-y-auto" : ""
-                    }`}
-            >
+            <div className="flex-grow w-full max-w-5xl mx-auto space-y-4 sm:p-3 overflow-y-auto pb-36">
                 {message.length === 0 ? (
                     <div className="flex flex-col items-center justify-center mt-16 space-y-6 py-12">
                         <h2 className="text-xl sm:text-2xl font-semibold text-white text-center animate-pulse">
@@ -93,8 +90,10 @@ const ChatClient = () => {
             </div>
 
             {/* Input Chat */}
-            <div className="w-full max-w-2xl mx-auto rounded-2xl shadow-lg bg-neutral-800 sticky bottom-0 p-4 sm:p-2 z-20">
-                <Input onSubmit={sendMessage} />
+            <div className="fixed bottom-0 w-full px-4 sm:px-8 lg:px-8 pb-2 z-30">
+                <div className="w-full max-w-2xl mx-auto rounded-2xl shadow-lg bg-neutral-800 p-4 sm:p-2">
+                    <Input onSubmit={sendMessage} />
+                </div>
             </div>
         </section>
     );

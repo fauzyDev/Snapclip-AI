@@ -10,13 +10,13 @@ export const metadata: Metadata = {
 
 export default function LayoutSnapclip({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
-        <div className="min-h-screen bg-neutral-900 flex">
+        <div className="h-screen overflow-hidden bg-neutral-900 flex">
             {/* Sidebar */}
             <SidebarWrapper />
             <div className="flex flex-col flex-grow ml-0 md:ml-48 w-full">
                 {/* Header */}
                 <Header />
-                <main className="flex-grow flex items-center justify-center relative px-4 pt-4">
+                <main className="flex-grow flex items-center justify-center">
                     {children}
                 </main>
             </div>
