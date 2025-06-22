@@ -4,7 +4,7 @@ import { Menu } from "lucide-react";
 
 export default function Header({ onMenuClick }: { onMenuClick?: () => void }) {
     return (
-        <header className="sticky top-0 z-50 w-full bg-gradient-to-r from-neutral-900 via-neutral-800 to-neutral-900 shadow-md">
+        <header className="sticky top-0 z-50 bg-gradient-to-r from-neutral-900 via-neutral-800 to-neutral-900 shadow-md">
             <div className="flex items-center justify-between px-4 py-2">
                 <div className="md:hidden">
                     <HeroButton
