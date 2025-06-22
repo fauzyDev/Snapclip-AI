@@ -1,5 +1,6 @@
 import React from "react";
 import HeroButton from "../ui/HeroButton";
+import { Menu } from "lucide-react";
 
 export default function Header({ onMenuClick }: { onMenuClick?: () => void }) {
     return (
@@ -7,9 +8,9 @@ export default function Header({ onMenuClick }: { onMenuClick?: () => void }) {
             <div className="flex items-center justify-between px-4 py-2">
                 <div className="md:hidden">
                     <HeroButton
-                        className="text-white text-2xl"
+                        size="sm"
                         onPress={onMenuClick}>
-                        ☰
+                        <Menu />
                     </HeroButton>
                 </div>
                 <div className="mx-auto text-center">

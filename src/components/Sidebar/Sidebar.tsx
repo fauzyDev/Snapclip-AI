@@ -12,6 +12,7 @@ import {
 import HeroButton from "../ui/HeroButton";
 import HeroAvatar from "../ui/HeroAvatar";
 import HeroUser from "../ui/HeroUser";
+import { Settings } from 'lucide-react';
 
 export default function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen: (val: boolean) => void }) {
     return (
@@ -32,7 +33,7 @@ export default function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean; setIsO
                                 name="Jane Doe"
                                 className="flex flex-row items-center gap-3"
                             />
-                            <HeroButton as={Link} href="/snapclip/settings" variant="solid">⚙️ Pengaturan</HeroButton>
+                            <HeroButton as={Link} size="md" href="/snapclip/settings" variant="solid"><Settings size={24} /> Pengaturan</HeroButton>
                         </div>
                         <h3 className="text-neutral-300 text-base mt-5 font-semibold"> Riwayat</h3>
                         <div className="flex flex-col mt-2">
@@ -41,7 +42,7 @@ export default function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean; setIsO
                             <Link href="/" className="bg-transparent text-sm p-2 hover:bg-white/10 rounded-lg transition duration-200">Cara Mengelola uang</Link>
                         </div>
                     </nav>
-                </div>  
+                </div>
             </aside>
 
             {/* Sidebar - Mobile Drawer */}

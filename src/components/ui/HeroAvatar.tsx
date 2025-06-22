@@ -7,7 +7,6 @@ type Props = AvatarProps;
 
 export default function HeroAvatar(props: Props) {
   return (
-    <Avatar {...props}/>
+    <Avatar {...props} />
   )
 }
-

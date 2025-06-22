@@ -7,6 +7,6 @@ type Props = TextAreaProps;
 
 export default function HeroTextarea(props: Props) {
   return (
-    <Textarea {...props}/>
+    <Textarea {...props} />
   )
 }

@@ -7,6 +7,6 @@ type Props = UserProps;
 
 export default function HeroUser(props: Props) {
   return (
-    <User {...props}/>
+    <User {...props} />
   )
 }
