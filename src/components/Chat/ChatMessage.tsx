@@ -31,17 +31,28 @@ const ChatClient = () => {
     return (
         <section className="flex flex-col min-h-screen w-full items-center px-4 sm:px-8 lg:px-8">
             {/* Chat Container */}
-            <div className="max-w-5xl flex flex-col w-full justify-center space-y-4 sm:p-3 h-full overflow-y-auto relative z-10">
+            <div
+                className={`flex flex-col w-full max-w-5xl justify-center space-y-4 sm:p-3 relative z-10 ${message.length > 0 ? "h-full overflow-y-auto" : ""
+                    }`}
+            >
                 {message.length === 0 ? (
                     <div className="flex flex-col items-center justify-center mt-16 space-y-6 py-12">
                         <h2 className="text-xl sm:text-2xl font-semibold text-white text-center animate-pulse">
                             ✨ Selamat Datang di Snapclip AI...
                         </h2>
                         <div className="flex flex-wrap justify-center gap-4 mt-3">
-                            <HeroButton size="md" className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold">📽️ Buat Klip</HeroButton>
-                            <HeroButton size="md" className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold">🎞️ Ringkas Video</HeroButton>
-                            <HeroButton size="md" className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold">💬 Tanya AI</HeroButton>
-                            <HeroButton size="md" className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold">🔍 Cari Topik</HeroButton>
+                            <HeroButton size="md" className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold">
+                                📽️ Buat Klip
+                            </HeroButton>
+                            <HeroButton size="md" className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold">
+                                🎞️ Ringkas Video
+                            </HeroButton>
+                            <HeroButton size="md" className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold">
+                                💬 Tanya AI
+                            </HeroButton>
+                            <HeroButton size="md" className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold">
+                                🔍 Cari Topik
+                            </HeroButton>
                         </div>
                     </div>
                 ) : (
@@ -49,9 +60,9 @@ const ChatClient = () => {
                         <ul key={msg.id} className="space-y-6 mb-4">
                             {/* USER */}
                             {msg.role === "user" ? (
-                                <li className="flex justify-end gap-x-3 items-end pt-8">
-                                    <div className="max-w-sm text-end space-y-3">
-                                        <div className="max-w-sm border border-gray-400 shadow-md bg-neutral-600 rounded-2xl p-3 break-words">
+                                <li className="w-full max-w-2xl mx-auto flex justify-end gap-x-3 items-end pt-8">
+                                    <div className="w-fit max-w-full text-end space-y-3">
+                                        <div className="border border-gray-400 shadow-md bg-neutral-600 rounded-2xl p-3 break-words">
                                             <p className="text-md text-neutral-200">{msg.content}</p>
                                         </div>
                                     </div>
@@ -63,14 +74,14 @@ const ChatClient = () => {
                                     />
                                 </li>
                             ) : (
-                                <li className="flex gap-x-3 items-start">
+                                <li className="w-full max-w-2xl mx-auto flex gap-x-3 items-start mt-4">
                                     <HeroAvatar
                                         size="sm"
                                         className="inline-block rounded-full flex-shrink-0"
                                         src="https://img.freepik.com/free-vector/chatbot-chat-message-vectorart_78370-4104.jpg"
                                         alt="Avatar"
                                     />
-                                    <div className="max-w-lg border border-gray-500 rounded-2xl p-3 space-y-3 shadow-md bg-neutral-700 break-words">
+                                    <div className="w-fit max-w-full border border-gray-500 rounded-2xl p-3 space-y-3 shadow-md bg-neutral-700 break-words">
                                         <h3 className="font-medium text-gray-200">Snapclip AI</h3>
                                         <p className="whitespace-pre-line text-md text-neutral-200">{msg.content}</p>
                                     </div>
@@ -82,7 +93,7 @@ const ChatClient = () => {
             </div>
 
             {/* Input Chat */}
-            <div className="w-full max-w-2xl rounded-2xl shadow-lg bg-neutral-800 sticky bottom-0 p-4 sm:p-2 z-20">
+            <div className="w-full max-w-2xl mx-auto rounded-2xl shadow-lg bg-neutral-800 sticky bottom-0 p-4 sm:p-2 z-20">
                 <Input onSubmit={sendMessage} />
             </div>
         </section>
