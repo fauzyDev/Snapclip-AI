@@ -3,6 +3,7 @@
 import React from 'react';
 import HeroButton from '../ui/HeroButton';
 import Input from '../Input/Input';
+// import HeroAvatar from '../ui/HeroAvatar';
 
 type Message = {
     id: string,
@@ -83,22 +84,25 @@ const ChatClient = () => {
                 ) : (
                     message.map((msg) => (
                         <ul key={msg.id} className="space-y-6 mb-4">
-                            {/* USER */}
-                            {msg.role === 'user' ? (
-                                <li className="w-full max-w-2xl mx-auto flex justify-end gap-x-2 items-end pt-18">
-                                    <div className="w-fit max-w-full text-end space-y-3">
-                                        <div className="border border-gray-400 shadow-md bg-gray-800 rounded-2xl p-3 break-words">
+                            {msg.role === "user" ? (
+                                <li className="relative w-full flex justify-center mt-18">
+                                    <div className="relative w-full max-w-2xl pr-10 flex justify-end">
+                                        {/* Bubble */}
+                                        <div className="text-end space-y-3 w-fit max-w-full border border-gray-400 shadow-md bg-gray-800 rounded-2xl p-3 break-words">
                                             <p className="text-md text-neutral-200">{msg.content}</p>
                                         </div>
                                     </div>
                                 </li>
                             ) : (
-                                <li className="w-full max-w-2xl mx-auto flex justify-start items-start gap-x-2">
-                                    <div className="w-fit max-w-full rounded-2xl p-3 space-y-3 shadow-md bg-transparent break-words">
-                                        <h3 className="font-medium text-gray-200">Snapclip AI</h3>
-                                        <p className="whitespace-pre-line text-md text-neutral-200">
-                                            {cleanLLMContent(msg.content)}
-                                        </p>
+                                <li className="relative w-full flex justify-center">
+                                    <div className="relative w-full max-w-2xl pl-8">
+                                        {/* Bubble */}
+                                        <div className="rounded-2xl p-3 shadow-md bg-transparent break-words">
+                                            <h3 className="font-medium text-gray-200">Snapclip AI</h3>
+                                            <p className="whitespace-pre-line text-md text-neutral-200">
+                                                {cleanLLMContent(msg.content)}
+                                            </p>
+                                        </div>
                                     </div>
                                 </li>
                             )}
@@ -106,17 +110,20 @@ const ChatClient = () => {
                     ))
                 )}
 
-                {/* ✅ DUMMY SPACER AGAR BUBBLE TERAKHIR TIDAK KETUTUP INPUT */}
+                {/* Dummy spacer supaya bubble terakhir gak ketutup input */}
                 <div ref={bottomRef} className="h-36 scroll-mt-16" />
             </div>
 
-            {/* Input Chat (Tetap di bawah layar) */}
-            <div className={`fixed w-full md:ml-56 px-4 sm:px-8 lg:px-8 z-30 transition-all duration-300 ${message.length === 0 ? "bottom-36" : "bottom-0"}`}>
-                <div className="w-full max-w-2xl md:ml-40 rounded-2xl shadow-lg bg-neutral-800 sm:p-2">
+            {/* Input Chat (fixed di bawah) */}
+            <div className={`fixed w-full px-4 sm:px-8 lg:px-8 z-30 transition-all duration-300 ${message.length === 0 ? "bottom-36" : "bottom-0"}`}>
+                <div className="w-full max-w-2xl mx-auto rounded-2xl shadow-lg bg-neutral-800 sm:p-2">
                     <Input onSubmit={sendMessage} />
-                    {message.length === 0 ? "" : (<p className="text-neutral-200 text-sm text-center mt-4">
-                        This app is not affiliated with YouTube. All video content belongs to their respective owners.
-                    </p>)}
+                    {message.length !== 0 && (
+                        <p className="text-neutral-200 text-sm text-center mt-4">
+                            This app is not affiliated with YouTube. All video content belongs to their
+                            respective owners.
+                        </p>
+                    )}
                 </div>
             </div>
         </section>
