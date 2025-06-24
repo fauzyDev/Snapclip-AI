@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function LayoutSnapclip({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
-        <div className="h-screen overflow-hidden bg-neutral-900 flex">
+        <div className="h-screen overflow-hidden bg-neutral-800 flex">
             {/* Sidebar */}
             <SidebarWrapper />
             <div className="flex flex-col flex-grow w-full ml-0 md:ml-56">

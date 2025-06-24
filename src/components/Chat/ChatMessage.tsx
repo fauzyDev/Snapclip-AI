@@ -32,6 +32,18 @@ const ChatClient = () => {
         bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [message]);
 
+    function cleanLLMContent(content: string): string {
+        return content
+            .replace(/\*\*(.*?)\*\*/g, '$1')          // Bold
+            .replace(/\*(.*?)\*/g, '$1')              // Italic
+            .replace(/^\*\s+/gm, '')                  // Bullet list
+            .replace(/^-+\s+/gm, '')                  // Dash list
+            .replace(/`([^`]+)`/g, '$1')              // Inline code
+            .replace(/#{1,6}\s+(.*)/g, '$1')          // Markdown heading
+            .replace(/^\d+\.\s+/gm, match => `\n${match}`) // Numbered list newline
+            .replace(/[^\p{L}\p{N}\p{P}\p{Z}\n\r\t ]+/gu, '') // 💥 Remove non-standard chars
+    }
+
     return (
         <section className="flex flex-col h-screen w-full overflow-hidden items-center px-4 sm:px-8 lg:px-8">
             {/* Chat Container */}
@@ -85,7 +97,7 @@ const ChatClient = () => {
                                     <div className="w-fit max-w-full rounded-2xl p-3 space-y-3 shadow-md bg-transparent break-words">
                                         <h3 className="font-medium text-gray-200">Snapclip AI</h3>
                                         <p className="whitespace-pre-line text-md text-neutral-200">
-                                            {msg.content}
+                                            {cleanLLMContent(msg.content)}
                                         </p>
                                     </div>
                                 </li>
