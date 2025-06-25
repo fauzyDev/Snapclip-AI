@@ -46,7 +46,7 @@ const ChatClient = () => {
     }
 
     return (
-        <section className="flex flex-col h-screen w-full items-center px-2 sm:px-4 lg:px-8">
+        <section className="flex flex-col h-screen w-full items-center px-2 sm:px-4 lg:px-8 md:pl-56">
             {/* Chat Container */}
             <div className={`flex-grow w-full ${message.length > 0 ? "overflow-y-auto" : ""} pt-16 pb-32`}>
                 <div className="w-full max-w-2xl mx-auto space-y-4 px-2 sm:px-0"> {/* 👈 tambahin px-2 di layar kecil */}
@@ -129,7 +129,7 @@ const ChatClient = () => {
                 <div className="w-full max-w-2xl mx-auto rounded-2xl shadow-lg bg-neutral-800 sm:p-2 p-2">
                     <Input onSubmit={sendMessage} />
                     {message.length !== 0 && (
-                        <p className="text-neutral-200 text-sm text-center mt-4">
+                        <p className="text-neutral-200 text-sm text-center mt-1">
                             This app is not affiliated with YouTube. All video content belongs to their respective owners.
                         </p>
                     )}

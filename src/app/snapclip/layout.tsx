@@ -16,7 +16,7 @@ export default function LayoutSnapclip({ children }: Readonly<{ children: React.
             <div className="flex flex-col flex-grow w-full ml-0 md:ml-56">
                 {/* Header */}
                 <Header />
-                <main className="flex-grow flex items-center justify-center">
+                <main className="flex-grow flex items-center w-full max-w-2xl mx-auto justify-center">
                     {children}
                 </main>
             </div>
