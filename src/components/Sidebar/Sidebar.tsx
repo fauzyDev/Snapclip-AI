@@ -18,7 +18,7 @@ export default function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean; setIsO
     return (
         <>
             {/* Sidebar - Desktop */}
-            <aside className="hidden md:flex flex-col justify-between fixed left-0 top-0 h-full w-56 bg-neutral-800/70 shadow-lg z-40 p-4 pb-8 text-white">
+            <aside className="hidden md:flex flex-col justify-between fixed left-0 top-0 h-full w-56 bg-neutral-800 shadow-lg z-40 p-4 pb-8 text-white">
                 {/* Bagian atas: logo dan menu */}
                 <div>
                     <div className="flex space-x-3">
