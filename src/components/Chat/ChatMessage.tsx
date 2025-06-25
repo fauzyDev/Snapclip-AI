@@ -46,10 +46,10 @@ const ChatClient = () => {
     }
 
     return (
-        <section className="flex flex-col h-screen w-full items-center px-4 sm:px-8 lg:px-8">
+        <section className="flex flex-col h-screen w-full items-center px-2 sm:px-4 lg:px-8">
             {/* Chat Container */}
-            <div className="flex-grow w-full overflow-y-auto pt-16 pb-32">
-                <div className="w-full max-w-2xl mx-auto space-y-4">
+            <div className={`flex-grow w-full ${message.length > 0 ? "overflow-y-auto" : ""} pt-16 pb-32`}>
+                <div className="w-full max-w-2xl mx-auto space-y-4 px-2 sm:px-0"> {/* 👈 tambahin px-2 di layar kecil */}
                     {message.length === 0 ? (
                         <div className="flex flex-col items-center justify-center mt-32 space-y-6 py-12">
                             <h2 className="text-xl sm:text-2xl font-semibold text-white text-center animate-pulse">
@@ -58,26 +58,22 @@ const ChatClient = () => {
                             <div className="flex flex-wrap justify-center gap-4 mt-3">
                                 <HeroButton
                                     size="md"
-                                    className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold"
-                                >
+                                    className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold">
                                     📽️ Buat Klip
                                 </HeroButton>
                                 <HeroButton
                                     size="md"
-                                    className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold"
-                                >
+                                    className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold">
                                     🎞️ Ringkas Video
                                 </HeroButton>
                                 <HeroButton
                                     size="md"
-                                    className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold"
-                                >
+                                    className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold">
                                     💬 Tanya AI
                                 </HeroButton>
                                 <HeroButton
                                     size="md"
-                                    className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold"
-                                >
+                                    className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold">
                                     🔍 Cari Topik
                                 </HeroButton>
                             </div>
@@ -86,10 +82,10 @@ const ChatClient = () => {
                         message.map((msg) => (
                             <ul key={msg.id} className="space-y-6 mb-4">
                                 {msg.role === "user" ? (
-                                    <li className="w-full flex justify-end px-4">
-                                        <div className="flex items-end gap-3 mt-12">
+                                    <li className="w-full flex justify-end px-2 sm:px-0"> {/* 👈 px-2 biar bubble gak mepet di layar kecil */}
+                                        <div className="flex items-end gap-2 sm:gap-3 mt-12 max-w-full"> {/* 👈 gap responsif */}
                                             {/* Bubble */}
-                                            <div className="flex-1 text-end space-y-3 border border-gray-400 shadow-md bg-gray-800 rounded-2xl p-3 break-words">
+                                            <div className="ml-auto space-y-3 border border-gray-400 shadow-md bg-gray-800 rounded-2xl p-3 break-words max-w-[85%]">
                                                 <p className="text-md text-neutral-200">{msg.content}</p>
                                             </div>
                                             {/* Avatar User */}
@@ -101,8 +97,8 @@ const ChatClient = () => {
                                         </div>
                                     </li>
                                 ) : (
-                                    <li className="w-full flex justify-start px-4">
-                                        <div className="flex items-start gap-3 w-full">
+                                    <li className="w-full flex justify-start px-2 sm:px-4"> {/* 👈 px-2 di mobile, biar gak terlalu mepet kiri */}
+                                        <div className="flex items-start gap-2 sm:gap-3 w-full max-w-full">
                                             {/* Avatar Bot */}
                                             <HeroAvatar
                                                 size="sm"
@@ -110,7 +106,7 @@ const ChatClient = () => {
                                                 className="flex-shrink-0"
                                             />
                                             {/* Bubble */}
-                                            <div className="flex-1 rounded-2xl p-3 shadow-md bg-transparent break-words">
+                                            <div className="rounded-2xl p-3 shadow-md bg-transparent break-words max-w-[85%]">
                                                 <h3 className="font-medium text-gray-200">Snapclip AI</h3>
                                                 <p className="whitespace-pre-line text-md text-neutral-200">
                                                     {cleanLLMContent(msg.content)}
@@ -129,11 +125,8 @@ const ChatClient = () => {
             </div>
 
             {/* Input Chat (fixed di bawah) */}
-            <div
-                className={`fixed w-full px-4 sm:px-8 lg:px-8 z-30 transition-all duration-300 ${message.length === 0 ? "bottom-36" : "bottom-0"
-                    }`}
-            >
-                <div className="w-full max-w-2xl mx-auto rounded-2xl shadow-lg bg-neutral-800 sm:p-2">
+            <div className={`fixed w-full px-2 sm:px-4 lg:px-8 z-30 transition-all duration-300 ${message.length === 0 ? "bottom-36" : "bottom-0"}`}>
+                <div className="w-full max-w-2xl mx-auto rounded-2xl shadow-lg bg-neutral-800 sm:p-2 p-2">
                     <Input onSubmit={sendMessage} />
                     {message.length !== 0 && (
                         <p className="text-neutral-200 text-sm text-center mt-4">
