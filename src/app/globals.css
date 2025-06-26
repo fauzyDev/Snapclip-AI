@@ -1,3 +1,58 @@
 @import "tailwindcss";
 @source "../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}";
 @config "../../tailwind.config.js";
+
+@layer utilities {
+    .bg-grid-pattern {
+        background-image: radial-gradient(circle, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    }
+}
+
+/* Performance optimizations */
+@layer base {
+    * {
+        scroll-behavior: smooth;
+    }
+
+    /* Enable hardware acceleration for animations */
+    .animate-float,
+    .animate-float-delayed,
+    .animate-float-slow,
+    .animate-gradient-x {
+        will-change: transform;
+        transform: translateZ(0);
+    }
+}
+
+/* Custom component styles */
+@layer components {
+    .glass-card {
+        @apply bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/20;
+    }
+
+    .gradient-text {
+        @apply bg-clip-text text-transparent bg-gradient-to-r;
+    }
+
+    .btn-primary {
+        @apply relative px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl font-semibold shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 hover:scale-105 border border-purple-400/20;
+    }
+
+    .btn-secondary {
+        @apply px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl font-semibold hover:bg-white/20 transition-all duration-300 hover:scale-105;
+    }
+}
+
+/* Tambahkan ke global.css atau tailwind layer */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #4b5563; /* abu netral */
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}

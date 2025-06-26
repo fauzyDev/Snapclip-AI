@@ -6,79 +6,164 @@ import Footer from "@/components/Footer/Footer";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] text-white flex flex-col font-sans">
-      {/* Hero Section */}
-      <section className="relative px-6 py-24 overflow-hidden">
-        {/* Animated Gradient Blobs */}
-        <div className="absolute top-[-60px] left-[-80px] w-80 h-80 bg-pink-500 opacity-30 rounded-full blur-3xl animate-pulse-fast"></div>
-        <div className="absolute bottom-[-60px] right-[-80px] w-96 h-96 bg-blue-500 opacity-30 rounded-full blur-3xl animate-pulse-slow"></div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white relative overflow-hidden">
+      {/* Animated Background Grid */}
+      <div className="absolute inset-0 bg-grid-pattern bg-[size:60px_60px]" />
+      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-purple-500/10 to-transparent" />
 
-        <div className="relative text-center z-10">
-          <h1 className="text-4xl sm:text-6xl font-extrabold mb-6 leading-tight tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400">
-            🎬 Ringkas & Klip Video YouTube dengan AI
+      {/* Floating Orbs */}
+      <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-gradient-to-r from-purple-400 to-pink-600 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float" />
+      <div className="absolute top-3/4 right-1/4 w-96 h-96 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float-delayed" />
+      <div className="absolute bottom-1/4 left-1/3 w-80 h-80 bg-gradient-to-r from-pink-400 to-red-600 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float-slow" />
+
+      {/* Hero Section */}
+      <section className="relative px-6 py-32 flex items-center justify-center min-h-screen">
+        <div className="text-center space-y-8 max-w-5xl mx-auto">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-sm font-medium">
+            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+            AI-Powered Video Intelligence
+          </div>
+
+          {/* Main Heading */}
+          <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black leading-none tracking-tight">
+            <span className="block bg-gradient-to-r from-white via-purple-200 to-purple-400 bg-clip-text text-transparent">
+              Smart YouTube
+            </span>
+            <span className="block bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent animate-gradient-x">
+              Clips & Insights
+            </span>
           </h1>
-          <p className="text-lg sm:text-xl max-w-2xl mx-auto text-gray-300 mb-10">
-            Gak sempat nonton full? Ekstrak bagian penting & klip menarik dari YouTube cuma dalam hitungan detik. Powered by LLM.
+
+          {/* Subtitle */}
+          <p className="text-xl sm:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            Ekstrak momen penting dari video YouTube dalam hitungan detik.
+            <span className="text-transparent bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text font-semibold"> Powered by AI</span>
           </p>
-          <HeroButton as={Link} href="/snapclip" className="text-lg px-8 py-4 bg-pink-600 hover:bg-pink-700 transition shadow-lg hover:scale-105 duration-300">
-            🚀 Login untuk Mulai
-          </HeroButton>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8">
+            <HeroButton as={Link} href="/snapclip" className="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl font-semibold text-lg shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 hover:scale-105 border border-purple-400/20">
+              <span className="relative z-10 flex items-center gap-2">
+                🚀 Mulai Sekarang
+                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl blur opacity-50 group-hover:opacity-75 transition-opacity" />
+            </HeroButton>
+          </div>
         </div>
       </section>
 
-      {/* How it Works */}
-      <section className="py-20 bg-[#1e1b2e] px-6">
-        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-16 text-white tracking-wide">
-          🔍 Cara Kerjanya
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 max-w-6xl mx-auto">
+      {/* Features Section */}
+      <section className="relative py-32 px-6">
+        {/* Section Header */}
+        <div className="text-center mb-20">
+          <h2 className="text-4xl sm:text-5xl font-bold mb-6">
+            <span className="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+              Bagaimana Cara Kerjanya?
+            </span>
+          </h2>
+          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+            Tiga langkah sederhana untuk mendapatkan insight video yang Anda butuhkan
+          </p>
+        </div>
+
+        {/* Feature Cards */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
           {[
             {
               icon: "🎯",
-              title: "Pilih Video / Channel",
-              desc: "Masukkan link video atau pilih dari channel yang tersedia.",
+              title: "Input Video",
+              desc: "Paste link YouTube atau pilih dari channel favorit Anda",
+              gradient: "from-purple-500 to-pink-500",
+              delay: "0ms"
             },
             {
-              icon: "💬",
-              title: "Tanyakan Apa Saja",
-              desc: "Contoh: 'Apa isi video ini?' atau '3 poin pentingnya apa?'",
+              icon: "🤖",
+              title: "AI Processing",
+              desc: "AI menganalisis konten dan mengidentifikasi bagian penting",
+              gradient: "from-cyan-500 to-blue-500",
+              delay: "200ms"
             },
             {
-              icon: "📹",
-              title: "Dapatkan Klip + Ringkasan",
-              desc: "Tonton bagian penting saja, lengkap dengan narasi dari LLM.",
+              icon: "⚡",
+              title: "Instant Results",
+              desc: "Dapatkan klip cerdas dan ringkasan dalam sekali klik",
+              gradient: "from-pink-500 to-red-500",
+              delay: "400ms"
             },
           ].map((item, i) => (
             <div
               key={i}
-              className="text-center bg-[#2c254a] rounded-2xl p-8 shadow-xl transform transition hover:scale-105 hover:shadow-2xl duration-300"
+              className="group relative p-8 rounded-3xl bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 hover:scale-105"
+              style={{ animationDelay: item.delay }}
             >
-              <div className="text-5xl mb-4 animate-bounce">{item.icon}</div>
-              <h3 className="text-xl font-semibold mb-3 text-white">
-                {item.title}
-              </h3>
-              <p className="text-gray-300">{item.desc}</p>
+              {/* Gradient Background on Hover */}
+              <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-10 rounded-3xl transition-opacity duration-500`} />
+
+              {/* Icon */}
+              <div className="relative">
+                <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br ${item.gradient} mb-6 shadow-lg`}>
+                  <span className="text-2xl">{item.icon}</span>
+                </div>
+
+                {/* Content */}
+                <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-white transition-colors">
+                  {item.title}
+                </h3>
+                <p className="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">
+                  {item.desc}
+                </p>
+              </div>
+
+              {/* Step Number */}
+              <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 backdrop-blur flex items-center justify-center text-sm font-bold text-white/60">
+                {i + 1}
+              </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Demo Section */}
-      <section className="bg-gradient-to-r from-[#2c3e50] to-[#4ca1af] px-6 py-20">
-        <div className="text-center">
-          <h3 className="text-2xl sm:text-3xl font-bold mb-6 text-white">
-            🎉 Yuk Coba Sekarang!
-          </h3>
-          <HeroButton className="text-lg px-6 py-4 flex items-center gap-2 bg-white text-black font-semibold shadow-lg hover:scale-105 transition">
-            Mulai Sekarang <ArrowRight className="w-4 h-4" />
-          </HeroButton>
+      {/* CTA Section */}
+      <section className="relative py-32 px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          {/* Glass Card */}
+          <div className="relative p-12 rounded-3xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/20 shadow-2xl">
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-3xl" />
+
+            <div className="relative z-10">
+              <h3 className="text-4xl sm:text-5xl font-bold mb-6">
+                <span className="bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
+                  Siap untuk Mencoba?
+                </span>
+              </h3>
+              <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+                Bergabung dengan ribuan creator yang sudah menggunakan AI untuk mengoptimalkan konten mereka
+              </p>
+
+              <HeroButton className="group relative px-10 py-5 bg-gradient-to-r from-white to-gray-100 text-black font-bold text-xl rounded-2xl shadow-2xl hover:shadow-white/25 transition-all duration-300 hover:scale-105">
+                <span className="flex items-center gap-3">
+                  Mulai Gratis Sekarang
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </HeroButton>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Footer CTA */}
-      <footer className="bg-[#1e1b2e] text-center py-8 border-t border-gray-700 text-sm text-gray-400">
-        <p className="mb-2">🚀 Powered by Next.js, Gemini API, Supabase & Redis</p>
-        <Footer />
+      {/* Footer */}
+      <footer className="relative py-12 px-6 border-t border-white/10">
+        <div className="max-w-4xl mx-auto text-center">
+          <p className="text-gray-400 mb-4 flex items-center justify-center gap-2">
+            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+            Powered by Next.js • Gemini AI • Supabase • Redis
+          </p>
+          <Footer />
+        </div>
       </footer>
     </div>
   );

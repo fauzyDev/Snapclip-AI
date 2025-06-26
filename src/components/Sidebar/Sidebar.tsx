@@ -47,7 +47,7 @@ export default function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean; setIsO
                     <div className="flex-1 overflow-y-auto mt-2">
                         <ul className="space-y-2 pr-1">
                             {[...Array(200)].map((_, i) => (
-                                <li key={i} className="text-neutral-300">Chat {i + 1}</li>
+                                <li key={i} className="hover:bg-neutral-700 px-3 py-2 rounded-lg transition-all cursor-pointer">Chat {i + 1}</li>
                             ))}
                         </ul>
                     </div>

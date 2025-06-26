@@ -16,7 +16,8 @@ export default function LayoutSnapclip({ children }: Readonly<{ children: React.
             <div className="flex flex-col flex-grow w-full ml-0 md:ml-56">
                 {/* Header */}
                 <Header />
-                <main className="flex-grow flex w-full ">
+                {/* Main content (scrollable wrapper) */}
+                <main className="flex-grow flex w-full overflow-hidden">
                     {children}
                 </main>
             </div>

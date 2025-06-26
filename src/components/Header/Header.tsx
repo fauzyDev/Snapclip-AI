@@ -17,7 +17,7 @@ export default function Header({ onMenuClick }: { onMenuClick?: () => void }) {
                     <h1 className="text-xl sm:text-2xl font-bold tracking-wide text-white">
                         Snapclip AI
                     </h1>
-                    <h3 className="text-sm sm:text-md text-neutral-400">
+                    <h3 className="text-sm text-neutral-400 animate-fade-in">
                         Your AI-powered video clip for the web
                     </h3>
                 </div>
