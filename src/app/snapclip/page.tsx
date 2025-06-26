@@ -1,5 +1,5 @@
 import ChatClient from "@/components/Chat/ChatMessage";
 
-export default function Home() {
+export default function Page() {
     return <ChatClient />
 }
