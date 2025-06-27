@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { FcGoogle } from "react-icons/fc"
+import { supabase } from '@/libs/supabase'
 
 export default function Login() {
   const [email, setEmail] = React.useState("")
@@ -10,7 +11,13 @@ export default function Login() {
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    const { error } = await signInWithOtp({ email })
+    const { error } = await supabase.auth.signInWithOtp({
+      email: email,
+      options: {
+        emailRedirectTo: "http://localhost:3000/snapclip"
+      }
+    })
+
     if (error) {
       alert("Login gagal: " + error.message)
     } else {
@@ -20,9 +27,10 @@ export default function Login() {
   }
 
   const handleGoogleLogin = async () => {
-    await signInWithOAuth({ provider: 'google' })
+    await supabase.auth.signInWithOAuth({
+      provider: "google"
+    })
   }
-
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-neutral-900 text-white px-4">
