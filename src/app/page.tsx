@@ -24,7 +24,7 @@ export default function Home() {
             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
             AI-Powered Video Intelligence
           </div>
-
+ 
           {/* Main Heading */}
           <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black leading-none tracking-tight">
             <span className="block bg-gradient-to-r from-white via-purple-200 to-purple-400 bg-clip-text text-transparent">
@@ -43,7 +43,7 @@ export default function Home() {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8">
-            <HeroButton as={Link} href="/snapclip" className="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl font-semibold text-lg shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 hover:scale-105 border border-purple-400/20">
+            <HeroButton as={Link} href="/login/auth" className="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl font-semibold text-lg shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 hover:scale-105 border border-purple-400/20">
               <span className="relative z-10 flex items-center gap-2">
                 🚀 Mulai Sekarang
                 <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">

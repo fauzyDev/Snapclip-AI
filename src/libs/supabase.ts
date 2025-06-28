@@ -1,8 +1,36 @@
 import { createClient } from '@supabase/supabase-js'
-// import { SUPABASE_URL } from '@/config/env'
-// import { SUPABASE_KEY } from '@/config/env'
+import { createServerClient } from '@supabase/ssr'
+import { cookies } from 'next/headers'
 
-const url = "https://dbyqgacjtdeucmngbgaj.supabase.co"
-const key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRieXFnYWNqdGRldWNtbmdiZ2FqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzgxMzE0NTcsImV4cCI6MjA1MzcwNzQ1N30.zGJTyCN36tNZmMgblyM0ba948G7rnDL7y77KagkIuTU"
+import { SUPABASE_URL, SUPABASE_KEY } from '@/config/env'
+
+const url: string = SUPABASE_URL;
+const key: string = SUPABASE_KEY;
 
 export const supabase = createClient(url, key);
+
+export async function createClient() {
+  const cookieStore = await cookies()
+  return createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return cookieStore.getAll()
+        },
+        setAll(cookiesToSet) {
+          try {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              cookieStore.set(name, value, options)
+            )
+          } catch {
+            // The `setAll` method was called from a Server Component.
+            // This can be ignored if you have middleware refreshing
+            // user sessions.
+          }
+        },
+      },
+    }
+  )
+}

@@ -1,7 +1,7 @@
 import OpenAI from "openai";
 import { GEMINI_API } from "@/config/env";
 
-const GeminiApi = GEMINI_API;
+const GeminiApi: string = GEMINI_API;
 
 const openai = new OpenAI({
   apiKey: GeminiApi,

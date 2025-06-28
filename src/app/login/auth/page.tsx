@@ -27,9 +27,21 @@ export default function Login() {
   }
 
   const handleGoogleLogin = async () => {
-    await supabase.auth.signInWithOAuth({
-      provider: "google"
+     const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: "http://localhost:3000/snapclip"
+      }
     })
+
+    if (error) {
+      alert("Login gagal: " + error.message)
+    } else {
+      setTimeout(() => {
+        alert("📩 Cek email lu buat magic link!")
+      }, 2000)
+      console.log(data)
+    }
   }
 
   return (
@@ -76,3 +88,4 @@ export default function Login() {
     </div>
   )
 }
+

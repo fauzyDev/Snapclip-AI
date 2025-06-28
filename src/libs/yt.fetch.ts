@@ -4,7 +4,7 @@ import { YOUTUBE_API } from "@/config/env";
 import { CACHE_TTL } from "@/config/env";
 import { redis } from "./cache.redis";
 
-const apiKey = YOUTUBE_API;
+const apiKey: string = YOUTUBE_API;
 
 // ✅ Masukkan channelId dan nama channel yang lo mau
 export const CHANNELS = [
@@ -13,7 +13,7 @@ export const CHANNELS = [
 ];
 
 // Fungsi caching dengan TTL (waktu hidup cache dalam detik)
-const cache = CACHE_TTL;
+const cache: number = CACHE_TTL;
 
 export async function getCachedVideos(prompt: string): Promise<CachedVideo[] | null> {
   const key = `videos:${prompt.toLowerCase()}`;

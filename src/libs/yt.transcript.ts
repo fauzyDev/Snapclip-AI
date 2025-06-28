@@ -3,7 +3,7 @@ import { cachedTranscript } from "@/types/cache.transcript";
 import { CACHE_TTL } from "@/config/env";
 import { redis } from "./cache.redis";
 
-const cache = CACHE_TTL;
+const cache: number = CACHE_TTL;
 
 export async function fetchTranscript(videoId: string) {
   const transcript = await YoutubeTranscript.fetchTranscript(videoId);
