@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { CHANNELS } from "@/libs/yt.fetch";
-import { cacheVideos } from "@/libs/yt.fetch";
-import { getCachedVideos } from "@/libs/yt.fetch";
-import { fetchVideosByPromptAndChannel } from "@/libs/yt.fetch";
+import { CHANNELS } from "@/libs/youtube/yt.fetch";
+import { cacheVideos } from "@/libs/youtube/yt.fetch";
+import { getCachedVideos } from "@/libs/youtube/yt.fetch";
+import { fetchVideosByPromptAndChannel } from "@/libs/youtube/yt.fetch";
 
 export async function POST(req: Request) {
   try {

@@ -1,12 +1,12 @@
 import { NextResponse, NextRequest } from 'next/server'
-import { fetchVideosByPromptAndChannel } from '@/libs/yt.fetch';
-import { fetchTranscript } from '@/libs/yt.transcript';
-import { getCachedVideos } from "@/libs/yt.fetch";
-import { cacheVideos } from "@/libs/yt.fetch";
-import { getCachedTranscript } from '@/libs/yt.transcript';
-import { cacheTranscript } from '@/libs/yt.transcript';
-import { CHANNELS } from '@/libs/yt.fetch';
-import { main } from '@/libs/llm';
+import { fetchVideosByPromptAndChannel } from '@/libs/youtube/yt.fetch';
+import { fetchTranscript } from '@/libs/youtube/yt.transcript';
+import { getCachedVideos } from "@/libs/youtube/yt.fetch";
+import { cacheVideos } from "@/libs/youtube/yt.fetch";
+import { getCachedTranscript } from '@/libs/youtube/yt.transcript';
+import { cacheTranscript } from '@/libs/youtube/yt.transcript';
+import { CHANNELS } from '@/libs/youtube/yt.fetch';
+import { main } from '@/libs/openai/llm';
 
 export async function POST(req: NextRequest) {
   try {

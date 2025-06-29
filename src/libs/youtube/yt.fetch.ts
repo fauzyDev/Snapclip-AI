@@ -2,7 +2,7 @@ import { CachedVideo } from "@/types/cache.video";
 import { YouTubeSearchItem } from "@/types/yt.search.item";
 import { YOUTUBE_API } from "@/config/env";
 import { CACHE_TTL } from "@/config/env";
-import { redis } from "./cache.redis";
+import { redis } from "../cache/cache.redis";
 
 const apiKey: string = YOUTUBE_API;
 

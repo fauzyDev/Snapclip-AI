@@ -1,13 +1,5 @@
-import { createClient } from '@supabase/supabase-js'
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
-
-import { SUPABASE_URL, SUPABASE_KEY } from '@/config/env'
-
-const url: string = SUPABASE_URL;
-const key: string = SUPABASE_KEY;
-
-export const supabase = createClient(url, key);
+import { createServerClient } from '@supabase/ssr';
+import { cookies } from 'next/headers';
 
 export async function createClient() {
   const cookieStore = await cookies()

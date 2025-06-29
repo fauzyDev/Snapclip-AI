@@ -16,7 +16,7 @@ const ChatClient = () => {
     const bottomRef = React.useRef<HTMLDivElement>(null);
 
     const sendMessage = async (input: string) => {
-        const response = await fetch('/api/answer', {
+        const response = await fetch('/api/v1/answer', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

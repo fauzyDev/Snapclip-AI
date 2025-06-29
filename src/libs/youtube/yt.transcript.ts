@@ -1,7 +1,7 @@
 import { YoutubeTranscript } from "youtube-transcript";
 import { cachedTranscript } from "@/types/cache.transcript";
 import { CACHE_TTL } from "@/config/env";
-import { redis } from "./cache.redis";
+import { redis } from "../cache/cache.redis";
 
 const cache: number = CACHE_TTL;
 

@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { FcGoogle } from "react-icons/fc"
-import { supabase } from '@/libs/supabase'
+import { supabase } from '@/libs/supabase/client'
 
 export default function Login() {
   const [email, setEmail] = React.useState("")
@@ -30,7 +30,11 @@ export default function Login() {
      const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: "http://localhost:3000/snapclip"
+        queryParams: {
+          access_type: "offline",
+          prompt: 'consent'
+        },
+        redirectTo: "http://localhost:3000/snapclip",
       }
     })
 
