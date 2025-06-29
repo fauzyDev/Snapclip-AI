@@ -34,7 +34,7 @@ export default function Login() {
           access_type: "offline",
           prompt: 'consent'
         },
-        redirectTo: "http://localhost:3000/snapclip",
+        redirectTo: "http://localhost:3000/auth/callback",
       }
     })
 
