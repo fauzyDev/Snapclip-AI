@@ -27,7 +27,7 @@ export default function Login() {
   }
 
   const handleGoogleLogin = async () => {
-     const { data, error } = await supabase.auth.signInWithOAuth({
+    await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
         queryParams: {
@@ -37,15 +37,6 @@ export default function Login() {
         redirectTo: "http://localhost:3000/auth/callback",
       }
     })
-
-    if (error) {
-      alert("Login gagal: " + error.message)
-    } else {
-      setTimeout(() => {
-        alert("📩 Cek email lu buat magic link!")
-      }, 2000)
-      console.log(data)
-    }
   }
 
   return (
