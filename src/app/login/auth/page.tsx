@@ -1,6 +1,7 @@
 "use client"
 
 import React from 'react'
+import { BASE_URL } from '@/config/env'
 import { FcGoogle } from "react-icons/fc"
 import { supabase } from '@/libs/supabase/client'
 
@@ -14,7 +15,7 @@ export default function Login() {
     const { error } = await supabase.auth.signInWithOtp({
       email: email,
       options: {
-        emailRedirectTo: "http://localhost:3000/snapclip"
+        emailRedirectTo: `${BASE_URL}/snapclip`
       }
     })
 
@@ -34,7 +35,7 @@ export default function Login() {
           access_type: "offline",
           prompt: 'consent'
         },
-        redirectTo: "http://localhost:3000/auth/callback",
+        redirectTo: `${BASE_URL}/auth/callback`,
       }
     })
   }
