@@ -2,6 +2,7 @@ import React from 'react'
 import type { Metadata } from "next";
 import Header from "@/components/Header/Header";
 import SidebarWrapper from "@/components/Sidebar/SidebarWrapper";
+// import Auth from '../session';
 
 export const metadata: Metadata = {
     title: "Home - SnapClip AI",
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
 export default function LayoutSnapclip({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
         <div className="h-screen overflow-hidden bg-neutral-800 flex">
+            {/* <Auth /> */}
             {/* Sidebar */}
             <SidebarWrapper />
             <div className="flex flex-col flex-grow w-full ml-0 md:ml-56">

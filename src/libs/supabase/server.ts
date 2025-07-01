@@ -5,8 +5,9 @@ import { SUPABASE_URL, SUPABASE_KEY } from '@/config/env';
 const url: string = SUPABASE_URL;
 const key: string = SUPABASE_KEY;
 
-export async function createClient() {
+export async function createClientServer() {
   const cookieStore = await cookies()
+
   return createServerClient(url, key,
     {
       cookies: {
@@ -27,4 +28,4 @@ export async function createClient() {
       },
     }
   )
-} 
+}

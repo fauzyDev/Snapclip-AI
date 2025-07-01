@@ -97,7 +97,7 @@ const ChatClient = () => {
                                             </div>
                                         </li>
                                     ) : (
-                                        <li className="w-full flex justify-start px-2 sm:px-2">
+                                        <li className="w-full flex justify-start px-2 sm:px-2 ">
                                             <div className="flex items-start gap-2 sm:gap-3 w-full max-w-full">
                                                 {/* Avatar Bot */}
                                                 <HeroAvatar

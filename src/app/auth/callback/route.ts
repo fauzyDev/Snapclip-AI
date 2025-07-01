@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server'
 // The client you created from the Server-Side Auth instructions
-import { createClient } from '@/libs/supabase/server'
+import { createClientServer } from '@/libs/supabase/server'
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
+  console.log("oauth code:", code)
   // if "next" is in param, use it as the redirect URL
   let next = searchParams.get('next') ?? '/snapclip'
   if (!next.startsWith('/')) {
@@ -13,7 +14,7 @@ export async function GET(request: Request) {
   }
 
   if (code) {
-    const supabase = await createClient()
+    const supabase = await createClientServer()
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     if (!error) {
       const forwardedHost = request.headers.get('x-forwarded-host') // original origin before load balancer
