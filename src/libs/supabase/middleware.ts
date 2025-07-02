@@ -1,5 +1,5 @@
-import { createServerClient } from '@supabase/ssr'
-import { NextResponse, NextRequest } from 'next/server'
+import { createServerClient } from '@supabase/ssr';
+import { NextResponse, NextRequest } from 'next/server';
 import { SUPABASE_URL, SUPABASE_KEY } from '@/config/env';
 
 const url: string = SUPABASE_URL;

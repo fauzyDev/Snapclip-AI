@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import React from 'react'
-import { BASE_URL } from '@/config/env'
-import { FcGoogle } from "react-icons/fc"
-import { supabase } from '@/libs/supabase/client'
+import React from 'react';
+import { BASE_URL } from '@/config/env';
+import { FcGoogle } from "react-icons/fc";
+import { supabase } from '@/libs/supabase/client';
 
 export default function Login() {
   const [email, setEmail] = React.useState("")
