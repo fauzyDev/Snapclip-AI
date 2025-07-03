@@ -11,7 +11,7 @@ import { main } from '@/libs/openai/llm';
 export async function POST(req: NextRequest) {
   try {
     const { message } = await req.json();
-    if (!message) 
+    if (!message)
       return NextResponse.json({ error: "Message required" }, { status: 400 });
 
     // Cek apakah data video sudah ada di cache
