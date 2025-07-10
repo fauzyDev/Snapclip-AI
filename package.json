@@ -10,7 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@heroui/react": "^2.8.0-beta.11",
+    "@heroui/react": "^2.8.0-beta.13",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.50.3",
     "@upstash/redis": "^1.35.1",

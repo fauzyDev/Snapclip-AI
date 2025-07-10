@@ -1,4 +1,3 @@
-import { NextResponse, NextRequest } from 'next/server'
 import { fetchVideosByPromptAndChannel } from '@/libs/youtube/yt.fetch';
 import { fetchTranscript } from '@/libs/youtube/yt.transcript';
 import { getCachedVideos } from "@/libs/youtube/yt.fetch";
@@ -8,11 +7,15 @@ import { cacheTranscript } from '@/libs/youtube/yt.transcript';
 import { CHANNELS } from '@/libs/youtube/yt.fetch';
 import { main } from '@/libs/openai/llm';
 
-export async function POST(req: NextRequest) {
+export const runtime = 'edge';
+
+export async function POST(req: Request) {
+  const encoder = new TextEncoder();
+
   try {
     const { message } = await req.json();
-    if (!message)
-      return NextResponse.json({ error: "Message required" }, { status: 400 });
+    if (!message || typeof message !== "string" || message.length >= 3000)
+      return new Response("Message invalid  ", { status: 400 });
 
     // Cek apakah data video sudah ada di cache
     const cached = await getCachedVideos(message);
@@ -27,7 +30,7 @@ export async function POST(req: NextRequest) {
     // Cache hasilnya
     if (!isCached) await cacheVideos(message, videos);
     if (videos.length === 0)
-      return NextResponse.json({ error: "No video found" }, { status: 404 });
+      return new Response("No video found", { status: 404 });
 
     // Ambil transkrip dari video
     const rawTranscript = await Promise.all(
@@ -49,8 +52,26 @@ export async function POST(req: NextRequest) {
     // Kirim ke LLM (Gemini)
     const content = await main(message, transcript);
 
-    return NextResponse.json({ status: 200, data: content, video: videos, cached: isCached, message: "Success" });
+    const stream = new ReadableStream({
+      async start(controller) {
+        for await (const chunk of content) {
+          const text = chunk.choices?.[0]?.delta?.content || "";
+          controller.enqueue(encoder.encode(text))
+        }
+        controller.close();
+      }
+    })
+    return new Response(stream, {
+      headers: {
+        'Content-Type': 'text/plain; charset=utf-8',
+        'Cache-Control': 'no-cache',
+        'X-Content-Type-Options': 'nosniff',
+        'x-runtime': 'edge'
+      },
+    });
+
   } catch (error) {
-    return NextResponse.json({ status: 500, error, message: "Internal Server Error" });
+    console.error(error);
+    return new Response("Internal Server Error", { status: 500 });
   }
 }

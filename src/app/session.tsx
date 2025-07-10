@@ -11,13 +11,13 @@ export default function ButtonAuth() {
 
     const handleSession = () => {
         if (error) {
-            router.push("/login/auth")
+            router.push("/login")
         }
 
         if (session) {
             router.push("/snapclip")
         } else {
-            router.push("/login/auth")
+            router.push("/login")
         }
     }
 

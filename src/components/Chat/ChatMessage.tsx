@@ -8,7 +8,7 @@ import HeroAvatar from '../ui/HeroAvatar';
 type Message = {
     id: string,
     role: "user" | "ai",
-    content: string
+    content: string,
 };
 
 const ChatClient = () => {
@@ -24,9 +24,21 @@ const ChatClient = () => {
             body: JSON.stringify({ message: input }),
         });
 
-        const data = await response.json();
-        console.log(data)
-        setMessage(prev => [...prev, { id: crypto.randomUUID(), role: 'user', content: input }, { id: crypto.randomUUID(), role: "ai", content: data.data.content }]);
+        const data = response.body?.getReader();
+        if (!data) {
+            throw new Error("Streaming not supported: res.body is null");
+        }
+        const decoder = new TextDecoder();
+
+        while (true) {
+            const { value, done } = await data.read();
+            if (done) break;
+            const chunk = decoder.decode(value);
+            result += chunk;
+            console.log("streaming api:", result);
+        }
+
+        setMessage(prev => [...prev, { id: crypto.randomUUID(), role: 'user', content: input }, { id: crypto.randomUUID(), role: "ai", content: result }]);
     }
 
     React.useEffect(() => {

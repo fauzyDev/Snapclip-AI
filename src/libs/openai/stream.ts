@@ -4,22 +4,22 @@ import { GEMINI_API } from "@/config/env";
 const GeminiApi: string = GEMINI_API;
 
 const openai = new OpenAI({
-  apiKey: GeminiApi,
-  baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/"
+    apiKey: GeminiApi,
+    baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/"
 });
 
 export const main = async (message: string, transcripts: { text: string; start: number }[]) => {
-  const context = transcripts.map(
-    (chunk) => `[${formatTime(chunk.start)}] ${chunk.text}`
-  ).join("\n");
+    const context = transcripts.map(
+        (chunk) => `[${formatTime(chunk.start)}] ${chunk.text}`
+    ).join("\n");
 
-  return await openai.chat.completions.create({
-    model: "gemini-2.0-flash",
-    stream: true,
-    messages: [
-      {
-        role: "system", content:
-          `Kamu adalah AI yang membantu user memahami isi video YouTube.
+    return await openai.chat.completions.create({
+        model: "gemini-2.0-flash",
+        stream: true,
+        messages: [
+            {
+                role: "system",
+                content: `Kamu adalah AI yang membantu user memahami isi video YouTube.
 
       Tugas kamu:
       1. Jelaskan dengan Santai isi video berdasarkan transkrip.
@@ -30,14 +30,14 @@ export const main = async (message: string, transcripts: { text: string; start: 
       Prompt dari user: "${message}"
 
       Transkrip: ${context}`
-      },
-      { role: "user", content: message }
-    ]
-  });
+            },
+            { role: "user", content: message }
+        ]
+    });
 }
 
 function formatTime(seconds: number) {
-  const date = new Date(0);
-  date.setSeconds(seconds);
-  return date.toISOString().slice(11, 8);
+    const date = new Date(0);
+    date.setSeconds(seconds);
+    return date.toISOString().slice(11, 8);
 }

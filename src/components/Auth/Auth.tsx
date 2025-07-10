@@ -6,7 +6,7 @@ import { BASE_URL } from '@/config/env';
 import { FcGoogle } from "react-icons/fc";
 import { supabase } from '@/libs/supabase/client';
 
-export default function Login() {
+export default function Auth() {
   const [email, setEmail] = React.useState<string>("");
   const [token, setToken] = React.useState<string>("");
   const [verify, setVerify] = React.useState<boolean>(false);
