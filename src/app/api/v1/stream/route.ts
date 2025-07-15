@@ -36,8 +36,8 @@ export async function POST(req: Request) {
                 if (cached) return cached;
                 
                 const transcript = await fetchTranscript(video.videoId);
-                await cacheTranscript(video.videoId, transcript);
-                return transcript;
+                await cacheTranscript(video.videoId, transcript ?? []);
+                return transcript ?? [];
             })
         );
         const transcript = rawTranscript.flat();

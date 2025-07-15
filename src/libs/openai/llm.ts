@@ -26,6 +26,7 @@ export const main = async (message: string, transcripts: { text: string; start: 
       2. Buat user merasa gak perlu nonton video panjang.
       3. Sertakan kutipan penting, berikan juga qoutes Khas Gen Z dan timestamp-nya.
       4. Gaya santai, tapi informatif. Jangan ngarang, harus berdasarkan transkrip!
+      5. Jika videonya tidak ada transkrip atau kosong tolong balas dengan video tersebut tidak tersedia, atau video tidak memiliki transkrip.
 
       Prompt dari user: "${message}"
 

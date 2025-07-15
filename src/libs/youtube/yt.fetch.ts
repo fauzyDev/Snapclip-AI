@@ -19,7 +19,7 @@ export async function getCachedVideos(prompt: string): Promise<CachedVideo[] | n
   const key = `videos:${prompt.toLowerCase()}`;
   const cached = await redis.get(key);
   return cached ? (cached as CachedVideo[]) : null;
-} 
+}
 
 export async function cacheVideos(prompt: string, videos: CachedVideo[]) {
   const key = `videos:${prompt.toLowerCase()}`;
@@ -33,7 +33,9 @@ export async function fetchVideosByPromptAndChannel(prompt: string, channelId: s
   const res = await fetch(url);
   const data = await res.json();
 
-  if (!data.items) return [];
+  if (!data.items) {
+    return [];
+  }
 
   return data.items.map((item: YouTubeSearchItem) => ({
     channelId,

@@ -1,10 +1,14 @@
-import { fetchVideosByPromptAndChannel } from '@/libs/youtube/yt.fetch';
-import { fetchTranscript } from '@/libs/youtube/yt.transcript';
-import { getCachedVideos } from "@/libs/youtube/yt.fetch";
-import { cacheVideos } from "@/libs/youtube/yt.fetch";
-import { getCachedTranscript } from '@/libs/youtube/yt.transcript';
-import { cacheTranscript } from '@/libs/youtube/yt.transcript';
-import { CHANNELS } from '@/libs/youtube/yt.fetch';
+import {
+  fetchVideosByPromptAndChannel,
+  getCachedVideos,
+  cacheVideos,
+  CHANNELS
+} from '@/libs/youtube/yt.fetch';
+import {
+  getCachedTranscript,
+  fetchTranscript,
+  cacheTranscript
+} from '@/libs/youtube/yt.transcript';
 import { main } from '@/libs/openai/llm';
 
 export const runtime = 'edge';
@@ -14,11 +18,15 @@ export async function POST(req: Request) {
 
   try {
     const { message } = await req.json();
-    if (!message || typeof message !== "string" || message.length >= 3000)
-      return new Response("Message invalid  ", { status: 400 });
+    if (!message || typeof message !== "string" || message.length >= 3000) {
+      return new Response("Message invalid", { status: 400 });
+    }
 
     // Cek apakah data video sudah ada di cache
     const cached = await getCachedVideos(message);
+    if (cached) {
+      console.log("✅ Ambil dari Redis cache");
+    }
     const isCached = Boolean(cached)
 
     // Ambil semua video dari semua channel
@@ -29,8 +37,9 @@ export async function POST(req: Request) {
 
     // Cache hasilnya
     if (!isCached) await cacheVideos(message, videos);
-    if (videos.length === 0)
+    if (videos.length === 0) {
       return new Response("No video found", { status: 404 });
+    }
 
     // Ambil transkrip dari video
     const rawTranscript = await Promise.all(
@@ -38,16 +47,21 @@ export async function POST(req: Request) {
         // cek apakah data transcript sudah ada di cache
         const cached = await getCachedTranscript(video.videoId)
         if (cached) {
-          return cached
+          console.log("✅ Ambil dari Redis cache");
+          return cached;
         }
 
         // ambil data transcript
         const transcript = await fetchTranscript(video.videoId);
-        await cacheTranscript(video.videoId, transcript);
-        return transcript
+        await cacheTranscript(video.videoId, transcript ?? []);
+        return transcript ?? []
       })
     );
-    const transcript = rawTranscript.flat()
+
+    const transcript = rawTranscript.flat();
+    if (transcript.length === 0) {
+      return new Response("No transcript found", { status: 404 });
+    }
 
     // Kirim ke LLM (Gemini)
     const content = await main(message, transcript);
@@ -56,7 +70,9 @@ export async function POST(req: Request) {
       async start(controller) {
         for await (const chunk of content) {
           const text = chunk.choices?.[0]?.delta?.content || "";
-          controller.enqueue(encoder.encode(text))
+          if (text) {
+            controller.enqueue(encoder.encode(text));
+          }
         }
         controller.close();
       }
