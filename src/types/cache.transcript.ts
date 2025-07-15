@@ -1,4 +1,6 @@
 export interface cachedTranscript {
     text: string,
-    start: number
+    start: number,
+    duration: number,
+    time: string
 }
