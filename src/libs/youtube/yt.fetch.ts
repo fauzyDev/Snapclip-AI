@@ -31,6 +31,7 @@ export async function cacheVideos(prompt: string, videos: CachedVideo[]) {
 export async function fetchVideosByPromptAndChannel(prompt: string, channelId: string) {
   const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet&type=video&maxResults=5&q=${encodeURIComponent(prompt)}`;
   const res = await fetch(url);
+  console.log(res)
   const data = await res.json();
 
   if (!data.items) {

@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
   const cached = await getCachedTranscript(videoId);
   if (cached) {
     console.log("✅ Ambil dari Redis cache");
-    return NextResponse.json({ transcript: cached, });
+    return NextResponse.json({ transcript: cached });
   }
 
   // ❌ Kalau belum ada, fetch baru
@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
   }
 
   // ✅ Simpan ke cache
-  await cacheTranscript(videoId, transcript);
+  await cacheTranscript(videoId, transcript ?? []);
 
   return NextResponse.json({ transcript });
 }

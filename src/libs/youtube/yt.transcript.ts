@@ -1,5 +1,4 @@
 import { Client } from "youtubei";
-import { XMLParser } from "fast-xml-parser";
 import { cachedTranscript } from "@/types/cache.transcript";
 import { CACHE_TTL } from "@/config/env";
 import { redis } from "../cache/cache.redis";
@@ -8,59 +7,43 @@ const cache: number = CACHE_TTL;
 
 const youtube = new Client();
 
-const parser = new XMLParser({
-  ignoreAttributes: false,
-  attributeNamePrefix: '@_',
-  textNodeName: '#text',
-  allowBooleanAttributes: true,
-  parseTagValue: true
-});
+type TranscriptLine = {
+  text: string;
+  start: number;
+  duration: number;
+};
 
-function formatTime(seconds: number): string {
-  const hrs = Math.floor(seconds / 3600);
-  const mins = Math.floor((seconds % 3600) / 60);
-  const secs = Math.floor(seconds % 60);
-
-  const parts = [
-    hrs > 0 ? String(hrs).padStart(2, '0') : null,
-    String(mins).padStart(2, '0'),
-    String(secs).padStart(2, '0')
-  ].filter(Boolean);
-
-  return parts.join(':');
-}
-
-export async function fetchTranscript(videoId: string) {
-  const videos = await youtube.getVideo(videoId);
-  const caption = videos?.captions?.languages.find((lang) => lang.code);
-  if (!caption || !caption.url) {
-    console.error("Transcript tidak tersedia");
-    return;
+export async function fetchTranscript(videoId: string[]) {
+  if (!Array.isArray(videoId) || !videoId.every(id => typeof id === "string")) {
+    console.error("Invalid videoIds", { status: 400 });
   }
+  const videos = await Promise.all(
+    videoId.map((id: string) => youtube.getVideo(id))
+  )
 
-  const res = await fetch(caption.url, {
-    headers: {
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/113.0.0.0 Safari/537.36'
+  for (const video of videos) {
+    const captions = video?.captions?.languages.find((lang) => lang.code === 'id')
+
+    let transcript;
+
+    if (captions) {
+      transcript = await captions.get()
+    } else {
+      const defaultCaption = video?.captions?.languages.find((lang) => lang.code)
+      if (defaultCaption) {
+        transcript = await defaultCaption.get('id')
+      } else {
+        console.error("Captions tidak ditemukan", Error)
+        transcript = [];
+      }
     }
-  });
-  const xmlData = await res.text();
 
-  const parsed = parser.parse(xmlData);
-  const text = parsed.transcript?.text;
-
-  if (!text) {
-    console.error("Gagal ambil text dari transcript");
-    return;
+    return transcript?.map(({ text, start, duration }: TranscriptLine) => ({
+      text,
+      start,
+      duration
+    }))
   }
-
-  const transcriptArray = Array.isArray(text) ? text : [text];
-
-  return transcriptArray.map((line) => ({
-    text: line['#text'] || '',
-    start: parseFloat(line['@_start']),
-    duration: parseFloat(line['@_dur']),
-    time: formatTime(parseFloat(line['@_start']))
-  }));
 }
 
 export async function getCachedTranscript(videoId: string): Promise<cachedTranscript[] | null> {
