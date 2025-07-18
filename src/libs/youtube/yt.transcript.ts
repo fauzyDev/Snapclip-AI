@@ -7,43 +7,31 @@ const cache: number = CACHE_TTL;
 
 const youtube = new Client();
 
-type TranscriptLine = {
-  text: string;
-  start: number;
-  duration: number;
-};
-
-export async function fetchTranscript(videoId: string[]) {
-  if (!Array.isArray(videoId) || !videoId.every(id => typeof id === "string")) {
-    console.error("Invalid videoIds", { status: 400 });
-  }
+export async function fetchTranscript(videoId: string[]): Promise<Record<string, cachedTranscript[]>> {
+  const transcripts: Record<string, cachedTranscript[]> = {};
   const videos = await Promise.all(
     videoId.map((id: string) => youtube.getVideo(id))
   )
 
-  for (const video of videos) {
-    const captions = video?.captions?.languages.find((lang) => lang.code === 'id')
+  for (let index = 0; index < videos.length; index++) {
+    const video = videos[index]
+    const id = videoId[index]
+    let captions = video?.captions?.languages.find((lang) => lang.code === 'id')
 
-    let transcript;
-
-    if (captions) {
-      transcript = await captions.get()
-    } else {
-      const defaultCaption = video?.captions?.languages.find((lang) => lang.code)
-      if (defaultCaption) {
-        transcript = await defaultCaption.get('id')
-      } else {
-        console.error("Captions tidak ditemukan", Error)
-        transcript = [];
-      }
+    if (!captions) {
+      console.error("Captions tidak ditemukan untuk videoId");
+      transcripts[id] = [];
+      continue;
     }
 
-    return transcript?.map(({ text, start, duration }: TranscriptLine) => ({
+    const rawTranscript = await captions.get('id')
+    transcripts[id] = (rawTranscript ?? [])?.map(({ text, start, duration }: cachedTranscript) => ({
       text,
       start,
       duration
     }))
   }
+  return transcripts
 }
 
 export async function getCachedTranscript(videoId: string): Promise<cachedTranscript[] | null> {

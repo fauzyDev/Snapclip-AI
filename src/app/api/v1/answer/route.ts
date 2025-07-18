@@ -11,7 +11,7 @@ import {
 } from '@/libs/youtube/yt.transcript';
 import { main } from '@/libs/openai/llm';
 
-export const runtime = 'edge';
+// export const runtime = 'edge';
 
 export async function POST(req: Request) {
   const encoder = new TextEncoder();
@@ -52,7 +52,7 @@ export async function POST(req: Request) {
         }
 
         // ambil data transcript
-        const transcript = await fetchTranscript(video.videoId);
+        const transcript = await fetchTranscript([video.videoId]);
         await cacheTranscript(video.videoId, transcript ?? []);
         return transcript ?? []
       })
@@ -77,15 +77,7 @@ export async function POST(req: Request) {
         controller.close();
       }
     })
-    return new Response(stream, {
-      headers: {
-        'Content-Type': 'text/plain; charset=utf-8',
-        'Cache-Control': 'no-cache',
-        'X-Content-Type-Options': 'nosniff',
-        'x-runtime': 'edge'
-      },
-    });
-
+    return new Response(stream);
   } catch (error) {
     console.error(error);
     return new Response("Internal Server Error", { status: 500 });
