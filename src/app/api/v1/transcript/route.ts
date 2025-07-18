@@ -16,21 +16,21 @@ import {
 import { CachedVideo } from '@/types/cache.video';
 
 export async function POST(req: NextRequest) {
-  const { prompt } = await req.json();
+  const { message } = await req.json();
 
   // Cek apakah data video sudah ada di cache
-  const cached = await getCachedVideos(prompt);
+  const cached = await getCachedVideos(message);
   const isCached = Boolean(cached)
 
   // Ambil semua video dari semua channel
   const results = cached ?? await Promise.all(
-    CHANNELS.map(async ({ id }) => fetchVideosByPromptAndChannel(prompt, id))
+    CHANNELS.map(async ({ id }) => fetchVideosByPromptAndChannel(message, id))
   );
   const videos: CachedVideo[] = results.flat();
 
   // Cache hasilnya
   if (!isCached) {
-    await cacheVideos(prompt, videos);
+    await cacheVideos(message, videos);
   }
 
   if (videos.length === 0) {
