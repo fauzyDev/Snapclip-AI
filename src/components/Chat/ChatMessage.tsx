@@ -16,29 +16,53 @@ const ChatClient = () => {
     const bottomRef = React.useRef<HTMLDivElement>(null);
 
     const sendMessage = async (input: string) => {
-        const response = await fetch('/api/v1/answer', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ message: input }),
-        });
+        try {
+            const aiMessageId = crypto.randomUUID();
 
-        const data = response.body?.getReader();
-        if (!data) {
-            throw new Error("Streaming not supported: res.body is null");
+            setMessage(prev => [...prev, { id: crypto.randomUUID(), role: 'user', content: input }, { id: aiMessageId, role: 'ai', content: '' }])
+
+            // STEP 1: Fetch video + transcript (dari prompt)
+            const transcriptRes = await fetch("/api/v1/transcript", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: input }), // kirim prompt doang
+            });
+
+            const transcriptJson = await transcriptRes.json();
+            const transcriptData = transcriptJson.transcript || "";
+
+            if (!transcriptData) {
+                console.error("❌ Gagal ambil transcript");
+                return;
+            }
+
+            // STEP 2: Kirim ke LLM stream API
+            const response = await fetch('/api/v1/answer', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ message: input, transcript: transcriptData }),
+            });
+
+            const data = response.body?.getReader();
+            if (!data) {
+                throw new Error("Streaming not supported");
+            }
+            const decoder = new TextDecoder();
+            let result = '';
+
+            while (true) {
+                const { value, done } = await data.read();
+                if (done) break;
+                const chunk = decoder.decode(value, { stream: true });
+                result += chunk;
+                console.log("streaming api:", chunk);
+                setMessage(prev => prev.map(msg => msg.id === aiMessageId ? { ...msg, content: msg.content + chunk } : msg));
+            }
+        } catch (error) {
+            console.error("Error", error)
         }
-        const decoder = new TextDecoder();
-
-        while (true) {
-            const { value, done } = await data.read();
-            if (done) break;
-            const chunk = decoder.decode(value);
-            result += chunk;
-            console.log("streaming api:", result);
-        }
-
-        setMessage(prev => [...prev, { id: crypto.randomUUID(), role: 'user', content: input }, { id: crypto.randomUUID(), role: "ai", content: result }]);
     }
 
     React.useEffect(() => {

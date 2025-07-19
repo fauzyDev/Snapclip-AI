@@ -3,7 +3,7 @@ import { main } from '@/libs/openai/llm';
 
 export const runtime = 'edge';
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   const encoder = new TextEncoder();
 
   try {
@@ -26,7 +26,14 @@ export async function POST(req: Request) {
         controller.close();
       }
     })
-    return new NextResponse(stream);
+    return new NextResponse(stream, {
+      headers: {
+        'Content-Type': 'text/plain; charset=utf-8',
+        'Cache-Control': 'no-cache',
+        'X-Content-Type-Options': 'nosniff',
+        'Transfer-Encoding': 'chunked',
+      },
+    });
   } catch (error) {
     console.error(error);
     return new NextResponse("Internal Server Error", { status: 500 });
