@@ -4,7 +4,7 @@ import React from "react";
 import { Form, Input, Button } from "@heroui/react";
 
 export default function InputChannel() {
-  const [action, setAction] = React.useState<string | null>(null);
+  const [action, setAction] = React.useState<string>('');
 
   return (
     <div className="w-full h-full flex items-center justify-center">
@@ -22,6 +22,7 @@ export default function InputChannel() {
           errorMessage="Please enter a valid ID"
           label="Channel 1"
           labelPlacement="outside"
+          value={action}
           name="ID Channel 1"
           placeholder="Enter your ID Channel"
           type="text"
