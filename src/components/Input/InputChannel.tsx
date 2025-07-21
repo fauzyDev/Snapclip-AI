@@ -3,19 +3,34 @@
 import React from "react";
 import { Form, Input, Button } from "@heroui/react";
 
+type Channel = { id: string; name: string }
+
 export default function InputChannel() {
-  const [action, setAction] = React.useState<string>('');
+  const [action, setAction] = React.useState<Channel[]>([
+    { id: '', name: '' },
+    { id: '', name: '' }
+  ]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch('/api/v1/channels')
+      const data = await response.json()
+      if (data.channels?.length) {
+        setAction(data.channels.map((ch: any) => ({
+          id: ch.channel_id,
+          name: ch.channel_name
+        })))
+      }  
+    }
+    fetchData();
+  }, [])
 
   return (
     <div className="w-full h-full flex items-center justify-center">
       <Form
         className="w-full max-w-xs flex flex-col gap-4"
-        onReset={() => setAction("")}
-        onSubmit={(e) => {
-          e.preventDefault();
-          const data = Object.fromEntries(new FormData(e.currentTarget));
-          setAction(`submit ${JSON.stringify(data)}`);
-        }}
+        onReset={() => setAction([])}
+        onSubmit={ }
       >
         <Input
           isRequired
