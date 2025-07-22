@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Form, Input, Button } from "@heroui/react";
+import { channel } from "diagnostics_channel";
 
 type Channel = { id: string; name: string }
 
@@ -15,43 +16,136 @@ export default function InputChannel() {
     const fetchData = async () => {
       const response = await fetch('/api/v1/channels')
       const data = await response.json()
-      if (data.channels?.length) {
-        setAction(data.channels.map((ch: any) => ({
+      console.log(data.Success)
+      if (data.Success?.length) {
+        setAction(data.Success.map((ch: any) => ({
           id: ch.channel_id,
           name: ch.channel_name
         })))
-      }  
+      }
     }
     fetchData();
   }, [])
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    const formData = new FormData(e.currentTarget)
+    const ch1_id = formData.get('channel_id_1') as string
+    const ch2_id = formData.get('channel_id_2') as string
+    const ch1_name = formData.get('channel_name_1') as string
+    const ch2_name = formData.get('channel_name_2') as string
+
+    const payload = [
+      { id: ch1_id, name: ch1_name },
+      { id: ch2_id, name: ch2_name }
+    ]
+
+    const response = await fetch('/api/v1/channels/save', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ channels: payload })
+    })
+
+    const resData = await response.json();
+    console.log('Server response:', resData);
+
+    if (response) {
+      setAction(payload);
+    } else {
+      alert('Gagal simpan channel.');
+    }
+  }
 
   return (
     <div className="w-full h-full flex items-center justify-center">
       <Form
         className="w-full max-w-xs flex flex-col gap-4"
         onReset={() => setAction([])}
-        onSubmit={ }
-      >
-        <Input
-          isRequired
-          errorMessage="Please enter a valid ID"
-          label="Channel 1"
-          labelPlacement="outside"
-          value={action}
-          name="ID Channel 1"
-          placeholder="Enter your ID Channel"
-          type="text"
-        />
+        onSubmit={handleSubmit}>
 
-        <Input
-          isRequired
-          errorMessage="Please enter a ID"
-          label="Channel 2"
-          labelPlacement="outside"
-          name="ID Channel 2"
-          placeholder="Enter your ID Channel"
-          type="text"
-        />
+        {action.map((ch, index) => (
+          <div key={index}>
+            {ch.id ? (
+              <>
+                <Input
+                  isReadOnly
+                  label="Channel 1 - ID"
+                  labelPlacement="outside"
+                  defaultValue={ch.id}
+                  type="text"
+                />
+
+                <Input
+                  isReadOnly
+                  label="Channel 1 - Name"
+                  labelPlacement="outside"
+                  defaultValue={ch.name}
+                  type="text"
+                />
+
+                <Input
+                  isReadOnly
+                  label="Channel 2 - ID"
+                  labelPlacement="outside"
+                  defaultValue={ch.id}
+                  type="text"
+                />
+
+                <Input
+                  isReadOnly
+                  label="Channel 2 - Name"
+                  labelPlacement="outside"
+                  defaultValue={ch.name}
+                  type="text"
+                />
+              </>
+            ) : (
+              <>
+                <Input
+                  isRequired
+                  errorMessage="Please enter a valid ID"
+                  label="Channel 1 - ID"
+                  labelPlacement="outside"
+                  name="channel_id_1"
+                  placeholder="Enter your ID Channel 1"
+                  type="text"
+                />
+
+                <Input
+                  isRequired
+                  errorMessage="Please enter a valid Name"
+                  label="Channel 1 - Name"
+                  labelPlacement="outside"
+                  name="channel_name_1"
+                  placeholder="Enter your Name Channel 1"
+                  type="text"
+                />
+
+                <Input
+                  isRequired
+                  errorMessage="Please enter a ID"
+                  label="Channel 2 - ID"
+                  labelPlacement="outside"
+                  name="channel_id_2"
+                  placeholder="Enter your Name Channel 2"
+                  type="text"
+                />
+
+                <Input
+                  isRequired
+                  errorMessage="Please enter a valid Name"
+                  label="Channel 2 - Name"
+                  labelPlacement="outside"
+                  name="channel_name_2"
+                  placeholder="Enter your Name Channel"
+                  type="text"
+                />
+              </>)}
+          </div>
+        ))}
 
         <div className="flex gap-2">
           <Button color="primary" type="submit" variant="solid">
@@ -61,12 +155,6 @@ export default function InputChannel() {
             Reset
           </Button>
         </div>
-
-        {action && (
-          <div className="text-small text-default-500">
-            Action: <code>{action}</code>
-          </div>
-        )}
       </Form>
     </div>
   );

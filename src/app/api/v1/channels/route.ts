@@ -1,20 +1,21 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/libs/supabase/client";
+import { createClientServer } from "@/libs/supabase/server";
 
 export async function GET() {
-    const { data: { session } } = await supabase.auth.getSession();
+    const supabase = await createClientServer()
+    const { data: { user }} = await supabase.auth.getUser()
 
-    if (!session) {
+    if (!user) {
         return NextResponse.json({ message: "Unauthorized" });
     }
 
     const { data, error } = await supabase
         .from('user_channel')
         .select('channel_id, channel_name')
-        .eq('user_id', session.user.id)
+        .eq('user_id', user.id)
 
     if (error) {
         return NextResponse.json({ error: error }, { status: 500 })
     }
-    return NextResponse.json({ Success: true }, { status: 200 })
+    return NextResponse.json({ Success: data }, { status: 200 })
 }

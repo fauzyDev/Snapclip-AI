@@ -1,29 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/libs/supabase/client";
+import { createClientServer } from "@/libs/supabase/server";
 
 export async function POST(req: NextRequest) {
-    const { data: { session } } = await supabase.auth.getSession();
+    const supabase = await createClientServer()
+    const { data: { user }} = await supabase.auth.getUser()
 
-    if (!session) {
+    if (!user) {
         return NextResponse.json({ message: "Unauthorized" });
     }
 
     const body = await req.json();
+    console.log('Received data:', body);
     const { channels } = body;
 
-    const userId = session.user.id;
+    const user_id = user.id
 
     const { error } = await supabase
         .from('user_channel')
         .delete()
-        .eq('user_id', userId)
+        .eq('user_id', user_id)
 
     const { error: insertError } = await supabase
         .from('user_channel')
         .insert(channels.map((ch: any) => ({
-            userId,
-            channelId: ch.id,
-            channelName: ch.name
+            user_id,
+            channel_id: ch.id,
+            channel_name: ch.name
         }))
     )
 
