@@ -50,9 +50,8 @@ export default function InputChannel() {
     })
 
     const resData = await response.json();
-    console.log('Server response:', resData);
 
-    if (response) {
+    if (resData) {
       setAction(payload);
       setIsSubmitted(true);
     } else {
@@ -135,14 +134,16 @@ export default function InputChannel() {
         )}
 
         <div className="flex gap-2">
-          {action.length === 0 && !isSubmitted && (
+          {!isSubmitted && (
             <Button color="primary" type="submit" variant="solid">
               Submit
             </Button>
           )}
-          <Button color="danger" type="reset" variant="solid">
-            Reset
-          </Button>
+          {isSubmitted && (
+            <Button color="danger" type="reset" variant="solid">
+              Reset
+            </Button>
+          )}
         </div>
       </Form>
     </div>
