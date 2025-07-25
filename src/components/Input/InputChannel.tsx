@@ -14,7 +14,9 @@ export default function InputChannel() {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch('/api/v1/channels')
+      const response = await fetch('/api/v1/channels', {
+        body: JSON.stringify({ channel: String })
+      })
       const data = await response.json()
       if (data.Success?.length) {
         setAction(data.Success.map((ch: any) => ({
