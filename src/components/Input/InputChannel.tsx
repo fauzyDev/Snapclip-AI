@@ -2,21 +2,16 @@
 
 import React from "react";
 import { Form, Input, Button } from "@heroui/react";
-
-type Channel = { id: string; name: string }
+import { useChannelStore } from "@/store/useChannelStore";
 
 export default function InputChannel() {
-  const [action, setAction] = React.useState<Channel[]>([
-    { id: '', name: '' },
-    { id: '', name: '' }
-  ]);
+  const action = useChannelStore((s) => s.channels);
+  const setAction = useChannelStore((s) => s.setChannels);
   const [isSubmitted, setIsSubmitted] = React.useState(false);
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch('/api/v1/channels', {
-        body: JSON.stringify({ channel: String })
-      })
+      const response = await fetch('/api/v1/channels')
       const data = await response.json()
       if (data.Success?.length) {
         setAction(data.Success.map((ch: any) => ({
@@ -27,7 +22,8 @@ export default function InputChannel() {
       }
     }
     fetchData();
-  }, [])
+
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()

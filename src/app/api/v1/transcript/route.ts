@@ -6,7 +6,6 @@ import {
   fetchVideosByPromptAndChannel,
   getCachedVideos,
   cacheVideos,
-  CHANNELS
 } from '@/libs/youtube/yt.fetch';
 import {
   fetchTranscript,
@@ -16,7 +15,7 @@ import {
 import { CachedVideo } from '@/types/cache.video';
 
 export async function POST(req: NextRequest) {
-  const { message } = await req.json();
+  const { message, channels } = await req.json();
 
   // Cek apakah data video sudah ada di cache
   const cached = await getCachedVideos(message);
@@ -24,7 +23,7 @@ export async function POST(req: NextRequest) {
 
   // Ambil semua video dari semua channel
   const results = cached ?? await Promise.all(
-    CHANNELS.map(async ({ id }) => fetchVideosByPromptAndChannel(message, id))
+    channels.map(async ({ id }: { id: string }) => fetchVideosByPromptAndChannel(message, id))
   );
   const videos: CachedVideo[] = results.flat();
 

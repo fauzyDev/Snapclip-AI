@@ -4,6 +4,7 @@ import React from 'react';
 import HeroButton from '../ui/HeroButton';
 import Input from '../Input/Input';
 import HeroAvatar from '../ui/HeroAvatar';
+import { useChannelStore } from '@/store/useChannelStore';
 
 type Message = {
     id: string,
@@ -14,6 +15,8 @@ type Message = {
 const ChatClient = () => {
     const [message, setMessage] = React.useState<Message[]>([]);
     const bottomRef = React.useRef<HTMLDivElement>(null);
+    const channel = useChannelStore((s) => s.channels)
+    console.log(channel)
 
     const sendMessage = async (input: string) => {
         try {
@@ -24,8 +27,10 @@ const ChatClient = () => {
             // STEP 1: Fetch video + transcript (dari prompt)
             const transcriptRes = await fetch("/api/v1/transcript", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ message: input }), // kirim prompt doang
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ message: input, channels: channel }), // kirim prompt doang
             });
 
             const transcriptJson = await transcriptRes.json();
