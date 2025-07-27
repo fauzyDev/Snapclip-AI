@@ -6,13 +6,6 @@ import { redis } from "../cache/cache.redis";
 
 const apiKey: string = YOUTUBE_API;
 
-// ✅ Masukkan channelId dan nama channel yang lo mau
-
-export const CHANNELS = [
-  { id: "UCXMB8OiiSnq2B4xLgUtTYhw", name: "Timothy Ronald" },
-  { id: "UCe9_rJjMmQS5C_LobUZ_pHg", name: "Academy Crypto" },
-];
-
 // Fungsi caching dengan TTL (waktu hidup cache dalam detik)
 const cache: number = CACHE_TTL;
 

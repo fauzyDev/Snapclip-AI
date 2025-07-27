@@ -1,9 +1,5 @@
 import { create } from 'zustand';
-
-type Channel = {
-    id: string,
-    name: string
-}
+import { Channel } from '@/types/channel';
 
 type ChannelStore = {
     channels: Channel[]

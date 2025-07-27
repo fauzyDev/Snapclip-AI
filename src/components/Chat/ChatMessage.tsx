@@ -4,19 +4,13 @@ import React from 'react';
 import HeroButton from '../ui/HeroButton';
 import Input from '../Input/Input';
 import HeroAvatar from '../ui/HeroAvatar';
+import { Message } from '@/types/message';
 import { useChannelStore } from '@/store/useChannelStore';
-
-type Message = {
-    id: string,
-    role: "user" | "ai",
-    content: string,
-};
 
 const ChatClient = () => {
     const [message, setMessage] = React.useState<Message[]>([]);
     const bottomRef = React.useRef<HTMLDivElement>(null);
     const channel = useChannelStore((s) => s.channels)
-    console.log(channel)
 
     const sendMessage = async (input: string) => {
         try {
@@ -30,7 +24,7 @@ const ChatClient = () => {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ message: input, channels: channel }), // kirim prompt doang
+                body: JSON.stringify({ message: input, channels: channel }), // kirim 
             });
 
             const transcriptJson = await transcriptRes.json();
