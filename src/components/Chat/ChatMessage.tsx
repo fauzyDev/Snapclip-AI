@@ -36,7 +36,7 @@ const ChatClient = () => {
             }
 
             // STEP 2: Kirim ke LLM stream API
-            const response = await fetch('/api/v1/answer', {
+            const response = await fetch('/api/v1/stream', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

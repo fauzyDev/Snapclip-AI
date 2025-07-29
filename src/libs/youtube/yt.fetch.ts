@@ -23,20 +23,33 @@ export async function cacheVideos(prompt: string, videos: CachedVideo[]) {
 
 // 🔧 Fungsi ambil video berdasarkan prompt dan channel
 export async function fetchVideosByPromptAndChannel(prompt: string, channelId: string) {
-  const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet&type=video&maxResults=5&q=${encodeURIComponent(prompt)}`;
-  const res = await fetch(url);
-  const data = await res.json();
+  try {
+    if (!channelId) throw new Error('channelId kosong!');
 
-  if (!data.items) {
+    const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet&type=video&maxResults=5&q=${encodeURIComponent(prompt)}`;
+    const res = await fetch(url);
+
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status} - ${await res.text()}`);
+    }
+
+    const data = await res.json();
+
+    if (!data.items) {
+      return [];
+    }
+
+    return data.items.map((item: YouTubeSearchItem) => ({
+      channelId,
+      videoId: item.id.videoId,
+      title: item.snippet.title,
+      publishedAt: item.snippet.publishedAt,
+      thumbnail: item.snippet.thumbnails?.medium?.url,
+      channelTitle: item.snippet.channelTitle,
+    }));
+
+  } catch (error: any) {
+    console.error('🔥 Fetch error:', error.message || error);
     return [];
   }
-
-  return data.items.map((item: YouTubeSearchItem) => ({
-    channelId,
-    videoId: item.id.videoId,
-    title: item.snippet.title,
-    publishedAt: item.snippet.publishedAt,
-    thumbnail: item.snippet.thumbnails?.medium?.url,
-    channelTitle: item.snippet.channelTitle,
-  }));
 }

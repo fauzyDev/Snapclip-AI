@@ -21,7 +21,7 @@ export default function Page() {
             }
 
             // STEP 2: Kirim ke LLM stream API
-            const res = await fetch("/api/v1/answer", {
+            const res = await fetch("/api/v1/stream", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ message, transcript: transcriptData }),

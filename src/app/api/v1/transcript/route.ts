@@ -53,9 +53,14 @@ export async function POST(req: NextRequest) {
     })
   );
 
-  const transcript = rawTranscript.flat();
+  const transcript = videos.map((video, index) => ({
+    ...video,
+    url: `https://www.youtube.com/watch?v=${video.videoId}`,
+    caption: rawTranscript[index]
+  }))
+
   if (transcript.length === 0) {
     return NextResponse.json({ status: 404, message: "Transcript tidak ditemukan" });
   }
-  return NextResponse.json({ videos, transcript });
+  return NextResponse.json({ transcript });
 }
