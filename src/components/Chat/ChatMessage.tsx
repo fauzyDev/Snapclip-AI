@@ -22,13 +22,21 @@ const ChatClient = () => {
             const transcriptRes = await fetch("/api/v1/transcript", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "applica    tion/json"
                 },
                 body: JSON.stringify({ message: input, channels: channel }), // kirim 
             });
 
             const transcriptJson = await transcriptRes.json();
-            const transcriptData = transcriptJson.transcript || "";
+            const transcriptData = transcriptJson.transcript.flatMap((video: any) =>
+                video.caption.map((caption: any) => ({
+                    text: caption.text,
+                    start: caption.start,
+                    videoId: video.videoId,
+                    title: video.title,
+                    url: video.url
+                }))
+            )
 
             if (!transcriptData) {
                 console.error("❌ Gagal ambil transcript");
