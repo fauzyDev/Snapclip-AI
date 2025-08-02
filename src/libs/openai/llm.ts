@@ -12,7 +12,8 @@ const openai = new OpenAI({
 export const main = async (message: string, transcripts: TranscriptPerVideo[]) => {
     const context = transcripts.map((video) => {
         const line = video.caption.map((chunk) => {
-            `[${formatTime(chunk.start)}] (Video: ${video.title}) ${chunk.text}`
+            const cleanText = chunk.text.replace(/,\s*/g, " ").trim();
+            return `[${formatTime(chunk.start)}] (Video: ${video.title}) ${cleanText}`;
         }).join("\n")
         return line
     }).join("\n")

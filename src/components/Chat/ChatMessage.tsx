@@ -38,7 +38,7 @@ const ChatClient = () => {
                 }))
             )
 
-            if (!transcriptData) {
+            if (!transcriptData.length) {
                 console.error("❌ Gagal ambil transcript");
                 return;
             }
