@@ -9,7 +9,9 @@ const apiKey: string = YOUTUBE_API;
 // Fungsi caching dengan TTL (waktu hidup cache dalam detik)
 const cache: number = CACHE_TTL;
 
-export async function getCachedVideos(prompt: string): Promise<CachedVideo[] | null> {
+export async function getCachedVideos(
+  prompt: string
+): Promise<CachedVideo[] | null> {
   const key = `videos:${prompt.toLowerCase()}`;
   const cached = await redis.get(key);
   return cached ? (cached as CachedVideo[]) : null;
@@ -22,15 +24,23 @@ export async function cacheVideos(prompt: string, videos: CachedVideo[]) {
 }
 
 // 🔧 Fungsi ambil video berdasarkan prompt dan channel
-export async function fetchVideosByPromptAndChannel(prompt: string, channelId: string) {
+export async function fetchVideosByPromptAndChannel(
+  prompt: string,
+  channelId: string
+) {
   try {
-    if (!channelId) throw new Error('channelId kosong!');
+    if (!channelId) throw new Error("channelId kosong!");
 
-    const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet&type=video&maxResults=5&q=${encodeURIComponent(prompt)}`;
+    const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet&type=video&maxResults=5&q=${encodeURIComponent(
+      prompt
+    )}`;
     const res = await fetch(url);
 
     if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status} - ${await res.text()}`);
+      console.error("🔥 Fetch error:", res.text);
+      throw new Error(
+        `HTTP error! status: ${res.status} - ${await res.text()}`
+      );
     }
 
     const data = await res.json();
@@ -47,9 +57,8 @@ export async function fetchVideosByPromptAndChannel(prompt: string, channelId: s
       thumbnail: item.snippet.thumbnails?.medium?.url,
       channelTitle: item.snippet.channelTitle,
     }));
-
   } catch (error: any) {
-    console.error('🔥 Fetch error:', error.message || error);
+    console.error("🔥 Fetch error:", error.message || error);
     return [];
   }
 }

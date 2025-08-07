@@ -28,15 +28,7 @@ const ChatClient = () => {
             });
 
             const transcriptJson = await transcriptRes.json();
-            const transcriptData = transcriptJson.transcript.flatMap((video: any) =>
-                video.caption.map((caption: any) => ({
-                    text: caption.text,
-                    start: caption.start,
-                    videoId: video.videoId,
-                    title: video.title,
-                    url: video.url
-                }))
-            )
+            const transcriptData = transcriptJson.transcript
 
             if (!transcriptData.length) {
                 console.error("❌ Gagal ambil transcript");

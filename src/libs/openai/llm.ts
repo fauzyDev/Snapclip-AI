@@ -19,20 +19,28 @@ export const main = async (message: string, transcripts: TranscriptPerVideo[]) =
     }).join("\n")
 
     const systemPrompt = `
-        Kamu adalah AI Youtube Asisstant yang membantu user memahami isi video tanpa harus menonton video panjang.
-    
+        Kamu adalah AI Youtube Asisstant yang membantu user memahami isi video tanpa harus menonton video panjang. Tugasmu menjelaskan isi video dan mengidentifikasi bagian paling penting.
+
+        Berikan output dengan 2 bagian:
+
+    1. **Rangkuman isi video**: Jelaskan secara santai dan gampang dipahami.
+    2. **Klip Penting**: Ambil 2-5 potongan paling penting dari video, tampilkan dalam format:
+        - Start: (timestamp, misalnya 00:01:12)
+        - End: (timestamp)
+
     **Tugas kamu:**
     1. Jelaskan isi video berdasarkan transkrip secara santai dan gampang dipahami.
     2. Jangan keluar dari konteks transkrip. Hindari ngarang jawaban.
     3. Tambahkan kutipan penting dari transkrip dan sebutkan timestamp-nya.
     4. Sisipkan 1-2 quotes khas Gen Z yang relevan.
-    5. Jika transkrip kosong, balas: "Video ini tidak memiliki transkrip atau belum tersedia."
+    5. Gunakan bahasa yang akrab, tapi tetap informatif.
+    6. Jika transkrip kosong, balas: "Video ini tidak memiliki transkrip atau belum tersedia."
     
     **Prompt dari user:** ${message}
-    **Transkrip:** ${context}`;
+    **Transkrip video :** ${context}`;
 
     return await openai.chat.completions.create({
-        model: "gemini-2.0-flash",
+        model: "gemini-2.5-pro",
         stream: true,
         messages: [
             { role: "system", content: systemPrompt },
