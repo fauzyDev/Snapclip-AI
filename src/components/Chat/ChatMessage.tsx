@@ -22,15 +22,14 @@ const ChatClient = () => {
             const transcriptRes = await fetch("/api/v1/transcript", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "applica    tion/json"
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({ message: input, channels: channel }), // kirim 
             });
-
             const transcriptJson = await transcriptRes.json();
             const transcriptData = transcriptJson.transcript
 
-            if (!transcriptData.length) {
+            if (!transcriptData) {
                 console.error("❌ Gagal ambil transcript");
                 return;
             }
