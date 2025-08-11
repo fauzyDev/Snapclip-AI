@@ -16,15 +16,15 @@ export async function fetchTranscript(videoId: string[]): Promise<Record<string,
   for (let index = 0; index < videos.length; index++) {
     const video = videos[index]
     const id = videoId[index]
-    let captions = video?.captions?.languages.find((lang) => lang.code === 'id')
+    let captions = video?.captions?.languages.find((lang) => lang.code)
 
     if (!captions) {
-      console.error("Captions tidak ditemukan untuk videoId");
+      console.error("Captions tidak ditemukan");
       transcripts[id] = [];
       continue;
     }
 
-    const rawTranscript = await captions.get('id')
+    const rawTranscript = await captions.get()
     transcripts[id] = (rawTranscript ?? [])?.map(({ text, start, duration }: cachedTranscript) => ({
       text,
       start,
@@ -40,7 +40,7 @@ export async function getCachedTranscript(videoId: string): Promise<cachedTransc
   return cached ? (cached as cachedTranscript[]) : null;
 }
 
-export async function cacheTranscript(videoId: string, text: cachedTranscript[]) {
+export async function cacheTranscript(videoId: string, text: cachedTranscript[]): Promise<void> {
   const key = `text:${videoId}`;
   await redis.set(key, text);
   await redis.expire(key, cache);
