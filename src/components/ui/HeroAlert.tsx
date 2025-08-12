@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React from 'react'
-import { Alert, type AlertProps } from "@heroui/react";
+import React from "react";
+import { Alert, type AlertProps } from "@heroui/alert";
 
 type Props = AlertProps;
 

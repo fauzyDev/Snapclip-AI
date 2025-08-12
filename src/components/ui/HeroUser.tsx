@@ -1,7 +1,7 @@
-"use client"
+'use client';
 
-import React from 'react'
-import { User, type UserProps } from "@heroui/react";
+import React from "react";
+import { User, type UserProps } from "@heroui/user";
 
 type Props = UserProps;
 

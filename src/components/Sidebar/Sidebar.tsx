@@ -32,8 +32,8 @@ export default function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean; setIsO
                             name="Jane Doe"
                             className="flex flex-row items-center gap-3"
                         />
-                        <HeroButton as={Link} size="md" href="/snapclip/settings" variant="solid">
-                            <Settings size={24} /> Pengaturan
+                        <HeroButton as={Link} size="sm" href="/snapclip/settings" variant="solid">
+                            <Settings size={16} /> New Chat
                         </HeroButton>
                     </div>
                 </div>

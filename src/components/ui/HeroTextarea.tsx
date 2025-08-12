@@ -1,7 +1,7 @@
-"use client"
+'use client';
 
-import React from 'react';
-import { Textarea, type TextAreaProps } from "@heroui/react";
+import React from "react";
+import { Textarea, type TextAreaProps } from "@heroui/input";
 
 type Props = TextAreaProps;
 

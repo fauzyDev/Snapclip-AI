@@ -48,8 +48,8 @@ export default function Page() {
                 // Bisa lo tampilkan ke UI di sini
             }
 
-        } catch (err) {
-            console.error("🔥 Error:", err);
+        } catch (error: any) {
+            console.error("Error:", error);
         }
     };
 

@@ -32,7 +32,7 @@ export async function fetchVideosByPromptAndChannel(prompt: string, channelId: s
     const res = await fetch(url);
 
     if (!res.ok) {
-      console.error("🔥 Fetch error:", res.text);
+      console.error("Fetch error:", res.text);
       throw new Error(
         `HTTP error! status: ${res.status} - ${await res.text()}`
       );
@@ -53,7 +53,7 @@ export async function fetchVideosByPromptAndChannel(prompt: string, channelId: s
       channelTitle: item.snippet.channelTitle,
     }));
   } catch (error: any) {
-    console.error("🔥 Fetch error:", error.message || error);
+    console.error("Fetch error:", error.message || error);
     return [];
   }
 }

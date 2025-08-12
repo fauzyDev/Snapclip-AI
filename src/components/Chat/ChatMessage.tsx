@@ -4,6 +4,7 @@ import React from 'react';
 import HeroButton from '../ui/HeroButton';
 import Input from '../Input/Input';
 import HeroAvatar from '../ui/HeroAvatar';
+import HeroSkeleton from '../ui/HeroSkeleton';
 import { Message } from '@/types/message';
 import { useChannelStore } from '@/store/useChannelStore';
 
@@ -55,7 +56,6 @@ const ChatClient = () => {
                 if (done) break;
                 const chunk = decoder.decode(value, { stream: true });
                 result += chunk;
-                console.log("streaming api:", chunk);
                 setMessage(prev => prev.map(msg => msg.id === aiMessageId ? { ...msg, content: msg.content + chunk } : msg));
             }
         } catch (error) {
@@ -115,9 +115,9 @@ const ChatClient = () => {
                             </div>
                         ) : (
                             message.map((msg) => (
-                                <ul key={msg.id} className="space-y-6 mb-4">
+                                <ul key={msg.id} className="space-y-6 mb-6">
                                     {msg.role === "user" ? (
-                                        <li className="w-full flex justify-end px-2 sm:px-0">
+                                        <li className="w-full flex justify-end px-2 sm:px-1">
                                             <div className="flex items-end gap-2 sm:gap-3 max-w-full">
                                                 {/* Bubble */}
                                                 <div className="ml-auto space-y-3 bg-blue-700 border border-blue-500 rounded-2xl shadow-md p-3 break-words max-w-[85%]">
@@ -131,7 +131,7 @@ const ChatClient = () => {
                                             </div>
                                         </li>
                                     ) : (
-                                        <li className="w-full flex justify-start px-2 sm:px-2 ">
+                                        <li className="w-full flex justify-start px-2 sm:px-2">
                                             <div className="flex items-start gap-2 sm:gap-3 w-full max-w-full">
                                                 {/* Avatar Bot */}
                                                 <HeroAvatar
@@ -139,12 +139,14 @@ const ChatClient = () => {
                                                     src="https://img.freepik.com/free-vector/chatbot-chat-message-vectorart_78370-4104.jpg"
                                                     className="flex-shrink-0" />
                                                 {/* Bubble */}
+                                                <HeroSkeleton>
                                                 <div className="bg-gray-700/60 border border-gray-600 rounded-2xl p-3 shadow-md break-words max-w-[85%]">
                                                     <h3 className="font-medium text-gray-200">Snapclip AI</h3>
                                                     <p className="whitespace-pre-line text-md text-neutral-200">
                                                         {cleanLLMContent(msg.content)}
                                                     </p>
                                                 </div>
+                                                </HeroSkeleton>
                                             </div>
                                         </li>
                                     )}

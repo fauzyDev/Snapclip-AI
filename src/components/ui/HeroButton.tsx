@@ -1,7 +1,7 @@
-"use client"
+'use client';
 
 import React from "react";
-import { Button, type ButtonProps } from "@heroui/react";
+import { Button, type ButtonProps } from "@heroui/button";
 
 type Props = ButtonProps & {
   children: React.ReactNode;
