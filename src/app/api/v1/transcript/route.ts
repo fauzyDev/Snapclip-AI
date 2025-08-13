@@ -6,13 +6,13 @@ import {
   fetchVideosByPromptAndChannel,
   getCachedVideos,
   cacheVideos,
-} from '@/libs/youtube/yt.fetch';
+} from '@/libs/youtube/youtubeFetch';
 import {
   fetchTranscript,
   getCachedTranscript,
   cacheTranscript
-} from "@/libs/youtube/yt.transcript";
-import { CachedVideo } from '@/types/cache.video';
+} from "@/libs/youtube/youtubeTranscript";
+import { CachedVideo } from '@/types/cacheVideo';
 
 export async function POST(req: NextRequest) {
   const { message, channels } = await req.json();

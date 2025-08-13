@@ -1,7 +1,7 @@
 import { Client } from "youtubei";
-import { cachedTranscript } from "@/types/cache.transcript";
+import { cachedTranscript } from "@/types/cacheTranscript";
 import { CACHE_TTL } from "@/config/env";
-import { redis } from "../cache/cache.redis";
+import { redis } from "../cache/cacheRedis";
 
 const cache: number = CACHE_TTL;
 

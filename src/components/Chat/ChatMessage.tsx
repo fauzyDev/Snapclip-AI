@@ -5,11 +5,13 @@ import HeroButton from '../ui/HeroButton';
 import Input from '../Input/Input';
 import HeroAvatar from '../ui/HeroAvatar';
 import HeroSkeleton from '../ui/HeroSkeleton';
+import HeroCard from '../ui/HeroCard';
 import { Message } from '@/types/message';
 import { useChannelStore } from '@/store/useChannelStore';
 
 const ChatClient = () => {
     const [message, setMessage] = React.useState<Message[]>([]);
+    const [isLoading, setIsLoading] = React.useState<boolean>(true);
     const bottomRef = React.useRef<HTMLDivElement>(null);
     const channel = useChannelStore((s) => s.channels)
 
@@ -139,14 +141,33 @@ const ChatClient = () => {
                                                     src="https://img.freepik.com/free-vector/chatbot-chat-message-vectorart_78370-4104.jpg"
                                                     className="flex-shrink-0" />
                                                 {/* Bubble */}
-                                                <HeroSkeleton>
-                                                <div className="bg-gray-700/60 border border-gray-600 rounded-2xl p-3 shadow-md break-words max-w-[85%]">
-                                                    <h3 className="font-medium text-gray-200">Snapclip AI</h3>
-                                                    <p className="whitespace-pre-line text-md text-neutral-200">
-                                                        {cleanLLMContent(msg.content)}
-                                                    </p>
-                                                </div>
-                                                </HeroSkeleton>
+                                                {isLoading ? (
+                                                    <HeroCard className="w-[200px] space-y-5 p-4" radius="lg">
+                                                        <HeroSkeleton className="rounded-lg">
+                                                            <div className="h-24 rounded-lg bg-default-300" />
+                                                        </HeroSkeleton>
+                                                        <div className="space-y-3">
+                                                            <HeroSkeleton className="w-3/5 rounded-lg">
+                                                                <div className="h-3 w-3/5 rounded-lg bg-default-200" />
+                                                            </HeroSkeleton>
+                                                            <HeroSkeleton className="w-4/5 rounded-lg">
+                                                                <div className="h-3 w-4/5 rounded-lg bg-default-200" />
+                                                            </HeroSkeleton>
+                                                            <HeroSkeleton className="w-2/5 rounded-lg">
+                                                                <div className="h-3 w-2/5 rounded-lg bg-default-300" />
+                                                            </HeroSkeleton>
+                                                        </div>
+                                                    </HeroCard>
+                                                ) : (
+                                                    <HeroCard className="w-[200px] space-y-5 p-4" radius="lg">
+                                                        <div className="bg-gray-700/60 border border-gray-600 rounded-2xl p-3 shadow-md break-words max-w-[85%]">
+                                                            <h3 className="font-medium text-gray-200">Snapclip AI</h3>
+                                                            <p className="whitespace-pre-line text-md text-neutral-200">
+                                                                {cleanLLMContent(msg.content)}
+                                                            </p>
+                                                        </div>
+                                                    </HeroCard>
+                                                )}
                                             </div>
                                         </li>
                                     )}

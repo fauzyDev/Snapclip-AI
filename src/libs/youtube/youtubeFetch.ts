@@ -1,9 +1,9 @@
-import { CachedVideo } from "@/types/cache.video";
-import { FetchPrompt } from "@/types/yt.fetchPrompt";
-import { YouTubeSearchItem } from "@/types/yt.search.item";
+import { CachedVideo } from "@/types/cacheVideo";
+import { FetchPrompt } from "@/types/youtubeFetchPrompt";
+import { YouTubeSearchItem } from "@/types/youtubeSearchItems";
 import { YOUTUBE_API } from "@/config/env";
 import { CACHE_TTL } from "@/config/env";
-import { redis } from "../cache/cache.redis";
+import { redis } from "../cache/cacheRedis";
 
 const apiKey: string = YOUTUBE_API;
 
