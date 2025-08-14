@@ -5,7 +5,6 @@ import HeroButton from '../ui/HeroButton';
 import Input from '../Input/Input';
 import HeroAvatar from '../ui/HeroAvatar';
 import HeroSkeleton from '../ui/HeroSkeleton';
-import HeroCard from '../ui/HeroCard';
 import { Message } from '@/types/message';
 import { useChannelStore } from '@/store/useChannelStore';
 
@@ -52,6 +51,7 @@ const ChatClient = () => {
             }
             const decoder = new TextDecoder();
             let result = '';
+            let firstChunck = true;
 
             while (true) {
                 const { value, done } = await data.read();
@@ -59,6 +59,11 @@ const ChatClient = () => {
                 const chunk = decoder.decode(value, { stream: true });
                 result += chunk;
                 setMessage(prev => prev.map(msg => msg.id === aiMessageId ? { ...msg, content: msg.content + chunk } : msg));
+
+                if (firstChunck) {
+                    firstChunck = false
+                    setIsLoading(false);
+                }
             }
         } catch (error) {
             console.error("Error", error)
@@ -93,26 +98,14 @@ const ChatClient = () => {
                                     ✨ Selamat Datang di Snapclip AI...
                                 </h2>
                                 <div className="flex flex-wrap justify-center gap-4 mt-3">
-                                    <HeroButton
-                                        size="md"
-                                        className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold">
-                                        📽️ Buat Klip
-                                    </HeroButton>
-                                    <HeroButton
-                                        size="md"
-                                        className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold">
-                                        🎞️ Ringkas Video
-                                    </HeroButton>
-                                    <HeroButton
-                                        size="md"
-                                        className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold">
-                                        💬 Tanya AI
-                                    </HeroButton>
-                                    <HeroButton
-                                        size="md"
-                                        className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold">
-                                        🔍 Cari Topik
-                                    </HeroButton>
+                                    {["📽️ Buat Klip", "🎞️ Ringkas Video", "💬 Tanya AI", "🔍 Cari Topik"].map((label) => (
+                                        <HeroButton
+                                            key={label}
+                                            size="md"
+                                            className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold">
+                                            {label}
+                                        </HeroButton>
+                                    ))}
                                 </div>
                             </div>
                         ) : (
@@ -142,31 +135,21 @@ const ChatClient = () => {
                                                     className="flex-shrink-0" />
                                                 {/* Bubble */}
                                                 {isLoading ? (
-                                                    <HeroCard className="w-[200px] space-y-5 p-4" radius="lg">
-                                                        <HeroSkeleton className="rounded-lg">
-                                                            <div className="h-24 rounded-lg bg-default-300" />
-                                                        </HeroSkeleton>
-                                                        <div className="space-y-3">
-                                                            <HeroSkeleton className="w-3/5 rounded-lg">
-                                                                <div className="h-3 w-3/5 rounded-lg bg-default-200" />
-                                                            </HeroSkeleton>
-                                                            <HeroSkeleton className="w-4/5 rounded-lg">
-                                                                <div className="h-3 w-4/5 rounded-lg bg-default-200" />
-                                                            </HeroSkeleton>
-                                                            <HeroSkeleton className="w-2/5 rounded-lg">
-                                                                <div className="h-3 w-2/5 rounded-lg bg-default-300" />
-                                                            </HeroSkeleton>
+                                                    <div className="max-w-[300px] w-full flex items-center gap-3">
+                                                        <div className="w-full flex flex-col gap-2">
+                                                            <HeroSkeleton className="h-3 w-2/5 rounded-lg" />
+                                                            <HeroSkeleton className="h-3 w-3/5 rounded-lg" />
+                                                            <HeroSkeleton className="h-3 w-4/5 rounded-lg" />
+                                                            <HeroSkeleton className="h-3 w-6/5 rounded-lg" />
                                                         </div>
-                                                    </HeroCard>
+                                                    </div>
                                                 ) : (
-                                                    <HeroCard className="w-[200px] space-y-5 p-4" radius="lg">
-                                                        <div className="bg-gray-700/60 border border-gray-600 rounded-2xl p-3 shadow-md break-words max-w-[85%]">
-                                                            <h3 className="font-medium text-gray-200">Snapclip AI</h3>
-                                                            <p className="whitespace-pre-line text-md text-neutral-200">
-                                                                {cleanLLMContent(msg.content)}
-                                                            </p>
-                                                        </div>
-                                                    </HeroCard>
+                                                    <div className="bg-gray-700/60 border border-gray-600 rounded-2xl p-3 shadow-md break-words max-w-[85%]">
+                                                        <h3 className="font-medium text-gray-200">Snapclip AI</h3>
+                                                        <p className="whitespace-pre-line text-md text-neutral-200">
+                                                            {cleanLLMContent(msg.content)}
+                                                        </p>
+                                                    </div>
                                                 )}
                                             </div>
                                         </li>
@@ -176,7 +159,7 @@ const ChatClient = () => {
                         )}
 
                         {/* Spacer biar bubble terakhir gak ketiban input */}
-                        <div ref={bottomRef} className="h-32 scroll-mt-8" />
+                        <div ref={bottomRef} className="h-28 scroll-mt-8" />
                     </div>
                 </div>
             </div>
