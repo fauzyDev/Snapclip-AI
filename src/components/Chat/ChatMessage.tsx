@@ -10,7 +10,6 @@ import { useChannelStore } from '@/store/useChannelStore';
 
 const ChatClient = () => {
     const [message, setMessage] = React.useState<Message[]>([]);
-    const [isLoading, setIsLoading] = React.useState<boolean>(true);
     const bottomRef = React.useRef<HTMLDivElement>(null);
     const channel = useChannelStore((s) => s.channels)
 
@@ -18,9 +17,9 @@ const ChatClient = () => {
         try {
             const aiMessageId = crypto.randomUUID();
 
-            setMessage(prev => [...prev, { id: crypto.randomUUID(), role: 'user', content: input }, { id: aiMessageId, role: 'ai', content: '' }])
+            setMessage(prev => [...prev, { id: crypto.randomUUID(), role: 'user', content: input }, { id: aiMessageId, role: 'ai', content: '', isLoading: true }])
 
-            // STEP 1: Fetch video + transcript (dari prompt)
+            // STEP 1: Fetch video + transcript (dari promn  pt)
             const transcriptRes = await fetch("/api/v1/transcript", {
                 method: "POST",
                 headers: {
@@ -28,10 +27,9 @@ const ChatClient = () => {
                 },
                 body: JSON.stringify({ message: input, channels: channel }), // kirim 
             });
-            const transcriptJson = await transcriptRes.json();
-            const transcriptData = transcriptJson.transcript
+            const { transcript } = await transcriptRes.json();
 
-            if (!transcriptData) {
+            if (!transcript) {
                 console.error("❌ Gagal ambil transcript");
                 return;
             }
@@ -42,7 +40,7 @@ const ChatClient = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ message: input, transcript: transcriptData }),
+                body: JSON.stringify({ message: input, transcript }),
             });
 
             const data = response.body?.getReader();
@@ -51,19 +49,12 @@ const ChatClient = () => {
             }
             const decoder = new TextDecoder();
             let result = '';
-            let firstChunck = true;
 
             while (true) {
                 const { value, done } = await data.read();
                 if (done) break;
-                const chunk = decoder.decode(value, { stream: true });
-                result += chunk;
-                setMessage(prev => prev.map(msg => msg.id === aiMessageId ? { ...msg, content: msg.content + chunk } : msg));
-
-                if (firstChunck) {
-                    firstChunck = false
-                    setIsLoading(false);
-                }
+                result += decoder.decode(value, { stream: true });
+                setMessage(prev => prev.map(msg => msg.id === aiMessageId ? { ...msg, content: msg.content + result, isLoading: false } : msg));
             }
         } catch (error) {
             console.error("Error", error)
@@ -134,7 +125,7 @@ const ChatClient = () => {
                                                     src="https://img.freepik.com/free-vector/chatbot-chat-message-vectorart_78370-4104.jpg"
                                                     className="flex-shrink-0" />
                                                 {/* Bubble */}
-                                                {isLoading ? (
+                                                {msg.role === "ai" && msg.isLoading ? (
                                                     <div className="max-w-[300px] w-full flex items-center gap-3">
                                                         <div className="w-full flex flex-col gap-2">
                                                             <HeroSkeleton className="h-3 w-2/5 rounded-lg" />
