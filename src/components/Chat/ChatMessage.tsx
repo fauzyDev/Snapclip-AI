@@ -132,8 +132,8 @@ const ChatClient = () => {
                                                         <div className="w-full flex flex-col gap-2">
                                                             <HeroSkeleton className="h-3 w-2/5 rounded-lg" />
                                                             <HeroSkeleton className="h-3 w-3/5 rounded-lg" />
-                                                            <HeroSkeleton className="h-3 w-4/5 rounded-lg" />
-                                                            <HeroSkeleton className="h-3 w-6/5 rounded-lg" />
+                                                            <HeroSkeleton className="h-3 w-4/6 rounded-lg" />
+                                                            <HeroSkeleton className="h-3 w-5/5 rounded-lg" />
                                                         </div>
                                                     </div>
                                                 ) : (
@@ -152,7 +152,7 @@ const ChatClient = () => {
                         )}
 
                         {/* Spacer biar bubble terakhir gak ketiban input */}
-                        <div ref={bottomRef} className="h-28 scroll-mt-8" />
+                        <div ref={bottomRef} className="h-24 scroll-mt-8" />
                     </div>
                 </div>
             </div>
