@@ -48,12 +48,11 @@ const ChatClient = () => {
                 throw new Error("Streaming not supported");
             }
             const decoder = new TextDecoder();
-            let result = '';
 
             while (true) {
                 const { value, done } = await data.read();
                 if (done) break;
-                result += decoder.decode(value, { stream: true });
+                const result = decoder.decode(value, { stream: true });
                 setMessage(prev => prev.map(msg => msg.id === aiMessageId ? { ...msg, content: msg.content + result, isLoading: false } : msg));
             }
         } catch (error) {
@@ -78,22 +77,23 @@ const ChatClient = () => {
     }
 
     return (
-        <section className="flex flex-col flex-grow w-full">
+        <section className="flex flex-col flex-grow w-full h-full">
             {/* Chat Container */}
             <div className={`flex-grow ${message.length > 0 ? "overflow-y-auto" : ""} pt-16 pb-[110px]`}>
                 <div className="w-full flex justify-center">
-                    <div className="w-full max-w-2xl space-y-4 px-2 sm:px-0">
+                    <div className="w-full max-w-2xl space-y-4 px-2 sm:px-4 md:px-6 lg:px-0">
                         {message.length === 0 ? (
-                            <div className="flex flex-col items-center justify-center mt-32 space-y-6 py-12">
-                                <h2 className="text-xl sm:text-2xl font-semibold text-white text-center animate-pulse">
+                            <div className="flex flex-col items-center justify-center mt-24 space-y-6 py-8 px-4 text-center">
+                                <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-white animate-pulse">
                                     ✨ Selamat Datang di Snapclip AI...
                                 </h2>
-                                <div className="flex flex-wrap justify-center gap-4 mt-3">
+                                <div className="flex flex-wrap justify-center gap-3">
                                     {["📽️ Buat Klip", "🎞️ Ringkas Video", "💬 Tanya AI", "🔍 Cari Topik"].map((label) => (
                                         <HeroButton
                                             key={label}
                                             size="md"
-                                            className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold">
+                                            className="hover:bg-gray-600 transition-all text-neutral-200 font-semibold"
+                                        >
                                             {label}
                                         </HeroButton>
                                     ))}
@@ -106,14 +106,15 @@ const ChatClient = () => {
                                         <li className="w-full flex justify-end px-2 sm:px-1">
                                             <div className="flex items-end gap-2 sm:gap-3 max-w-full">
                                                 {/* Bubble */}
-                                                <div className="ml-auto space-y-3 bg-blue-700 border border-blue-500 rounded-2xl shadow-md p-3 break-words max-w-[85%]">
-                                                    <p className="text-md text-neutral-200">{msg.content}</p>
+                                                <div className="ml-auto space-y-3 bg-blue-700 border border-blue-500 rounded-2xl shadow-md p-3 break-words max-w-[85%] sm:max-w-[75%] md:max-w-[65%]">
+                                                    <p className="text-sm sm:text-base text-neutral-200">{msg.content}</p>
                                                 </div>
                                                 {/* Avatar User */}
                                                 <HeroAvatar
                                                     size="sm"
                                                     src="https://img.freepik.com/free-vector/chatbot-chat-message-vectorart_78370-4104.jpg"
-                                                    className="flex-shrink-0" />
+                                                    className="flex-shrink-0"
+                                                />
                                             </div>
                                         </li>
                                     ) : (
@@ -123,7 +124,8 @@ const ChatClient = () => {
                                                 <HeroAvatar
                                                     size="sm"
                                                     src="https://img.freepik.com/free-vector/chatbot-chat-message-vectorart_78370-4104.jpg"
-                                                    className="flex-shrink-0" />
+                                                    className="flex-shrink-0"
+                                                />
                                                 {/* Bubble */}
                                                 {msg.role === "ai" && msg.isLoading ? (
                                                     <div className="max-w-[300px] w-full flex items-center gap-3">
@@ -135,9 +137,9 @@ const ChatClient = () => {
                                                         </div>
                                                     </div>
                                                 ) : (
-                                                    <div className="bg-gray-700/60 border border-gray-600 rounded-2xl p-3 shadow-md break-words max-w-[85%]">
+                                                    <div className="bg-gray-700/60 border border-gray-600 rounded-2xl p-3 shadow-md break-words max-w-[90%] sm:max-w-[75%] md:max-w-[65%]">
                                                         <h3 className="font-medium text-gray-200">Snapclip AI</h3>
-                                                        <p className="whitespace-pre-line text-md text-neutral-200">
+                                                        <p className="whitespace-pre-line text-sm sm:text-base text-neutral-200">
                                                             {cleanLLMContent(msg.content)}
                                                         </p>
                                                     </div>
@@ -155,12 +157,15 @@ const ChatClient = () => {
                 </div>
             </div>
 
-            {/* Input Chat (fixed di bawah) */}
-            <div className={`fixed bottom-0 left-0 right-0 z-30 px-2 sm:px-4 lg:px-8 transition-all duration-300 ${message.length === 0 ? "bottom-36" : "bottom-0"} md:left-56`}>
+            {/* Input Chat */}
+            <div
+                className={`fixed bottom-0 left-0 right-0 z-30 px-2 sm:px-4 lg:px-8 transition-all duration-300 ${message.length === 0 ? "bottom-36" : "bottom-0"
+                    } md:left-56`}
+            >
                 <div className="w-full max-w-2xl mx-auto rounded-2xl bg-[#1f1f1f] border border-neutral-600 shadow-inner sm:p-2 p-2">
                     <Input onSubmit={sendMessage} />
                     {message.length !== 0 && (
-                        <p className="text-neutral-200 text-sm text-center mt-1">
+                        <p className="text-neutral-200 text-xs sm:text-sm text-center mt-1 px-2">
                             This app is not affiliated with YouTube. All video content belongs to their respective owners.
                         </p>
                     )}

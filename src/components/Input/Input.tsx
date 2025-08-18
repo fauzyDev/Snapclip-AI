@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react';
-import HeroTextarea from '../ui/HeroTextarea';
+import HeroInput from '../ui/HeroInput';
 import HeroButton from '../ui/HeroButton';
 
 type InputProps = {
@@ -11,9 +11,11 @@ type InputProps = {
 const Input = ({ onSubmit }: InputProps) => {
     const [input, setInput] = React.useState<string>("")
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        if (input.trim() === "") return;
+        if (input.trim() === "") {
+            return;
+        }
         onSubmit(input)
         setInput("")
     }
@@ -21,11 +23,12 @@ const Input = ({ onSubmit }: InputProps) => {
     return (
         <div className="relative">
             <form onSubmit={handleSubmit}>
-                <HeroTextarea
+                <HeroInput
                     value={input}
+                    size="lg"
                     variant="faded"
                     onChange={(e) => setInput(e.target.value)}
-                    className="w-full rounded-xl text-base text-white bg-neutral-700"
+                    className="rounded-xl text-base text-white bg-neutral-700"
                     placeholder="Ask me anything..."
                 />
                 <HeroButton type="submit" size="sm" color="primary" radius="full" className="absolute bottom-2 right-2 hover:bg-blue-500 transition-all cursor-pointer focus:outline-none">

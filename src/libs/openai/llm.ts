@@ -40,7 +40,7 @@ export const main = async (message: string, transcripts: TranscriptPerVideo[]) =
     **Transkrip video :** ${context}`;
 
     return await openai.chat.completions.create({
-        model: "gemini-2.5-pro",
+        model: "gemini-2.0-flash",
         stream: true,
         messages: [
             { role: "system", content: systemPrompt },
