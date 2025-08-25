@@ -15,7 +15,7 @@ const ChatClient = () => {
 
     const sendMessage = async (input: string) => {
         try {
-            const aiMessageId = crypto.randomUUID();
+            const aiMessageId = crypto.randomUUID(); 
 
             setMessage(prev => [...prev, { id: crypto.randomUUID(), role: 'user', content: input }, { id: aiMessageId, role: 'ai', content: '', isLoading: true }])
 

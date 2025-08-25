@@ -36,7 +36,7 @@ export default function InputChannel() {
 
     const payload = [
       { id: ch1_id, name: ch1_name },
-      { id: ch2_id, name: ch2_name }
+      { id: ch2_id, name: ch2_name } 
     ]
 
     const response = await fetch('/api/v1/channels/save', {
