@@ -5,29 +5,12 @@ import { Form, Input, Button } from "@heroui/react";
 import { useChannelStore } from "@/store/useChannelStore";
 
 export default function InputChannel() {
-  const action = useChannelStore((s) => s.channels);
-  const setAction = useChannelStore((s) => s.setChannels);
-  const [isSubmitted, setIsSubmitted] = React.useState(false);
-
-  React.useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch('/api/v1/channels')
-      const data = await response.json()
-      if (data.Success?.length) {
-        setAction(data.Success.map((ch: any) => ({
-          id: ch.channel_id,
-          name: ch.channel_name
-        })))
-        setIsSubmitted(true)
-      }
-    }
-    fetchData();
-
-  }, []);
+  const { isSubmitted, setChannels, resetChannels } = useChannelStore();
+  const channel = useChannelStore((s) => s.channels);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
+ 
     const formData = new FormData(e.currentTarget)
     const ch1_id = formData.get('channel_id_1') as string
     const ch2_id = formData.get('channel_id_2') as string
@@ -36,7 +19,7 @@ export default function InputChannel() {
 
     const payload = [
       { id: ch1_id, name: ch1_name },
-      { id: ch2_id, name: ch2_name } 
+      { id: ch2_id, name: ch2_name }
     ]
 
     const response = await fetch('/api/v1/channels/save', {
@@ -50,16 +33,16 @@ export default function InputChannel() {
     const resData = await response.json();
 
     if (resData) {
-      setAction(payload);
-      setIsSubmitted(true);
+      setChannels(payload);
+      isSubmitted;
     } else {
       alert('Gagal simpan channel.');
     }
   }
 
   const handleReset = () => {
-    setAction([]);
-    setIsSubmitted(false); // reset form state
+    resetChannels();
+    isSubmitted; // reset form state
   };
 
   return (
@@ -69,7 +52,7 @@ export default function InputChannel() {
         onReset={handleReset}
         onSubmit={handleSubmit}>
 
-        {action.length > 0 && isSubmitted ? (action.map((ch, index) => (
+        {channel.length > 0 && isSubmitted ? (channel.map((ch, index) => (
           <div key={index}>
             <Input
               isReadOnly
