@@ -6,7 +6,7 @@ export async function GET() {
     const { data: { user }} = await supabase.auth.getUser()
 
     if (!user) {
-        return NextResponse.json({ message: "Unauthorized" });
+        return NextResponse.json({ message: "Unauthorized"});
     }
 
     const { data, error } = await supabase

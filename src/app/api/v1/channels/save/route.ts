@@ -10,7 +10,6 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    console.log('Received data:', body);
     const { channels } = body;
 
     const user_id = user.id

@@ -12,7 +12,7 @@ export default function Auth() {
   const [verify, setVerify] = React.useState<boolean>(false);
   const router = useRouter();
 
-  const handleEmailLogin = async (e: React.FormEvent) => {
+  const handleEmailLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const { error } = await supabase.auth.signInWithOtp({
       email: email,

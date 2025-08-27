@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React from "react";
-import { Form, Input, Button } from "@heroui/react";
-import { useChannelStore } from "@/store/useChannelStore";
+import React from 'react';
+import { Form, Input, Button } from '@heroui/react';
+import { useChannelStore } from '@/store/useChannelStore';
 
 export default function InputChannel() {
   const { isSubmitted, setChannels, resetChannels } = useChannelStore();

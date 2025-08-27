@@ -6,9 +6,12 @@ import Input from '../Input/Input';
 import HeroAvatar from '../ui/HeroAvatar';
 import HeroSkeleton from '../ui/HeroSkeleton';
 import { Message } from '@/types/message';
+import useInitChannels from '@/hooks/useInitChannels';
 import { useChannelStore } from '@/store/useChannelStore';
 
 const ChatClient = () => {
+    useInitChannels();
+
     const [message, setMessage] = React.useState<Message[]>([]);
     const bottomRef = React.useRef<HTMLDivElement>(null);
     const channel = useChannelStore((s) => s.channels)
