@@ -5,8 +5,8 @@ import HeroButton from '../ui/HeroButton';
 import Input from '../Input/Input';
 import HeroAvatar from '../ui/HeroAvatar';
 import HeroSkeleton from '../ui/HeroSkeleton';
-import { Message } from '@/types/message';
 import useInitChannels from '@/hooks/useInitChannels';
+import { Message } from '@/types/message';
 import { useChannelStore } from '@/store/useChannelStore';
 
 const ChatClient = () => {
@@ -18,7 +18,7 @@ const ChatClient = () => {
 
     const sendMessage = async (input: string) => {
         try {
-            const aiMessageId = crypto.randomUUID(); 
+            const aiMessageId = crypto.randomUUID();
 
             setMessage(prev => [...prev, { id: crypto.randomUUID(), role: 'user', content: input }, { id: aiMessageId, role: 'ai', content: '', isLoading: true }])
 
@@ -109,7 +109,7 @@ const ChatClient = () => {
                                         <li className="w-full flex justify-end px-2 sm:px-1">
                                             <div className="flex items-end gap-2 sm:gap-3 max-w-full">
                                                 {/* Bubble */}
-                                                <div className="ml-auto space-y-3 bg-blue-700 border border-blue-500 rounded-2xl shadow-md p-3 break-words max-w-[85%] sm:max-w-[75%] md:max-w-[65%]">
+                                                <div className="ml-auto space-y-3 bg-blue-700 border border-blue-500 rounded-2xl shadow-md p-3 break-words max-w-[90%] sm:max-w-[70%] md:max-w-[80%]">
                                                     <p className="text-sm sm:text-base text-neutral-200">{msg.content}</p>
                                                 </div>
                                                 {/* Avatar User */}
@@ -133,14 +133,13 @@ const ChatClient = () => {
                                                 {msg.role === "ai" && msg.isLoading ? (
                                                     <div className="max-w-[300px] w-full flex items-center gap-3">
                                                         <div className="w-full flex flex-col gap-2">
-                                                            <HeroSkeleton className="h-3 w-2/5 rounded-lg" />
-                                                            <HeroSkeleton className="h-3 w-3/5 rounded-lg" />
-                                                            <HeroSkeleton className="h-3 w-4/6 rounded-lg" />
-                                                            <HeroSkeleton className="h-3 w-5/5 rounded-lg" />
+                                                            {["w-2/5", "w-3/5", "w-4/6", "w-5/5"].map((width, index) => (
+                                                                <HeroSkeleton key={index} className={`h-3 ${width} rounded-lg`} />
+                                                            ))}
                                                         </div>
                                                     </div>
                                                 ) : (
-                                                    <div className="bg-gray-700/60 border border-gray-600 rounded-2xl p-3 shadow-md break-words max-w-[90%] sm:max-w-[75%] md:max-w-[65%]">
+                                                    <div className="bg-gray-700/60 border border-gray-600 rounded-2xl p-3 shadow-md break-words max-w-[90%] sm:max-w-[70%] md:max-w-[80%]">
                                                         <h3 className="font-medium text-gray-200">Snapclip AI</h3>
                                                         <p className="whitespace-pre-line text-sm sm:text-base text-neutral-200">
                                                             {cleanLLMContent(msg.content)}

@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import { Channel } from '@/types/channel';
 
 type ChannelStore = {
@@ -8,9 +9,12 @@ type ChannelStore = {
     resetChannels: () => void;
 }
 
-export const useChannelStore = create<ChannelStore>((set) => ({
-    channels: [],
-    isSubmitted: false,
-    setChannels: (ch) => set({ channels: ch, isSubmitted: true }),
-    resetChannels: () => set({ channels: [], isSubmitted: false })
-}))
+export const useChannelStore = create<ChannelStore>()(persist(
+    (set) => ({
+        channels: [],
+        isSubmitted: false,
+        setChannels: (ch) => set({ channels: ch, isSubmitted: true }),
+        resetChannels: () => set({ channels: [], isSubmitted: false })
+    }),
+    { name: 'channel-storage' }
+))
