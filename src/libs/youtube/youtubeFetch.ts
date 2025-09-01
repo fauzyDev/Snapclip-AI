@@ -30,15 +30,14 @@ export async function fetchVideosByPromptAndChannel(prompt: string, channelId: s
 
     const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet&type=video&maxResults=5&q=${encodeURIComponent(prompt)}`;
     const res = await fetch(url);
+    const data = await res.json();
 
     if (!res.ok) {
-      console.error("Fetch error:", res.text);
+      console.error("Fetch error:", data);
       throw new Error(
-        `HTTP error! status: ${res.status} - ${await res.text()}`
+        `HTTP error! status: ${res.status} - ${JSON.stringify(data)}`
       );
     }
-
-    const data = await res.json();
 
     if (!data.items) {
       return [];

@@ -13,7 +13,7 @@ export const main = async (message: string, transcripts: TranscriptPerVideo[]) =
     const context = transcripts.map((video) => {
         const line = video.caption.map((chunk) => {
             const cleanText = chunk.text.replace(/,\s*/g, " ").trim();
-            return `[${formatTime(chunk.start)}] (Video: ${video.title}) ${cleanText}`;
+            return `[${formatTime(chunk.start)}] (Video: ${video.videoId} ${video.title}) ${cleanText}`;
         }).join("\n")
         return line
     }).join("\n")
@@ -24,9 +24,17 @@ export const main = async (message: string, transcripts: TranscriptPerVideo[]) =
         Berikan output dengan 2 bagian:
 
     1. **Rangkuman isi video**: Jelaskan secara santai dan gampang dipahami.
-    2. **Klip Penting**: Ambil 2-5 potongan paling penting dari video, tampilkan dalam format:
-        - Start: (timestamp, misalnya 00:01:12)
-        - End: (timestamp)
+    2. **Klip Penting**: Ambil 2-5 potongan paling penting dari video, tampilkan dalam format JSON berikut:
+        
+    [
+        {
+            "videoId": "harus persis sama dengan input videoId",
+            "title": "judul dari input",
+            "start": "00:01:12",
+            "end": "00:02:34",
+            "quote": "kutipan penting dari transkrip"
+        }
+    ]
 
     **Tugas kamu:**
     1. Jelaskan isi video berdasarkan transkrip secara santai dan gampang dipahami.
