@@ -9,12 +9,21 @@ import useInitChannels from '@/hooks/useInitChannels';
 import { Message } from '@/types/message';
 import { useChannelStore } from '@/store/useChannelStore';
 
+type Clip = {
+    videoId: string;
+    title: string;
+    start: string;
+    end: string;
+    quote: string;
+};
+
 const ChatClient = () => {
     useInitChannels();
 
     const [message, setMessage] = React.useState<Message[]>([]);
+    const [clips, setClips] = React.useState<Clip[]>([]);
     const bottomRef = React.useRef<HTMLDivElement>(null);
-    const channel = useChannelStore((s) => s.channels)
+    const channel = useChannelStore((s) => s.channels);
 
     const sendMessage = async (input: string) => {
         try {
@@ -57,6 +66,17 @@ const ChatClient = () => {
                 if (done) break;
                 const result = decoder.decode(value, { stream: true });
                 setMessage(prev => prev.map(msg => msg.id === aiMessageId ? { ...msg, content: msg.content + result, isLoading: false } : msg));
+
+                const regex = /\{[^}]+\}/g;
+                let match;
+                while ((match = regex.exec(result))) {
+                    try {
+                        const obj = JSON.parse(match[0]) as Clip;
+                        setClips((prev) => [...prev, obj]);
+                    } catch (err) {
+                        console.error("Error", err);
+                    }
+                }
             }
         } catch (error) {
             console.error("Error", error)
@@ -77,6 +97,11 @@ const ChatClient = () => {
             .replace(/#{1,6}\s+(.*)/g, '$1')          // Markdown heading
             .replace(/^\d+\.\s+/gm, match => `\n${match}`) // Numbered list newline
             .replace(/[^\p{L}\p{N}\p{P}\p{Z}\n\r\t ]+/gu, '') // 💥 Remove non-standard chars
+    }
+
+    function toSeconds(t: string): number {
+        const parts = t.split(":").map(Number).reverse();
+        return (parts[0] || 0) + (parts[1] || 0) * 60 + (parts[2] || 0) * 3600;
     }
 
     return (
@@ -144,6 +169,17 @@ const ChatClient = () => {
                                                         <p className="whitespace-pre-line text-sm sm:text-base text-neutral-200">
                                                             {cleanLLMContent(msg.content)}
                                                         </p>
+                                                        <div className="mt-4 space-y-4">
+                                                            {clips.map((clip, i) => (
+                                                                <iframe
+                                                                    key={i}
+                                                                    className="w-full h-64 rounded-xl"
+                                                                    src={`https://www.youtube.com/embed/${clip.videoId}?start=${toSeconds(
+                                                                        clip.start
+                                                                    )}&end=${toSeconds(clip.end)}`}
+                                                                />
+                                                            ))}
+                                                        </div>
                                                     </div>
                                                 )}
                                             </div>

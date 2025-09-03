@@ -24,14 +24,14 @@ export const main = async (message: string, transcripts: TranscriptPerVideo[]) =
         Berikan output dengan 2 bagian:
 
     1. **Rangkuman isi video**: Jelaskan secara santai dan gampang dipahami.
-    2. **Klip Penting**: Ambil 2-5 potongan paling penting dari video, tampilkan dalam format JSON berikut:
+    2. **Klip Penting**: Ambil 2-5 potongan paling penting dari video, tampilkan dalam format pure JSON berikut:
         
     [
         {
             "videoId": "harus persis sama dengan input videoId",
             "title": "judul dari input",
             "start": "00:01:12",
-            "end": "00:02:34",
+            "end": "00:01:52",
             "quote": "kutipan penting dari transkrip"
         }
     ]
