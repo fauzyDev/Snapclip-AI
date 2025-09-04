@@ -60,23 +60,28 @@ const ChatClient = () => {
                 throw new Error("Streaming not supported");
             }
             const decoder = new TextDecoder();
+            let buffer = '';
 
             while (true) {
                 const { value, done } = await data.read();
                 if (done) break;
                 const result = decoder.decode(value, { stream: true });
-                setMessage(prev => prev.map(msg => msg.id === aiMessageId ? { ...msg, content: msg.content + result, isLoading: false } : msg));
+                buffer += result
 
-                const regex = /\{[^}]+\}/g;
+                const cleanText = result.replace(/\{[\s\S]*?\}/g, "");
+                setMessage(prev => prev.map(msg => msg.id === aiMessageId ? { ...msg, content: msg.content + cleanText, isLoading: false } : msg));
+
+                const regex = /\{[\s\S]*?\}/g;
                 let match;
-                while ((match = regex.exec(result))) {
+                while ((match = regex.exec(buffer))) {
                     try {
-                        const obj = JSON.parse(match[0]) as Clip;
-                        setClips((prev) => [...prev, obj]);
+                        const obj = JSON.parse(match[0]);
+                        setClips(prev => [...prev, obj]);
                     } catch (err) {
-                        console.error("Error", err);
+                        console.error("Error parse JSON:", err);
                     }
                 }
+                buffer = buffer.replace(/\{[\s\S]*?\}/g, "");
             }
         } catch (error) {
             console.error("Error", error)
@@ -166,19 +171,16 @@ const ChatClient = () => {
                                                 ) : (
                                                     <div className="bg-gray-700/60 border border-gray-600 rounded-2xl p-3 shadow-md break-words max-w-[90%] sm:max-w-[70%] md:max-w-[80%]">
                                                         <h3 className="font-medium text-gray-200">Snapclip AI</h3>
-                                                        <p className="whitespace-pre-line text-sm sm:text-base text-neutral-200">
+                                                        <div className="whitespace-pre-line text-sm sm:text-base text-neutral-200">
                                                             {cleanLLMContent(msg.content)}
-                                                        </p>
-                                                        <div className="mt-4 space-y-4">
-                                                            {clips.map((clip, i) => (
-                                                                <iframe
-                                                                    key={i}
-                                                                    className="w-full h-64 rounded-xl"
-                                                                    src={`https://www.youtube.com/embed/${clip.videoId}?start=${toSeconds(
-                                                                        clip.start
-                                                                    )}&end=${toSeconds(clip.end)}`}
-                                                                />
-                                                            ))}
+                                                            <div className="mt-4 space-y-4">
+                                                                {clips.map((clip, i) => (
+                                                                    <iframe
+                                                                        key={i}
+                                                                        className="w-full h-64 rounded-xl"
+                                                                        src={`https://www.youtube.com/embed/${clip.videoId}?start=${toSeconds(clip.start)}&end=${toSeconds(clip.end)}`} />
+                                                                ))}
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 )}
