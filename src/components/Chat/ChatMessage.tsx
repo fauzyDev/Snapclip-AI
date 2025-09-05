@@ -70,18 +70,17 @@ const ChatClient = () => {
 
                 const regex = /\{[\s\S]*?\}/g;
                 let match;
-                const cleanText = buffer.replace(regex, "");
-                setMessage(prev => prev.map(msg => msg.id === aiMessageId ? { ...msg, content: cleanText, isLoading: false } : msg));
-
+                
                 while ((match = regex.exec(buffer))) {
                     try {
                         const obj = JSON.parse(match[0]);
                         setClips(prev => [...prev, obj]);
-                        buffer = buffer.replace(/\{[\s\S]*?\}/g, "");
+                        buffer = buffer.replace(match[0], "");
                     } catch (err) {
                         console.error("Error parse JSON:", err);
                     }
                 }
+                setMessage(prev => prev.map(msg => msg.id === aiMessageId ? { ...msg, content: buffer, isLoading: false } : msg));
             }
         } catch (error) {
             console.error("Error", error)
