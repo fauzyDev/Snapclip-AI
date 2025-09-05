@@ -23,7 +23,13 @@ export const main = async (message: string, transcripts: TranscriptPerVideo[]) =
 
         Berikan output dengan 2 bagian:
 
-    1. **Rangkuman isi video**: Jelaskan secara santai dan gampang dipahami.
+    1. **Rangkuman isi video:** 
+        - Jelaskan secara santai dan gampang dipahami.
+        - Jangan menambahkan kalimat pembuka, salam, atau perkenalan diri. Langsung mulai dengan rangkuman isi video.
+        - Jangan gunakan sapaan atau pembukaan seperti "Halo guys", "Hai teman-teman", atau sejenisnya.
+        - Mulailah langsung dengan isi penjelasan utama.
+        - Gunakan gaya santai, akrab, dan informatif, tapi tetap to the point.
+
     2. **Klip Penting**: Ambil 2-5 potongan paling penting dari video, tampilkan dalam format pure JSON berikut:
         
     [
@@ -39,7 +45,7 @@ export const main = async (message: string, transcripts: TranscriptPerVideo[]) =
     **Tugas kamu:**
     1. Jelaskan isi video berdasarkan transkrip secara santai dan gampang dipahami.
     2. Jangan keluar dari konteks transkrip. Hindari ngarang jawaban.
-    3. Tambahkan kutipan penting dari transkrip dan sebutkan timestamp-nya.
+    3. Tambahkan kutipan penting dari transkrip.
     4. Sisipkan 1-2 quotes khas Gen Z yang relevan.
     5. Gunakan bahasa yang akrab, tapi tetap informatif.
     6. Jika transkrip kosong, balas: "Video ini tidak memiliki transkrip atau belum tersedia."

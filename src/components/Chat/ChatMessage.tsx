@@ -68,20 +68,20 @@ const ChatClient = () => {
                 const result = decoder.decode(value, { stream: true });
                 buffer += result
 
-                const cleanText = result.replace(/\{[\s\S]*?\}/g, "");
-                setMessage(prev => prev.map(msg => msg.id === aiMessageId ? { ...msg, content: msg.content + cleanText, isLoading: false } : msg));
-
                 const regex = /\{[\s\S]*?\}/g;
                 let match;
+                const cleanText = buffer.replace(regex, "");
+                setMessage(prev => prev.map(msg => msg.id === aiMessageId ? { ...msg, content: cleanText, isLoading: false } : msg));
+
                 while ((match = regex.exec(buffer))) {
                     try {
                         const obj = JSON.parse(match[0]);
                         setClips(prev => [...prev, obj]);
+                        buffer = buffer.replace(/\{[\s\S]*?\}/g, "");
                     } catch (err) {
                         console.error("Error parse JSON:", err);
                     }
                 }
-                buffer = buffer.replace(/\{[\s\S]*?\}/g, "");
             }
         } catch (error) {
             console.error("Error", error)
