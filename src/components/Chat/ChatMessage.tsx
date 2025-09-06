@@ -70,17 +70,32 @@ const ChatClient = () => {
 
                 const regex = /\{[\s\S]*?\}/g;
                 let match;
-                
+
+                let bufferObjects: Clip[] = [];
+
                 while ((match = regex.exec(buffer))) {
                     try {
-                        const obj = JSON.parse(match[0]);
-                        setClips(prev => [...prev, obj]);
+                        const obj = JSON.parse(match[0]) as Clip;
+                        bufferObjects.push(obj)
                         buffer = buffer.replace(match[0], "");
                     } catch (err) {
                         console.error("Error parse JSON:", err);
                     }
                 }
-                setMessage(prev => prev.map(msg => msg.id === aiMessageId ? { ...msg, content: buffer, isLoading: false } : msg));
+                if (/^\s*[\[\],]*\s*$/.test(buffer)) {
+                    buffer = "";
+                }
+
+                if (bufferObjects.length > 0) {
+                    setClips(prev => [...prev, ...bufferObjects]);
+                }
+                const cleaned = buffer
+                    .replace(/^\[|\]$/g, '')  // buang [ ] di awal/akhir
+                    .split(',')                // pisah kalo ada koma
+                    .map(s => s.trim())        // buang spasi kosong
+                    .filter(Boolean)           // buang elemen kosong
+                    .join('');
+                setMessage(prev => prev.map(msg => msg.id === aiMessageId ? { ...msg, content: cleaned, isLoading: false } : msg));
             }
         } catch (error) {
             console.error("Error", error)
@@ -103,9 +118,18 @@ const ChatClient = () => {
             .replace(/[^\p{L}\p{N}\p{P}\p{Z}\n\r\t ]+/gu, '') // 💥 Remove non-standard chars
     }
 
-    function toSeconds(t: string): number {
-        const parts = t.split(":").map(Number).reverse();
-        return (parts[0] || 0) + (parts[1] || 0) * 60 + (parts[2] || 0) * 3600;
+    function toSeconds(t?: string): number {
+        if (!t) return 0;
+
+        const parts = t.split(":").map(Number);
+        if (parts.length === 1) {
+            // misal "75" -> langsung parse detik
+            return parts[0] || 0;
+        }
+
+        // kalau "mm:ss" atau "hh:mm:ss"
+        const rev = parts.reverse();
+        return (rev[0] || 0) + (rev[1] || 0) * 60 + (rev[2] || 0) * 3600;
     }
 
     return (
@@ -174,10 +198,16 @@ const ChatClient = () => {
                                                             {cleanLLMContent(msg.content)}
                                                             <div className="mt-4 space-y-4">
                                                                 {clips.map((clip, i) => (
-                                                                    <iframe
-                                                                        key={i}
-                                                                        className="w-full h-64 rounded-xl"
-                                                                        src={`https://www.youtube.com/embed/${clip.videoId}?start=${toSeconds(clip.start)}&end=${toSeconds(clip.end)}`} />
+                                                                    <div key={i} className="space-y-2 p-4 rounded-xl bg-gray-800">
+                                                                        <h3 className="text-lg font-semibold text-white">{clip.title}</h3>
+                                                                        <p className="text-sm text-gray-300 italic">
+                                                                            {clip.quote || "No quote available"}
+                                                                        </p>
+                                                                        <iframe
+                                                                            className="w-full h-64 rounded-xl"
+                                                                            src={`https://www.youtube.com/embed/${clip.videoId}?start=${toSeconds(clip.start)}&end=${toSeconds(clip.end)}`}
+                                                                        />
+                                                                    </div>
                                                                 ))}
                                                             </div>
                                                         </div>
