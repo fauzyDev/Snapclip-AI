@@ -34,7 +34,6 @@ export default function InputChannel() {
 
     if (resData) {
       setChannels(payload);
-      isSubmitted;
     } else {
       alert('Gagal simpan channel.');
     }
@@ -42,7 +41,6 @@ export default function InputChannel() {
 
   const handleReset = () => {
     resetChannels();
-    isSubmitted; // reset form state
   };
 
   return (

@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  htmlLimitedBots: /MySpecialBot|MyAnotherSpecialBot|SimpleCrawler/,
 };
 
 export default nextConfig;

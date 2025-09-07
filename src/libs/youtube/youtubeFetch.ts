@@ -51,8 +51,8 @@ export async function fetchVideosByPromptAndChannel(prompt: string, channelId: s
       thumbnail: item.snippet.thumbnails?.medium?.url,
       channelTitle: item.snippet.channelTitle,
     }));
-  } catch (error: any) {
-    console.error("Fetch error:", error.message || error);
+  } catch (error: unknown) {
+    console.error("Fetch error:", error || error);
     return [];
   }
 }

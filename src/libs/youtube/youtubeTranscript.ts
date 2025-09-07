@@ -16,7 +16,7 @@ export async function fetchTranscript(videoId: string[]): Promise<Record<string,
   for (let index = 0; index < videos.length; index++) {
     const video = videos[index]
     const id = videoId[index]
-    let captions = video?.captions?.languages.find((lang) => lang.code)
+    const captions = video?.captions?.languages.find((lang) => lang.code)
 
     if (!captions) {
       console.error("Captions tidak ditemukan");

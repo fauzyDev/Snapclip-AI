@@ -7,15 +7,8 @@ import HeroAvatar from '../ui/HeroAvatar';
 import HeroSkeleton from '../ui/HeroSkeleton';
 import useInitChannels from '@/hooks/useInitChannels';
 import { Message } from '@/types/message';
+import { Clip } from '@/types/clipVideo';
 import { useChannelStore } from '@/store/useChannelStore';
-
-type Clip = {
-    videoId: string;
-    title: string;
-    start: string;
-    end: string;
-    quote: string;
-};
 
 const ChatClient = () => {
     useInitChannels();
@@ -71,7 +64,7 @@ const ChatClient = () => {
                 const regex = /\{[\s\S]*?\}/g;
                 let match;
 
-                let bufferObjects: Clip[] = [];
+                const bufferObjects: Clip[] = [];
 
                 while ((match = regex.exec(buffer))) {
                     try {
@@ -118,10 +111,10 @@ const ChatClient = () => {
             .replace(/[^\p{L}\p{N}\p{P}\p{Z}\n\r\t ]+/gu, '') // 💥 Remove non-standard chars
     }
 
-    function toSeconds(t?: string): number {
-        if (!t) return 0;
+    function toSeconds(time?: string): number {
+        if (!time) return 0;
 
-        const parts = t.split(":").map(Number);
+        const parts = time.split(":").map(Number);
         if (parts.length === 1) {
             // misal "75" -> langsung parse detik
             return parts[0] || 0;
