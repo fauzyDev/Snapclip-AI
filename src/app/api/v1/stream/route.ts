@@ -20,18 +20,18 @@ export async function POST(req: NextRequest) {
         for await (const chunk of content) {
           const text = chunk.choices?.[0]?.delta?.content || "";
           if (text) {
-            controller.enqueue(encoder.encode(text));
+            controller.enqueue(encoder.encode(`data: ${JSON.stringify(text)}\n\n`));
           }
         }
+        controller.enqueue(encoder.encode(`data: [DONE]\n\n`))
         controller.close();
       }
     })
     return new NextResponse(stream, {
       headers: {
-        'Content-Type': 'text/plain; charset=utf-8',
-        'Cache-Control': 'no-cache',
-        'X-Content-Type-Options': 'nosniff',
-        'Transfer-Encoding': 'chunked',
+        "Content-Type": "text/event-stream; charset=utf-8",
+        "Cache-Control": "no-cache, no-transform",
+        "Connection": "keep-alive",
       },
     });
   } catch (error) {

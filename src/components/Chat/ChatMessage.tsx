@@ -58,6 +58,7 @@ const ChatClient = () => {
             while (true) {
                 const { value, done } = await data.read();
                 if (done) break;
+
                 const result = decoder.decode(value, { stream: true });
                 buffer += result
 
@@ -75,20 +76,20 @@ const ChatClient = () => {
                         console.error("Error parse JSON:", err);
                     }
                 }
-                if (/^\s*[\[\],]*\s*$/.test(buffer)) {
-                    buffer = "";
-                }
+
+                buffer = buffer.replace(/[\[\],]/g, "").trim();
 
                 if (bufferObjects.length > 0) {
                     setClips(prev => [...prev, ...bufferObjects]);
                 }
                 const cleaned = buffer
                     .replace(/^\[|\]$/g, '')  // buang [ ] di awal/akhir
-                    .split(',')                // pisah kalo ada koma
-                    .map(s => s.trim())        // buang spasi kosong
-                    .filter(Boolean)           // buang elemen kosong
-                    .join('');
-                setMessage(prev => prev.map(msg => msg.id === aiMessageId ? { ...msg, content: cleaned, isLoading: false } : msg));
+                    .replace(/,\s*$/, '')     // buang koma gantung
+                    .trim();
+
+                if (cleaned) {
+                    setMessage(prev => prev.map(msg => msg.id === aiMessageId ? { ...msg, content: cleaned, isLoading: false } : msg));
+                }
             }
         } catch (error) {
             console.error("Error", error)

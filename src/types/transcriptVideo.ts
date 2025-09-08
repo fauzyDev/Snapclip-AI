@@ -1,4 +1,4 @@
-export type TranscriptPerVideo = {
+export interface TranscriptPerVideo {
   videoId: string;
   title: string;
   caption: {
