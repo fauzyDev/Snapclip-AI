@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
         for await (const chunk of content) {
           const text = chunk.choices?.[0]?.delta?.content || "";
           if (text) {
-            controller.enqueue(encoder.encode(`data: ${JSON.stringify(text)}\n\n`));
+            controller.enqueue(encoder.encode(`data: ${JSON.stringify({ text })}\n\n`));
           }
         }
         controller.enqueue(encoder.encode(`data: [DONE]\n\n`))

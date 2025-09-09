@@ -53,42 +53,41 @@ const ChatClient = () => {
                 throw new Error("Streaming not supported");
             }
             const decoder = new TextDecoder();
-            let buffer = '';
+            let buffer = "";
 
             while (true) {
                 const { value, done } = await data.read();
                 if (done) break;
 
-                const result = decoder.decode(value, { stream: true });
-                buffer += result
+                buffer += decoder.decode(value, { stream: true });
+                const lines = buffer.split("\n")
 
-                const regex = /\{[\s\S]*?\}/g;
-                let match;
+                buffer = lines.pop() || "";
 
-                const bufferObjects: Clip[] = [];
+                for (const line of lines) {
+                    if (!line.trim().startsWith("data:")) continue;
 
-                while ((match = regex.exec(buffer))) {
+                    const datas = line.replace("data:", "").trim()
+
+                    if (datas === "[DONE]") {
+                        return;
+                    }
                     try {
-                        const obj = JSON.parse(match[0]) as Clip;
-                        bufferObjects.push(obj)
-                        buffer = buffer.replace(match[0], "");
+                        const parsed = JSON.parse(datas)
+
+                        if (parsed.text) {
+                            const text = parsed.text.trim();
+
+                            if (text.startsWith("[")) {
+                                const clip = JSON.parse(text)
+                                setClips(prev => [...prev, clip])
+                            } else {
+                                setMessage(prev => prev.map(msg => msg.id === aiMessageId ? { ...msg, content: (msg.content ?? "") + text, isLoading: false } : msg))
+                            }
+                        }
                     } catch (err) {
                         console.error("Error parse JSON:", err);
                     }
-                }
-
-                buffer = buffer.replace(/[\[\],]/g, "").trim();
-
-                if (bufferObjects.length > 0) {
-                    setClips(prev => [...prev, ...bufferObjects]);
-                }
-                const cleaned = buffer
-                    .replace(/^\[|\]$/g, '')  // buang [ ] di awal/akhir
-                    .replace(/,\s*$/, '')     // buang koma gantung
-                    .trim();
-
-                if (cleaned) {
-                    setMessage(prev => prev.map(msg => msg.id === aiMessageId ? { ...msg, content: cleaned, isLoading: false } : msg));
                 }
             }
         } catch (error) {
