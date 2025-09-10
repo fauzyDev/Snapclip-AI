@@ -20,7 +20,16 @@ export async function POST(req: NextRequest) {
         for await (const chunk of content) {
           const text = chunk.choices?.[0]?.delta?.content || "";
           if (text) {
-            controller.enqueue(encoder.encode(`data: ${JSON.stringify({ text })}\n\n`));
+            try {
+              const parsed = JSON.parse(text);
+              if (Array.isArray(parsed)) {
+                controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: "clip", data: parsed })}\n\n`));
+              } else {
+                controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: "summary", data: text })}\n\n`));
+              }
+            } catch {
+              controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: "summary", data: text })}\n\n`));
+            }
           }
         }
         controller.enqueue(encoder.encode(`data: [DONE]\n\n`))

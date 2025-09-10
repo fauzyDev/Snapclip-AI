@@ -54,6 +54,7 @@ const ChatClient = () => {
             }
             const decoder = new TextDecoder();
             let buffer = "";
+            let summaryBuffer = "";
 
             while (true) {
                 const { value, done } = await data.read();
@@ -70,23 +71,26 @@ const ChatClient = () => {
                     const datas = line.replace("data:", "").trim()
 
                     if (datas === "[DONE]") {
+
+                        try {
+                            const maybeJson = summaryBuffer.trim().slice(summaryBuffer.indexOf("[")); // ambil mulai dari [
+                            const clips = JSON.parse(maybeJson);
+                            setClips(prev => [...prev, ...clips]);
+                        } catch {
+                            console.log("No valid clips found, only summary");
+                        }
                         return;
                     }
-                    try {
-                        const parsed = JSON.parse(datas)
+                    const parsed = JSON.parse(datas);
 
-                        if (parsed.text) {
-                            const text = parsed.text.trim();
+                    if (parsed.type === "summary") {
+                        const text = parsed.data;
 
-                            if (text.startsWith("[")) {
-                                const clip = JSON.parse(text)
-                                setClips(prev => [...prev, clip])
-                            } else {
-                                setMessage(prev => prev.map(msg => msg.id === aiMessageId ? { ...msg, content: (msg.content ?? "") + text, isLoading: false } : msg))
-                            }
+                        summaryBuffer += text;
+
+                        if (!text.trim().startsWith("[")) {
+                            setMessage(prev => prev.map(msg => msg.id === aiMessageId ? { ...msg, content: (msg.content ?? "") + text, isLoading: false } : msg))
                         }
-                    } catch (err) {
-                        console.error("Error parse JSON:", err);
                     }
                 }
             }
