@@ -55,6 +55,7 @@ const ChatClient = () => {
             const decoder = new TextDecoder();
             let buffer = "";
             let summaryBuffer = "";
+            let foundClips = false;
 
             while (true) {
                 const { value, done } = await data.read();
@@ -62,7 +63,6 @@ const ChatClient = () => {
 
                 buffer += decoder.decode(value, { stream: true });
                 const lines = buffer.split("\n")
-
                 buffer = lines.pop() || "";
 
                 for (const line of lines) {
@@ -71,13 +71,21 @@ const ChatClient = () => {
                     const datas = line.replace("data:", "").trim()
 
                     if (datas === "[DONE]") {
-
                         try {
-                            const maybeJson = summaryBuffer.trim().slice(summaryBuffer.indexOf("[")); // ambil mulai dari [
-                            const clips = JSON.parse(maybeJson);
-                            setClips(prev => [...prev, ...clips]);
-                        } catch {
-                            console.log("No valid clips found, only summary");
+                            // cari array JSON di summaryBuffer
+                            const startIdx = summaryBuffer.indexOf("[");
+                            const endIdx = summaryBuffer.lastIndexOf("]");
+                            if (startIdx !== -1 && endIdx !== -1) {
+                                const jsonBlock = summaryBuffer.slice(startIdx, endIdx + 1).trim();
+                                console.log("✅ JSON block ketemu:", jsonBlock);
+
+                                const clips = JSON.parse(jsonBlock);
+                                setClips(prev => [...prev, ...clips]);
+                            } else {
+                                console.warn("⚠️ JSON array gak ketemu di summaryBuffer");
+                            }
+                        } catch (err) {
+                            console.error("❌ gagal parse clips:", err);
                         }
                         return;
                     }
@@ -88,8 +96,11 @@ const ChatClient = () => {
 
                         summaryBuffer += text;
 
-                        if (!text.trim().startsWith("[")) {
+                        if (!foundClips) {
                             setMessage(prev => prev.map(msg => msg.id === aiMessageId ? { ...msg, content: (msg.content ?? "") + text, isLoading: false } : msg))
+                            if (text.includes("Klip Penting")) {
+                                foundClips = true;
+                            }
                         }
                     }
                 }
