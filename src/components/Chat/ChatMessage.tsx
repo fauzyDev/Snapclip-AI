@@ -35,7 +35,7 @@ const ChatClient = () => {
             const { transcript } = await transcriptRes.json();
 
             if (!transcript) {
-                console.error("❌ Gagal ambil transcript");
+                console.error("Error: Transcript Not Found");
                 return;
             }
 
@@ -53,6 +53,7 @@ const ChatClient = () => {
                 throw new Error("Streaming not supported");
             }
             const decoder = new TextDecoder();
+
             let buffer = "";
             let summaryBuffer = "";
             let foundClips = false;
@@ -77,7 +78,6 @@ const ChatClient = () => {
                             const endIdx = summaryBuffer.lastIndexOf("]");
                             if (startIdx !== -1 && endIdx !== -1) {
                                 const jsonBlock = summaryBuffer.slice(startIdx, endIdx + 1).trim();
-                                console.log("✅ JSON block ketemu:", jsonBlock);
 
                                 const clips = JSON.parse(jsonBlock);
                                 setClips(prev => [...prev, ...clips]);
@@ -85,7 +85,7 @@ const ChatClient = () => {
                                 console.warn("⚠️ JSON array gak ketemu di summaryBuffer");
                             }
                         } catch (err) {
-                            console.error("❌ gagal parse clips:", err);
+                            console.error("Error:", err);
                         }
                         return;
                     }
@@ -93,13 +93,22 @@ const ChatClient = () => {
 
                     if (parsed.type === "summary") {
                         const text = parsed.data;
-
                         summaryBuffer += text;
 
                         if (!foundClips) {
-                            setMessage(prev => prev.map(msg => msg.id === aiMessageId ? { ...msg, content: (msg.content ?? "") + text, isLoading: false } : msg))
                             if (text.includes("Klip Penting")) {
+                                const cutoffIdx = text.indexOf("[") !== -1 ? text.indexOf("[") : text.length;
+                                const cleanText = text.slice(0, cutoffIdx);
+
+                                setMessage(prev => prev.map(msg =>
+                                    msg.id === aiMessageId
+                                        ? { ...msg, content: (msg.content ?? "") + cleanText, isLoading: false }
+                                        : msg
+                                ));
+
                                 foundClips = true;
+                            } else {
+                                setMessage(prev => prev.map(msg => msg.id === aiMessageId ? { ...msg, content: (msg.content ?? "") + text, isLoading: false } : msg))
                             }
                         }
                     }

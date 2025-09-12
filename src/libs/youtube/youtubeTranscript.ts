@@ -1,5 +1,5 @@
 import { Client } from "youtubei";
-import { cachedTranscript } from "@/types/cacheTranscript";
+import { CachedTranscript } from "@/types/cacheTranscript";
 import { CACHE_TTL } from "@/config/env";
 import { redis } from "../cache/cacheRedis";
 
@@ -7,8 +7,8 @@ const cache: number = CACHE_TTL;
 
 const youtube = new Client();
 
-export async function fetchTranscript(videoId: string[]): Promise<Record<string, cachedTranscript[]>> {
-  const transcripts: Record<string, cachedTranscript[]> = {};
+export async function fetchTranscript(videoId: string[]): Promise<Record<string, CachedTranscript[]>> {
+  const transcripts: Record<string, CachedTranscript[]> = {};
   const videos = await Promise.all(
     videoId.map((id: string) => youtube.getVideo(id))
   )
@@ -25,7 +25,7 @@ export async function fetchTranscript(videoId: string[]): Promise<Record<string,
     }
 
     const rawTranscript = await captions.get()
-    transcripts[id] = (rawTranscript ?? [])?.map(({ text, start, duration }: cachedTranscript) => ({
+    transcripts[id] = (rawTranscript ?? [])?.map(({ text, start, duration }: CachedTranscript) => ({
       text,
       start,
       duration
@@ -34,13 +34,13 @@ export async function fetchTranscript(videoId: string[]): Promise<Record<string,
   return transcripts
 }
 
-export async function getCachedTranscript(videoId: string): Promise<cachedTranscript[] | null> {
+export async function getCachedTranscript(videoId: string): Promise<CachedTranscript[] | null> {
   const key = `text:${videoId}`;
   const cached = await redis.get(key);
-  return cached ? (cached as cachedTranscript[]) : null;
+  return cached ? (cached as CachedTranscript[]) : null;
 }
 
-export async function cacheTranscript(videoId: string, text: cachedTranscript[]): Promise<void> {
+export async function cacheTranscript(videoId: string, text: CachedTranscript[]): Promise<void> {
   const key = `text:${videoId}`;
   await redis.set(key, text);
   await redis.expire(key, cache);

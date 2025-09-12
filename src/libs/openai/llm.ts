@@ -25,12 +25,12 @@ export const main = async (message: string, transcripts: TranscriptPerVideo[]) =
 
     1. **Rangkuman isi video:** 
         - Jelaskan secara santai dan gampang dipahami.
-        - Jangan menambahkan kalimat pembuka, salam, atau perkenalan diri. Langsung mulai dengan rangkuman isi video.
+        - Jangan menambahkan kalimat pembuka, salam, atau perkenalan diri. Langsung mulai dengan Rangkuman isi video.
         - Jangan gunakan sapaan atau pembukaan seperti "Halo guys", "Hai teman-teman", atau sejenisnya.
         - Mulailah langsung dengan isi penjelasan utama.
         - Gunakan gaya santai, akrab, dan informatif, tapi tetap to the point.
 
-    2. **Klip Penting**: Ambil 2-5 potongan paling penting dari video, tampilkan dalam format pure JSON berikut:
+    2. **Klip Penting**, dan buat kata "Klip Penting" selalu **bold**: Ambil 2-5 potongan paling penting dari video, tampilkan dalam format berikut:
         
     [
         {

@@ -33,7 +33,7 @@ export async function fetchVideosByPromptAndChannel(prompt: string, channelId: s
     const data = await res.json();
 
     if (!res.ok) {
-      console.error("Fetch error:", data);
+      console.error("Fetch error");
       throw new Error(
         `HTTP error! status: ${res.status} - ${JSON.stringify(data)}`
       );
