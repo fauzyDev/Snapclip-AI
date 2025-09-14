@@ -222,7 +222,9 @@ const ChatClient = () => {
                                                                         </p>
                                                                         <iframe
                                                                             className="w-full h-64 rounded-xl"
-                                                                            src={`https://www.youtube.com/embed/${clip.videoId}?start=${toSeconds(clip.start)}&end=${toSeconds(clip.end)}`}
+                                                                            src={`https://www.youtube.com/embed/${clip.videoId}?start=${toSeconds(clip.start)}`}
+                                                                            allow="autoplay; encrypted-media"
+                                                                            allowFullScreen
                                                                         />
                                                                     </div>
                                                                 ))}
