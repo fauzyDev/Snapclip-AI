@@ -11,11 +11,12 @@ const openai = new OpenAI({
 
 export const main = async (message: string, transcripts: TranscriptPerVideo[]) => {
     const context = transcripts.map((video) => {
+        const header = `(Video: ${video.videoId} | ${video.title} | ${formatTime(video.duration)})`
         const line = video.caption.map((chunk) => {
             const cleanText = chunk.text.replace(/,\s*/g, " ").trim();
-            return `[${formatTime(chunk.start)}] (Video: ${video.videoId} ${video.title}) ${cleanText}`;
+            return `[${formatTime(chunk.start)}] ${cleanText}`;
         }).join("\n")
-        return line
+        return `${header}\n${line}`
     }).join("\n")
 
     const systemPrompt = `
@@ -30,14 +31,14 @@ export const main = async (message: string, transcripts: TranscriptPerVideo[]) =
         - Mulailah langsung dengan isi penjelasan utama.
         - Gunakan gaya santai, akrab, dan informatif, tapi tetap to the point.
 
-    2. **Klip Penting**, dan buat kata "Klip Penting" selalu **bold**: Ambil 2-5 potongan paling penting dari video, tampilkan dalam format berikut:
+    2. **Klip Penting**, dan buat kata "Klip Penting" selalu **bold**: Ambil 2-4 potongan paling penting dari video, tampilkan dalam format berikut:
         
     [
         {
             "videoId": "harus persis sama dengan input videoId",
             "title": "judul dari input",
-            "start": "00:00:00",
-            "end": "00:00:00",
+            "start": "00:01:12",
+            "end": "00:01:57",
             "quote": "kutipan penting dari transkrip"
         }
     ]

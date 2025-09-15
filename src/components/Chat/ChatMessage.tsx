@@ -6,6 +6,7 @@ import Input from '../Input/Input';
 import HeroAvatar from '../ui/HeroAvatar';
 import HeroSkeleton from '../ui/HeroSkeleton';
 import useInitChannels from '@/hooks/useInitChannels';
+import ReactPlayer from 'react-player';
 import { Message } from '@/types/message';
 import { Clip } from '@/types/clipVideo';
 import { useChannelStore } from '@/store/useChannelStore';
@@ -16,6 +17,7 @@ const ChatClient = () => {
     const [message, setMessage] = React.useState<Message[]>([]);
     const [clips, setClips] = React.useState<Clip[]>([]);
     const bottomRef = React.useRef<HTMLDivElement>(null);
+    const playerRef = React.useRef<any>(null);
     const channel = useChannelStore((s) => s.channels);
 
     const sendMessage = async (input: string) => {
@@ -135,18 +137,23 @@ const ChatClient = () => {
             .replace(/[^\p{L}\p{N}\p{P}\p{Z}\n\r\t ]+/gu, '') // 💥 Remove non-standard chars
     }
 
-    function toSeconds(time?: string): number {
+    function toSeconds(time?: string, videoDuration?: number): number {
         if (!time) return 0;
 
         const parts = time.split(":").map(Number);
-        if (parts.length === 1) {
-            // misal "75" -> langsung parse detik
-            return parts[0] || 0;
+        const rev = parts.reverse();
+
+        const seconds =
+            (rev[0] || 0) +
+            (rev[1] || 0) * 60 +
+            (rev[2] || 0) * 3600;
+
+        // clamp biar ga lebih dari durasi video
+        if (videoDuration && seconds > videoDuration) {
+            return videoDuration;
         }
 
-        // kalau "mm:ss" atau "hh:mm:ss"
-        const rev = parts.reverse();
-        return (rev[0] || 0) + (rev[1] || 0) * 60 + (rev[2] || 0) * 3600;
+        return seconds;
     }
 
     return (
@@ -220,11 +227,13 @@ const ChatClient = () => {
                                                                         <p className="text-sm text-gray-300 italic">
                                                                             {clip.quote || "No quote available"}
                                                                         </p>
-                                                                        <iframe
-                                                                            className="w-full h-64 rounded-xl"
-                                                                            src={`https://www.youtube.com/embed/${clip.videoId}?start=${toSeconds(clip.start)}`}
-                                                                            allow="autoplay; encrypted-media"
-                                                                            allowFullScreen
+                                                                        <ReactPlayer
+                                                                            style={{ width: '100%', height: 'auto', aspectRatio: '16/9' }}
+                                                                            src={`https://www.youtube.com/watch?v=${clip.videoId}`}
+                                                                            onPlay={() => {
+                                                                                playerRef.current?.seekTo(toSeconds(clip.start), 'seconds')
+                                                                            }}
+                                                                            controls
                                                                         />
                                                                     </div>
                                                                 ))}
