@@ -25,10 +25,11 @@ export async function fetchTranscript(videoId: string[]): Promise<Record<string,
     }
 
     const rawTranscript = await captions.get()
-    transcripts[id] = (rawTranscript ?? [])?.map(({ text, start, duration }: CachedTranscript) => ({
-      text,
-      start,
-      duration
+    transcripts[id] = (rawTranscript ?? [])?.map(({ text, start, end, duration }: CachedTranscript) => ({
+      text: text.trim(),
+      start: start / 1000,
+      end: end / 1000,
+      duration: duration / 1000
     }))
   }
   return transcripts
