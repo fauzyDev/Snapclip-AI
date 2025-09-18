@@ -17,7 +17,6 @@ const ChatClient = () => {
     const [message, setMessage] = React.useState<Message[]>([]);
     const [clips, setClips] = React.useState<Clip[]>([]);
     const bottomRef = React.useRef<HTMLDivElement>(null);
-    const playerRef = React.useRef<null>(null);
     const channel = useChannelStore((s) => s.channels);
 
     const sendMessage = async (input: string) => {
@@ -228,9 +227,15 @@ const ChatClient = () => {
                                                                             {clip.quote || "No quote available"}
                                                                         </p>
                                                                         <ReactPlayer
-                                                                            ref={playerRef}
                                                                             style={{ width: '100%', height: 'auto', aspectRatio: '16/9' }}
-                                                                            src={`https://www.youtube.com/watch?v=${clip.videoId}&start=${Math.floor(toSeconds(clip.start))}`}
+                                                                            src={`https://www.youtube.com/watch?v=${clip.videoId}`}
+                                                                            config={{
+                                                                                youtube: {
+                                                                                    playerVars: {
+                                                                                        start: Math.floor(toSeconds(clip.start))
+                                                                                    },
+                                                                                } as any
+                                                                            }}
                                                                             controls
                                                                         />
                                                                     </div>
