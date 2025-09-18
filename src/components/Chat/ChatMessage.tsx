@@ -17,7 +17,7 @@ const ChatClient = () => {
     const [message, setMessage] = React.useState<Message[]>([]);
     const [clips, setClips] = React.useState<Clip[]>([]);
     const bottomRef = React.useRef<HTMLDivElement>(null);
-    const playerRef = React.useRef<any>(null);
+    const playerRef = React.useRef<null>(null);
     const channel = useChannelStore((s) => s.channels);
 
     const sendMessage = async (input: string) => {
@@ -148,9 +148,9 @@ const ChatClient = () => {
             (rev[1] || 0) * 60 +
             (rev[2] || 0) * 3600;
 
-        // clamp biar ga lebih dari durasi video
-        if (videoDuration && seconds > videoDuration) {
-            return videoDuration;
+        // clamp biar ga keluar dari durasi video
+        if (videoDuration) {
+            return Math.min(seconds, videoDuration - 1); // -1 biar gak persis di ujung
         }
 
         return seconds;
@@ -228,11 +228,9 @@ const ChatClient = () => {
                                                                             {clip.quote || "No quote available"}
                                                                         </p>
                                                                         <ReactPlayer
+                                                                            ref={playerRef}
                                                                             style={{ width: '100%', height: 'auto', aspectRatio: '16/9' }}
-                                                                            src={`https://www.youtube.com/watch?v=${clip.videoId}`}
-                                                                            onPlay={() => {
-                                                                                playerRef.current?.seekTo(toSeconds(clip.start), 'seconds')
-                                                                            }}
+                                                                            src={`https://www.youtube.com/watch?v=${clip.videoId}&start=${Math.floor(toSeconds(clip.start))}`}
                                                                             controls
                                                                         />
                                                                     </div>

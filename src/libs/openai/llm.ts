@@ -65,8 +65,9 @@ export const main = async (message: string, transcripts: TranscriptPerVideo[]) =
 }
 
 function formatTime(seconds: number) {
-    const h = Math.floor(seconds / 3600).toString().padStart(2, '0');
-    const m = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
-    const s = Math.floor(seconds % 60).toString().padStart(2, '0');
+    const total = Math.floor(seconds); // buletin dulu
+    const h = Math.floor(total / 3600).toString().padStart(2, '0');
+    const m = Math.floor((total % 3600) / 60).toString().padStart(2, '0');
+    const s = Math.floor(total % 60).toString().padStart(2, '0');
     return `${h}:${m}:${s}`;
 }
