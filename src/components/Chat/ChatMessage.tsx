@@ -230,11 +230,9 @@ const ChatClient = () => {
                                                                             style={{ width: '100%', height: 'auto', aspectRatio: '16/9' }}
                                                                             src={`https://www.youtube.com/watch?v=${clip.videoId}`}
                                                                             config={{
-                                                                                youtube: {
-                                                                                    playerVars: {
-                                                                                        start: Math.floor(toSeconds(clip.start))
-                                                                                    },
-                                                                                } as any
+                                                                                youtube:{
+                                                                                    start: 700
+                                                                                }
                                                                             }}
                                                                             controls
                                                                         />
