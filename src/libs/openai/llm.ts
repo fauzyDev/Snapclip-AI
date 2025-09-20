@@ -31,7 +31,7 @@ export const main = async (message: string, transcripts: TranscriptPerVideo[]) =
         - Mulailah langsung dengan isi penjelasan utama.
         - Gunakan gaya santai, akrab, dan informatif, tapi tetap to the point.
 
-    2. **Klip Penting**, dan buat kata "Klip Penting" selalu **bold**: Ambil 2-4 potongan paling penting dari video, tampilkan dalam format berikut:
+    2. **Klip Penting**, dan buat kata "Klip Penting" selalu **bold**: Ambil 1 potongan paling penting dari video, tampilkan dalam format berikut:
         
     [
         {

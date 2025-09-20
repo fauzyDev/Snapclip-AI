@@ -6,7 +6,7 @@ import Input from '../Input/Input';
 import HeroAvatar from '../ui/HeroAvatar';
 import HeroSkeleton from '../ui/HeroSkeleton';
 import useInitChannels from '@/hooks/useInitChannels';
-import ReactPlayer from 'react-player';
+import PlayerVideo from '../playerTest/PlayerVideo';
 import { Message } from '@/types/message';
 import { Clip } from '@/types/clipVideo';
 import { useChannelStore } from '@/store/useChannelStore';
@@ -226,19 +226,10 @@ const ChatClient = () => {
                                                                         <p className="text-sm text-gray-300 italic">
                                                                             {clip.quote || "No quote available"}
                                                                         </p>
-                                                                        <ReactPlayer
-                                                                            style={{ width: '100%', height: 'auto', aspectRatio: '16/9' }}
-                                                                            src={`https://www.youtube.com/watch?v=${clip.videoId}`}
-                                                                            config={{
-                                                                                youtube:{
-                                                                                    start: 700
-                                                                                }
-                                                                            }}
-                                                                            controls
-                                                                        />
+                                                                        <PlayerVideo videoId={clip.videoId} start={Math.floor(toSeconds(clip.start))} />
                                                                     </div>
                                                                 ))}
-                                                            </div>
+                                                            </div>  
                                                         </div>
                                                     </div>
                                                 )}
