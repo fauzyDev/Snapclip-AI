@@ -226,7 +226,7 @@ const ChatClient = () => {
                                                                         <p className="text-sm text-gray-300 italic">
                                                                             {clip.quote || "No quote available"}
                                                                         </p>
-                                                                        <PlayerVideo videoId={clip.videoId} playerKey={`${clip.videoId}-${Math.floor(toSeconds(clip.start))}`} start={Math.floor(toSeconds(clip.start))} />
+                                                                        <PlayerVideo videoId={clip.videoId} start={Math.floor(toSeconds(clip.start))} />
                                                                     </div>
                                                                 ))}
                                                             </div>
