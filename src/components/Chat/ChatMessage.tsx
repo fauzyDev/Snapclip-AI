@@ -220,15 +220,22 @@ const ChatClient = () => {
                                                         <div className="whitespace-pre-line text-sm sm:text-base text-neutral-200">
                                                             {cleanLLMContent(msg.content)}
                                                             <div className="mt-4 space-y-4">
-                                                                {clips.map((clip, i) => (
-                                                                    <div key={i} className="space-y-2 p-4 rounded-xl bg-gray-800">
-                                                                        <h3 className="text-lg font-semibold text-white">{clip.title}</h3>
-                                                                        <p className="text-sm text-gray-300 italic">
-                                                                            {clip.quote || "No quote available"}
-                                                                        </p>
-                                                                        <PlayerVideo videoId={clip.videoId} start={Math.floor(toSeconds(clip.start))} />
-                                                                    </div>
-                                                                ))}
+                                                                {clips.map((clip, i) => {
+                                                                    const start = toSeconds(clip.start);
+                                                                    if (!start) {
+                                                                        return null
+                                                                    }
+
+                                                                    return (
+                                                                        <div key={i} className="space-y-2 p-4 rounded-xl bg-gray-800">
+                                                                            <h3 className="text-lg font-semibold text-white">{clip.title}</h3>
+                                                                            <p className="text-sm text-gray-300 italic">
+                                                                                {clip.quote || "No quote available"}
+                                                                            </p>
+                                                                            <PlayerVideo key={`${clip.videoId}-${start}`} videoId={clip.videoId} start={start} />
+                                                                        </div>
+                                                                    )
+                                                                })}
                                                             </div>
                                                         </div>
                                                     </div>
