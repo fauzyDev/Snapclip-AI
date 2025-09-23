@@ -8,15 +8,14 @@ type PlayerVideo = {
 
 export default function PlayerVideo({ videoId, start }: PlayerVideo) {
   const [startTime, setStartTime] = React.useState<boolean>(false)
+  const playerRef = React.useRef<any>(null)
 
   React.useEffect(() => {
-    if (start !== undefined && playerRef.current) {
-      setStartTime(true)
-    }
-  }, [start])
+      setStartTime(false)
+  }, [videoId, start])
 
   const handlePlayVideo = () => {
-    if (startTime && start && playerRef.current) {
+    if (start && start > 0 && playerRef.current && !startTime) {
       setTimeout(() => {
         playerRef.current.seekTo(start)
         setStartTime(false);
@@ -27,6 +26,7 @@ export default function PlayerVideo({ videoId, start }: PlayerVideo) {
   return (
     <div>
       <ReactPlayer
+        ref={playerRef}
         style={{ width: '100%', height: 'auto', aspectRatio: '16/9' }}
         src={`https://www.youtube.com/watch?v=${videoId}`}
         config={{
