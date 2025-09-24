@@ -11,17 +11,21 @@ export default function PlayerVideo({ videoId, start }: PlayerVideo) {
   const playerRef = React.useRef<any>(null)
 
   React.useEffect(() => {
-      setStartTime(false)
+    setStartTime(false)
   }, [videoId, start])
 
   const handlePlayVideo = () => {
     if (start && start > 0 && playerRef.current && !startTime) {
       setTimeout(() => {
-        playerRef.current.seekTo(start)
-        setStartTime(false);
+        if (playerRef.current) {
+          playerRef.current.seekTo(start)
+          setStartTime(true);
+        }
       }, 100)
     }
   };
+
+  console.log('Rendering PlayerVideo:', { videoId, start });
 
   return (
     <div>
@@ -35,6 +39,7 @@ export default function PlayerVideo({ videoId, start }: PlayerVideo) {
           }
         }}
         controls={true}
+        onReady={handlePlayVideo}
       />
     </div>
   )
