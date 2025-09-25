@@ -221,19 +221,19 @@ const ChatClient = () => {
                                                             {cleanLLMContent(msg.content)}
                                                             <div className="mt-4 space-y-4">
                                                                 {clips.map((clip, i) => {
-                                                                    const start = toSeconds(clip.start);
+                                                                    // const start = toSeconds(clip.start);
                                                                     
-                                                                    if (!start || start === 0) {
-                                                                        return null
-                                                                    }
-                                                                    console.log(`✅ Rendering clip ${i}: start=${start}s`);
+                                                                    // if (!start || start === 0) {
+                                                                    //     return null
+                                                                    // }
+                                                                    // console.log(`✅ Rendering clip ${i}: start=${start}s`);
                                                                     return (
                                                                         <div key={i} className="space-y-2 p-4 rounded-xl bg-gray-800">
                                                                             <h3 className="text-lg font-semibold text-white">{clip.title}</h3>
                                                                             <p className="text-sm text-gray-300 italic">
                                                                                 {clip.quote || "No quote available"}
                                                                             </p>
-                                                                            <PlayerVideo key={`${clip.videoId}-${start}-${i}`} videoId={clip.videoId} start={start} />
+                                                                            <PlayerVideo key={`${clip.videoId}-${clip.start}-${i}`} videoId={clip.videoId} start={clip.start} />
                                                                         </div>
                                                                     )
                                                                 })}
