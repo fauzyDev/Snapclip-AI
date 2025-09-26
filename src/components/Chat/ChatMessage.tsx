@@ -80,7 +80,13 @@ const ChatClient = () => {
                             if (startIdx !== -1 && endIdx !== -1) {
                                 const jsonBlock = summaryBuffer.slice(startIdx, endIdx + 1).trim();
 
-                                const clips = JSON.parse(jsonBlock);
+                                const clips: Clip[] = JSON.parse(jsonBlock, (key, val) => {
+                                    console.log("JSON BLOCK:", jsonBlock)
+                                    if (key === "start" || key === "end") {
+                                        return typeof val === "string" ? timeToSeconds(val) : val
+                                    }
+                                    return val
+                                });
                                 setClips(prev => [...prev, ...clips]);
                             } else {
                                 console.warn("⚠️ JSON array gak ketemu di summaryBuffer");
@@ -136,23 +142,17 @@ const ChatClient = () => {
             .replace(/[^\p{L}\p{N}\p{P}\p{Z}\n\r\t ]+/gu, '') // 💥 Remove non-standard chars
     }
 
-    function toSeconds(time?: string, videoDuration?: number): number {
-        if (!time) return 0;
-
+    function timeToSeconds(time: string): number {
         const parts = time.split(":").map(Number);
-        const rev = parts.reverse();
-
-        const seconds =
-            (rev[0] || 0) +
-            (rev[1] || 0) * 60 +
-            (rev[2] || 0) * 3600;
-
-        // clamp biar ga keluar dari durasi video
-        if (videoDuration) {
-            return Math.min(seconds, videoDuration - 1); // -1 biar gak persis di ujung
+        if (parts.length === 3) {
+            const [hh, mm, ss] = parts;
+            return hh * 3600 + mm * 60 + ss;
+        } else if (parts.length === 2) {
+            const [mm, ss] = parts;
+            return mm * 60 + ss;
+        } else {
+            return Number(time) || 0;
         }
-
-        return seconds;
     }
 
     return (
@@ -221,12 +221,6 @@ const ChatClient = () => {
                                                             {cleanLLMContent(msg.content)}
                                                             <div className="mt-4 space-y-4">
                                                                 {clips.map((clip, i) => {
-                                                                    // const start = toSeconds(clip.start);
-                                                                    
-                                                                    // if (!start || start === 0) {
-                                                                    //     return null
-                                                                    // }
-                                                                    // console.log(`✅ Rendering clip ${i}: start=${start}s`);
                                                                     return (
                                                                         <div key={i} className="space-y-2 p-4 rounded-xl bg-gray-800">
                                                                             <h3 className="text-lg font-semibold text-white">{clip.title}</h3>

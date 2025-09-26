@@ -37,8 +37,8 @@ export const main = async (message: string, transcripts: TranscriptPerVideo[]) =
         {
             "videoId": "harus persis sama dengan input videoId",
             "title": "judul dari input",
-            "start": 00:01:12,
-            "end": 00:01:57,
+            "start": "00:01:12",
+            "end": "00:01:57",
             "quote": "kutipan penting dari transkrip"
         }
     ]
