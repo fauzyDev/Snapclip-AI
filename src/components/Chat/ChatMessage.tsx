@@ -81,12 +81,12 @@ const ChatClient = () => {
                                 const jsonBlock = summaryBuffer.slice(startIdx, endIdx + 1).trim();
 
                                 const clips: Clip[] = JSON.parse(jsonBlock, (key, val) => {
-                                    console.log("JSON BLOCK:", jsonBlock)
                                     if (key === "start" || key === "end") {
                                         return typeof val === "string" ? timeToSeconds(val) : val
                                     }
                                     return val
                                 });
+                                console.log("JSON BLOCK:", clips)
                                 setClips(prev => [...prev, ...clips]);
                             } else {
                                 console.warn("⚠️ JSON array gak ketemu di summaryBuffer");
@@ -227,7 +227,7 @@ const ChatClient = () => {
                                                                             <p className="text-sm text-gray-300 italic">
                                                                                 {clip.quote || "No quote available"}
                                                                             </p>
-                                                                            <PlayerVideo key={`${clip.videoId}-${clip.start}-${i}`} videoId={clip.videoId} start={clip.start} />
+                                                                            <PlayerVideo videoId={clip.videoId} start={clip.start} />
                                                                         </div>
                                                                     )
                                                                 })}
