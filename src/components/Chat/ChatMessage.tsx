@@ -86,10 +86,10 @@ const ChatClient = () => {
                                     }
                                     return val
                                 });
-                                console.log("JSON BLOCK:", clips)
-                                setClips(prev => [...prev, ...clips]);
+
+                                setClips(clips);
                             } else {
-                                console.warn("⚠️ JSON array gak ketemu di summaryBuffer");
+                                console.warn("⚠️ JSON array not found");
                             }
                         } catch (err) {
                             console.error("Error:", err);
@@ -107,12 +107,7 @@ const ChatClient = () => {
                                 const cutoffIdx = text.indexOf("[") !== -1 ? text.indexOf("[") : text.length;
                                 const cleanText = text.slice(0, cutoffIdx);
 
-                                setMessage(prev => prev.map(msg =>
-                                    msg.id === aiMessageId
-                                        ? { ...msg, content: (msg.content ?? "") + cleanText, isLoading: false }
-                                        : msg
-                                ));
-
+                                setMessage(prev => prev.map(msg => msg.id === aiMessageId ? { ...msg, content: (msg.content ?? "") + cleanText, isLoading: false } : msg));
                                 foundClips = true;
                             } else {
                                 setMessage(prev => prev.map(msg => msg.id === aiMessageId ? { ...msg, content: (msg.content ?? "") + text, isLoading: false } : msg))
@@ -220,14 +215,14 @@ const ChatClient = () => {
                                                         <div className="whitespace-pre-line text-sm sm:text-base text-neutral-200">
                                                             {cleanLLMContent(msg.content)}
                                                             <div className="mt-4 space-y-4">
-                                                                {clips.map((clip, i) => {
+                                                                {clips.length > 0 && clips.map((clip, i) => {
                                                                     return (
                                                                         <div key={i} className="space-y-2 p-4 rounded-xl bg-gray-800">
                                                                             <h3 className="text-lg font-semibold text-white">{clip.title}</h3>
                                                                             <p className="text-sm text-gray-300 italic">
                                                                                 {clip.quote || "No quote available"}
                                                                             </p>
-                                                                            <PlayerVideo videoId={clip.videoId} start={clip.start} />
+                                                                            <PlayerVideo key={`${clip.videoId}-${clip.start}-${i}`} videoId={clip.videoId} start={clip.start} />
                                                                         </div>
                                                                     )
                                                                 })}
