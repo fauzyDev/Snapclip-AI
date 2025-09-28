@@ -215,14 +215,16 @@ const ChatClient = () => {
                                                         <div className="whitespace-pre-line text-sm sm:text-base text-neutral-200">
                                                             {cleanLLMContent(msg.content)}
                                                             <div className="mt-4 space-y-4">
-                                                                {clips.length > 0 && clips.map((clip, i) => {
+                                                                {clips.map((clip, i) => {
                                                                     return (
                                                                         <div key={i} className="space-y-2 p-4 rounded-xl bg-gray-800">
                                                                             <h3 className="text-lg font-semibold text-white">{clip.title}</h3>
                                                                             <p className="text-sm text-gray-300 italic">
                                                                                 {clip.quote || "No quote available"}
                                                                             </p>
-                                                                            <PlayerVideo key={`${clip.videoId}-${clip.start}-${i}`} videoId={clip.videoId} start={clip.start} />
+                                                                            {clip?.videoId && clip?.start !== undefined && (
+                                                                                <PlayerVideo key={`${clip.videoId}-${clip.start}`} videoId={clip.videoId} start={clip.start} />
+                                                                            )}
                                                                         </div>
                                                                     )
                                                                 })}
