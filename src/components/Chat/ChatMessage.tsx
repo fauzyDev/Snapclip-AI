@@ -223,7 +223,7 @@ const ChatClient = () => {
                                                                                 {clip.quote || "No quote available"}
                                                                             </p>
                                                                             {clip?.videoId && clip?.start !== undefined && (
-                                                                                <PlayerVideo key={`${clip.videoId}-${clip.start}`} videoId={clip.videoId} start={clip.start} />
+                                                                                <PlayerVideo videoId={clip.videoId} start={clip.start} />
                                                                             )}
                                                                         </div>
                                                                     )
