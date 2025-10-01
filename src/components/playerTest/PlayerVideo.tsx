@@ -7,7 +7,7 @@ type PlayerVideo = {
 }
 
 export default function PlayerVideo({ videoId, start }: PlayerVideo) {
-  // const playerRef = React.useRef<any>(null);
+  const playerRef = React.useRef<any>(null);
   // console.log("🎥 Player render:", { videoId, start });
 
   // React.useEffect(() => {
@@ -36,12 +36,18 @@ export default function PlayerVideo({ videoId, start }: PlayerVideo) {
 
   return (
     <ReactPlayer
-      // ref={playerRef as any}
+      key={`${videoId}-${start}`}
+      ref={playerRef as any}
       style={{ width: '100%', height: 'auto', aspectRatio: '16/9' }}
       src={`https://www.youtube.com/watch?v=${videoId}`}
       config={{
         youtube: {
           start: start
+        }
+      }}
+      onReady={() => {
+        if (start) {
+          playerRef.current?.seekTo(start, "seconds")
         }
       }}
       controls
