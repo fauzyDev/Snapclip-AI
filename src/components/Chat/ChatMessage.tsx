@@ -216,6 +216,7 @@ const ChatClient = () => {
                                                             {cleanLLMContent(msg.content)}
                                                             <div className="mt-4 space-y-4">
                                                                 {clips.map((clip, i) => {
+                                                                    console.log("🟡 [Render loop] Clip dikirim ke Player:", clip);
                                                                     return (
                                                                         <div key={i} className="space-y-2 p-4 rounded-xl bg-gray-800">
                                                                             <h3 className="text-lg font-semibold text-white">{clip.title}</h3>
