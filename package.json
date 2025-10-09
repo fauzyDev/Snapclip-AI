@@ -10,10 +10,10 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@heroui/react": "^2.8.4",
+    "@heroui/react": "^2.8.5",
     "@supabase/ssr": "^0.6.1",
-    "@supabase/supabase-js": "^2.58.0",
-    "@upstash/redis": "^1.35.4",
+    "@supabase/supabase-js": "^2.74.0",
+    "@upstash/redis": "^1.35.5",
     "lucide-react": "^0.518.0",
     "next": "^15.5.4",
     "openai": "^5.23.2",
@@ -29,9 +29,9 @@
     "@eslint/eslintrc": "^3.3.1",
     "@tailwindcss/postcss": "^4.1.14",
     "@types/node": "^20.19.19",
-    "@types/react": "^19.2.0",
-    "@types/react-dom": "^19.2.0",
-    "eslint": "^9.36.0",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.1",
+    "eslint": "^9.37.0",
     "eslint-config-next": "15.3.3",
     "tailwindcss": "^4.1.14",
     "typescript": "^5.9.3"
