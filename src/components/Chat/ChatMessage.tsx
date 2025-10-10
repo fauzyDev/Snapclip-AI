@@ -218,13 +218,13 @@ const ChatClient = () => {
                                                                 {clips.map((clip, i) => {
                                                                     console.log("🟡 [Render loop] Clip dikirim ke Player:", clip);
                                                                     return (
-                                                                        <div key={i} className="space-y-2 p-4 rounded-xl bg-gray-800">
+                                                                        <div key={`${clip.videoId}-${clip.start}-${i}`} className="space-y-2 p-4 rounded-xl bg-gray-800">
                                                                             <h3 className="text-lg font-semibold text-white">{clip.title}</h3>
                                                                             <p className="text-sm text-gray-300 italic">
                                                                                 {clip.quote || "No quote available"}
                                                                             </p>
                                                                             {clip?.videoId && clip?.start !== undefined && (
-                                                                                <PlayerVideo videoId={clip.videoId} start={clip.start} />
+                                                                                <PlayerVideo key={`${clip.videoId}-${clip.start}-${i}`} videoId={clip.videoId} start={clip.start} />
                                                                             )}
                                                                         </div>
                                                                     )
