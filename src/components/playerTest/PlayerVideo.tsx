@@ -7,7 +7,7 @@ interface PlayerVideoProps {
 }
 
 export default function PlayerVideo({ videoId, start }: PlayerVideoProps) {
-  if (!videoId) return null;
+  if (!videoId || start == null) return null;
 
   const src = `https://www.youtube.com/watch?v=${videoId}`;
 

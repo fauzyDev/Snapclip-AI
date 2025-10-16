@@ -15,7 +15,7 @@ const ChatClient = () => {
     useInitChannels();
 
     const [message, setMessage] = React.useState<Message[]>([]);
-    const [clips, setClips] = React.useState<Clip[]>([]);
+    const [readyClips, setReadyClips] = React.useState<Clip[]>([]);
     const bottomRef = React.useRef<HTMLDivElement>(null);
     const channel = useChannelStore((s) => s.channels);
 
@@ -87,7 +87,11 @@ const ChatClient = () => {
                                     return val
                                 });
 
-                                setClips(clips);
+                                setMessage(prev => prev.map(msg => msg.id === aiMessageId ? { ...msg, clips } : msg));
+                                setTimeout(() => {
+                                    setReadyClips(clips);
+                                }, 200);
+
                             } else {
                                 console.warn("⚠️ JSON array not found");
                             }
@@ -215,7 +219,8 @@ const ChatClient = () => {
                                                         <div className="whitespace-pre-line text-sm sm:text-base text-neutral-200">
                                                             {cleanLLMContent(msg.content)}
                                                             <div className="mt-4 space-y-4">
-                                                                {clips.map((clip, i) => {
+                                                                {readyClips.map((clip, i) => {
+                                                                    if (!clip.videoId || clip.start == null) return null;
                                                                     console.log("🟡 [Render loop] Clip dikirim ke Player:", clip);
                                                                     return (
                                                                         <div key={`${clip.videoId}-${clip.start}-${i}`} className="space-y-2 p-4 rounded-xl bg-gray-800">
