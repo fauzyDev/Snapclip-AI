@@ -15,7 +15,6 @@ const ChatClient = () => {
     useInitChannels();
 
     const [message, setMessage] = React.useState<Message[]>([]);
-    const [readyClips, setReadyClips] = React.useState<Clip[]>([]);
     const bottomRef = React.useRef<HTMLDivElement>(null);
     const channel = useChannelStore((s) => s.channels);
 
@@ -88,10 +87,6 @@ const ChatClient = () => {
                                 });
 
                                 setMessage(prev => prev.map(msg => msg.id === aiMessageId ? { ...msg, clips } : msg));
-                                setTimeout(() => {
-                                    setReadyClips(clips);
-                                }, 200);
-
                             } else {
                                 console.warn("⚠️ JSON array not found");
                             }
@@ -155,9 +150,9 @@ const ChatClient = () => {
     }
 
     return (
-        <section className="flex flex-col flex-grow w-full h-full">
+        <section className="flex flex-col grow w-full h-full">
             {/* Chat Container */}
-            <div className={`flex-grow ${message.length > 0 ? "overflow-y-auto" : ""} pt-16 pb-[110px]`}>
+            <div className={`grow ${message.length > 0 ? "overflow-y-auto" : ""} pt-16 pb-[110px]`}>
                 <div className="w-full flex justify-center">
                     <div className="w-full max-w-2xl space-y-4 px-2 sm:px-4 md:px-6 lg:px-0">
                         {message.length === 0 ? (
@@ -184,14 +179,14 @@ const ChatClient = () => {
                                         <li className="w-full flex justify-end px-2 sm:px-1">
                                             <div className="flex items-end gap-2 sm:gap-3 max-w-full">
                                                 {/* Bubble */}
-                                                <div className="ml-auto space-y-3 bg-blue-700 border border-blue-500 rounded-2xl shadow-md p-3 break-words max-w-[90%] sm:max-w-[70%] md:max-w-[80%]">
+                                                <div className="ml-auto space-y-3 bg-blue-700 border border-blue-500 rounded-2xl shadow-md p-3 wrap-break-word max-w-[90%] sm:max-w-[70%] md:max-w-[80%]">
                                                     <p className="text-sm sm:text-base text-neutral-200">{msg.content}</p>
                                                 </div>
                                                 {/* Avatar User */}
                                                 <HeroAvatar
                                                     size="sm"
                                                     src="https://img.freepik.com/free-vector/chatbot-chat-message-vectorart_78370-4104.jpg"
-                                                    className="flex-shrink-0"
+                                                    className="shrink-0"
                                                 />
                                             </div>
                                         </li>
@@ -202,7 +197,7 @@ const ChatClient = () => {
                                                 <HeroAvatar
                                                     size="sm"
                                                     src="https://img.freepik.com/free-vector/chatbot-chat-message-vectorart_78370-4104.jpg"
-                                                    className="flex-shrink-0"
+                                                    className="shrink-0"
                                                 />
                                                 {/* Bubble */}
                                                 {msg.role === "ai" && msg.isLoading ? (
@@ -214,23 +209,19 @@ const ChatClient = () => {
                                                         </div>
                                                     </div>
                                                 ) : (
-                                                    <div className="bg-gray-700/60 border border-gray-600 rounded-2xl p-3 shadow-md break-words max-w-[90%] sm:max-w-[70%] md:max-w-[80%]">
+                                                    <div className="bg-gray-700/60 border border-gray-600 rounded-2xl p-3 shadow-md wrap-break-word max-w-[90%] sm:max-w-[70%] md:max-w-[80%]">
                                                         <h3 className="font-medium text-gray-200">Snapclip AI</h3>
                                                         <div className="whitespace-pre-line text-sm sm:text-base text-neutral-200">
                                                             {cleanLLMContent(msg.content)}
                                                             <div className="mt-4 space-y-4">
-                                                                {readyClips.map((clip, i) => {
-                                                                    if (!clip.videoId || clip.start == null) return null;
-                                                                    console.log("🟡 [Render loop] Clip dikirim ke Player:", clip);
+                                                                {msg.clips?.map((clip, i) => {
                                                                     return (
-                                                                        <div key={`${clip.videoId}-${clip.start}-${i}`} className="space-y-2 p-4 rounded-xl bg-gray-800">
+                                                                        <div key={`${msg.id}-${clip.videoId}-${clip.start}-${i}`} className="space-y-2 p-4 rounded-xl bg-gray-800">
                                                                             <h3 className="text-lg font-semibold text-white">{clip.title}</h3>
                                                                             <p className="text-sm text-gray-300 italic">
                                                                                 {clip.quote || "No quote available"}
                                                                             </p>
-                                                                            {clip?.videoId && clip?.start !== undefined && (
-                                                                                <PlayerVideo key={`${clip.videoId}-${clip.start}-${i}`} videoId={clip.videoId} start={clip.start} />
-                                                                            )}
+                                                                            <PlayerVideo videoId={clip.videoId} start={clip.start} />
                                                                         </div>
                                                                     )
                                                                 })}

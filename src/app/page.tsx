@@ -6,15 +6,15 @@ import Footer from "@/components/Footer/Footer";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white relative overflow-hidden">
+    <div className="min-h-screen bg-linear-to-br from-slate-900 via-purple-900 to-slate-900 text-white relative overflow-hidden">
       {/* Animated Background Grid */}
-      <div className="absolute inset-0 bg-grid-pattern bg-[size:60px_60px]" />
-      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-purple-500/10 to-transparent" />
+      <div className="absolute inset-0 bg-grid-pattern bg-size-[60px_60px]" />
+      <div className="absolute inset-0 bg-linear-to-br from-transparent via-purple-500/10 to-transparent" />
 
       {/* Floating Orbs */}
-      <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-gradient-to-r from-purple-400 to-pink-600 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float" />
-      <div className="absolute top-3/4 right-1/4 w-96 h-96 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float-delayed" />
-      <div className="absolute bottom-1/4 left-1/3 w-80 h-80 bg-gradient-to-r from-pink-400 to-red-600 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float-slow" />
+      <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-linear-to-r from-purple-400 to-pink-600 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float" />
+      <div className="absolute top-3/4 right-1/4 w-96 h-96 bg-linear-to-r from-cyan-400 to-blue-600 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float-delayed" />
+      <div className="absolute bottom-1/4 left-1/3 w-80 h-80 bg-linear-to-r from-pink-400 to-red-600 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float-slow" />
 
       {/* Hero Section */}
       <section className="relative px-6 py-32 flex items-center justify-center min-h-screen">
@@ -27,10 +27,10 @@ export default function Home() {
 
           {/* Main Heading */}
           <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black leading-none tracking-tight">
-            <span className="block bg-gradient-to-r from-white via-purple-200 to-purple-400 bg-clip-text text-transparent">
+            <span className="block bg-linear-to-r from-white via-purple-200 to-purple-400 bg-clip-text text-transparent">
               Smart YouTube
             </span>
-            <span className="block bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent animate-gradient-x">
+            <span className="block bg-linear-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent animate-gradient-x">
               Clips & Insights
             </span>
           </h1>
@@ -38,7 +38,7 @@ export default function Home() {
           {/* Subtitle */}
           <p className="text-xl sm:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
             Ekstrak momen penting dari video YouTube dalam hitungan detik.
-            <span className="text-transparent bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text font-semibold"> Powered by AI</span>
+            <span className="text-transparent bg-linear-to-r from-purple-400 to-pink-400 bg-clip-text font-semibold"> Powered by AI</span>
           </p>
 
           {/* CTA Buttons */}
@@ -55,7 +55,7 @@ export default function Home() {
         {/* Section Header */}
         <div className="text-center mb-20">
           <h2 className="text-4xl sm:text-5xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-white to-gray-300 bg-clip-text text-transparent">
               Bagaimana Cara Kerjanya?
             </span>
           </h2>
@@ -91,15 +91,15 @@ export default function Home() {
           ].map((item, i) => (
             <div
               key={i}
-              className="group relative p-8 rounded-3xl bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 hover:scale-105"
+              className="group relative p-8 rounded-3xl bg-linear-to-br from-white/5 to-white/2 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 hover:scale-105"
               style={{ animationDelay: item.delay }}
             >
               {/* Gradient Background on Hover */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-10 rounded-3xl transition-opacity duration-500`} />
+              <div className={`absolute inset-0 bg-linear-to-br ${item.gradient} opacity-0 group-hover:opacity-10 rounded-3xl transition-opacity duration-500`} />
 
               {/* Icon */}
               <div className="relative">
-                <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br ${item.gradient} mb-6 shadow-lg`}>
+                <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-linear-to-br ${item.gradient} mb-6 shadow-lg`}>
                   <span className="text-2xl">{item.icon}</span>
                 </div>
 
@@ -125,12 +125,12 @@ export default function Home() {
       <section className="relative py-32 px-6">
         <div className="max-w-4xl mx-auto text-center">
           {/* Glass Card */}
-          <div className="relative p-12 rounded-3xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/20 shadow-2xl">
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-3xl" />
+          <div className="relative p-12 rounded-3xl bg-linear-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/20 shadow-2xl">
+            <div className="absolute inset-0 bg-linear-to-br from-purple-500/10 to-pink-500/10 rounded-3xl" />
 
             <div className="relative z-10">
               <h3 className="text-4xl sm:text-5xl font-bold mb-6">
-                <span className="bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
+                <span className="bg-linear-to-r from-white to-purple-200 bg-clip-text text-transparent">
                   Siap untuk Mencoba?
                 </span>
               </h3>
@@ -138,7 +138,7 @@ export default function Home() {
                 Bergabung dengan ribuan creator yang sudah menggunakan AI untuk mengoptimalkan konten mereka
               </p>
 
-              <HeroButton className="group relative px-10 py-5 bg-gradient-to-r from-white to-gray-100 text-black font-bold text-xl rounded-2xl shadow-2xl hover:shadow-white/25 transition-all duration-300 hover:scale-105">
+              <HeroButton className="group relative px-10 py-5 bg-linear-to-r from-white to-gray-100 text-black font-bold text-xl rounded-2xl shadow-2xl hover:shadow-white/25 transition-all duration-300 hover:scale-105">
                 <span className="flex items-center gap-3">
                   Mulai Gratis Sekarang
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

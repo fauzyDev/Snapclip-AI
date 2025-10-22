@@ -7,23 +7,18 @@ interface PlayerVideoProps {
 }
 
 export default function PlayerVideo({ videoId, start }: PlayerVideoProps) {
-  if (!videoId || start == null) return null;
-
-  const src = `https://www.youtube.com/watch?v=${videoId}`;
-
   return (
     <div className="w-full aspect-video">
       <ReactPlayer
-        key={`${videoId}-${start}`}
-        src={src}
+        src={`https://www.youtube.com/watch?v=${videoId}`}
+        width="100%"
+        height="100%"
         controls
         config={{
           youtube: {
             start: start
           }
         }}
-        width="100%"
-        height="100%"
       />
     </div>
   );
