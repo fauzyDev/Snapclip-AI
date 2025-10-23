@@ -31,7 +31,7 @@ export const main = async (message: string, transcripts: TranscriptPerVideo[]) =
         - Mulailah langsung dengan isi penjelasan utama.
         - Gunakan gaya santai, akrab, dan informatif, tapi tetap to the point.
 
-    2. **Klip Penting**, dan buat kata "Klip Penting" selalu **bold**: Ambil 1 potongan paling penting dari video, tampilkan dalam format berikut:
+    2. **Klip Penting**, dan buat kata "Klip Penting" selalu **bold**: Ambil 1 potongan paling penting dari video yang sangat relevan dengan prompt user, tampilkan dalam format berikut:
         
     [
         {
@@ -44,10 +44,10 @@ export const main = async (message: string, transcripts: TranscriptPerVideo[]) =
     ]
 
     **Tugas kamu:**
-    1. Jelaskan isi video berdasarkan transkrip secara santai dan gampang dipahami.
+    1. Jelaskan isi video berdasarkan transkrip secara santai dan mudah dipahami.
     2. Jangan keluar dari konteks transkrip. Hindari ngarang jawaban.
     3. Tambahkan kutipan penting dari transkrip.
-    4. Sisipkan 1-2 quotes khas Gen Z yang relevan.
+    4. Sisipkan 1 quotes khas Gen Z yang relevan.
     5. Gunakan bahasa yang akrab, tapi tetap informatif.
     6. Jika transkrip kosong, balas: "Video ini tidak memiliki transkrip atau belum tersedia."
     

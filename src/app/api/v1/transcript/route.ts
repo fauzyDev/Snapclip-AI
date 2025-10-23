@@ -12,7 +12,7 @@ import {
   getCachedTranscript,
   cacheTranscript
 } from "@/libs/youtube/youtubeTranscript";
-import { CachedVideo } from '@/types/cacheVideo';
+import { CachedVideo } from '@/types/cachedVideo';
 
 export async function POST(req: NextRequest) {
   const { message, channels } = await req.json();

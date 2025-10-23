@@ -1,5 +1,5 @@
 import { Client } from "youtubei";
-import { CachedTranscript } from "@/types/cacheTranscript";
+import { CachedTranscript } from "@/types/cachedTranscript";
 import { CACHE_TTL } from "@/config/env";
 import { redis } from "../cache/cacheRedis";
 

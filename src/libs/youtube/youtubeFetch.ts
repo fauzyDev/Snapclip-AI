@@ -1,4 +1,4 @@
-import { CachedVideo } from "@/types/cacheVideo";
+import { CachedVideo } from "@/types/cachedVideo";
 import { FetchPrompt } from "@/types/youtubeFetchPrompt";
 import { YouTubeSearchItem } from "@/types/youtubeSearchItems";
 import { YOUTUBE_API } from "@/config/env";
