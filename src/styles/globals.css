@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@source "../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}";
+@source '../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
 @config "../../tailwind.config.js";
 
 @layer utilities {
@@ -12,7 +12,7 @@
 @layer base {
     * {
         scroll-behavior: smooth;
-    }
+    }  
 
     /* Enable hardware acceleration for animations */
     .animate-float,
@@ -27,15 +27,15 @@
 /* Custom component styles */
 @layer components {
     .glass-card {
-        @apply bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/20;
+        @apply bg-linear-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/20;
     }
 
     .gradient-text {
-        @apply bg-clip-text text-transparent bg-gradient-to-r;
+        @apply bg-clip-text text-transparent bg-linear-to-r;
     }
 
     .btn-primary {
-        @apply relative px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl font-semibold shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 hover:scale-105 border border-purple-400/20;
+        @apply relative px-8 py-4 bg-linear-to-r from-purple-600 to-pink-600 rounded-2xl font-semibold shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 hover:scale-105 border border-purple-400/20;
     }
 
     .btn-secondary {
