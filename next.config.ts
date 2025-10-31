@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
-  reactStrictMode: false,
+  reactStrictMode: true,
   images: {
     remotePatterns: [
       {
@@ -11,6 +11,12 @@ const nextConfig: NextConfig = {
         port: '',
       },
     ],
+  },
+  experimental: {
+    optimizePackageImports: [
+      "@heroui/react",
+      "lucide-react"
+    ]
   },
   htmlLimitedBots: /MySpecialBot|MyAnotherSpecialBot|SimpleCrawler/,
 };

@@ -160,7 +160,7 @@ const ChatClient = () => {
                                 <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-white animate-pulse">
                                     ✨ Selamat Datang di Snapclip AI...
                                 </h2>
-                                <div className="flex flex-wrap justify-center gap-3">
+                                <div className="flex flex-wrap justify-center gap-4">
                                     {["📽️ Buat Klip", "🎞️ Ringkas Video", "💬 Tanya AI", "🔍 Cari Topik"].map((label) => (
                                         <HeroButton
                                             key={label}

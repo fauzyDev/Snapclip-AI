@@ -28,7 +28,7 @@ const Input = ({ onSubmit }: InputProps) => {
                     size="lg"
                     variant="faded"
                     onChange={(e) => setInput(e.target.value)}
-                    className="rounded-xl text-base text-white bg-neutral-700"
+                    className="rounded-xl text-base text-gray-300 bg-neutral-700"
                     placeholder="Ask me anything..."
                 />
                 <HeroButton type="submit" size="sm" color="primary" radius="full" className="absolute bottom-2 right-2 hover:bg-blue-500 transition-all cursor-pointer focus:outline-none">

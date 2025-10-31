@@ -41,7 +41,7 @@ export async function getCachedVideos(prompt: string): Promise<CachedVideo[] | n
  * @returns {Promise<void>}
  *
  * @example
- * await cacheVideos("timothy ronald", videoList);
+ * await cacheVideos("cara belajar coding", videoList);
  * console.log("Data video berhasil disimpan ke cache!");
  */
 export async function cacheVideos(prompt: string, videos: CachedVideo[]): Promise<void> {

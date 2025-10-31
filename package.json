@@ -12,7 +12,7 @@
   "dependencies": {
     "@heroui/react": "^2.8.5",
     "@supabase/ssr": "^0.6.1",
-    "@supabase/supabase-js": "^2.76.1",
+    "@supabase/supabase-js": "^2.78.0",
     "@upstash/redis": "^1.35.6",
     "lucide-react": "^0.518.0",
     "next": "^15.5.6",
@@ -28,7 +28,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
     "@tailwindcss/postcss": "^4.1.16",
-    "@types/node": "^20.19.23",
+    "@types/node": "^20.19.24",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
     "eslint": "^9.38.0",
