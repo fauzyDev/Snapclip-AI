@@ -11,22 +11,25 @@ export const metadata: Metadata = {
 
 export default function LayoutSnapclip({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
-        <div className="h-screen overflow-hidden bg-neutral-800 flex">
+        <div className="flex h-screen overflow-hidden bg-neutral-700">
             {/* Sidebar */}
             <SidebarWrapper />
-            <div className="flex flex-col grow w-full ml-0 md:ml-56">
+
+            <div className="flex flex-col flex-1 md:ml-56">
                 {/* Header */}
-                <Header />
+                <header className="h-14 sticky top-0 z-20">
+                    <Header />
+                </header>
 
                 {/* YouTube iframe preloader */}
                 <div className="hidden">
-                    <ReactPlayer src='https://www.youtube.com/watch?v=XnNaOO5B_QE' style={{ opacity: 0, pointerEvents: "none" }} />
+                    <ReactPlayer src='https://www.youtube.com/watch?v=XnNaOO5B_QE' width={0} height={0} style={{ opacity: 0, pointerEvents: "none" }} />
                 </div>
 
                 {/* Main content (scrollable wrapper) */}
-                <main className="grow flex w-full overflow-hidden">
+                {/* <main className="grow flex w-full overflow-hidden">
                     {children}
-                </main>
+                </main> */}
             </div>
         </div>
     )

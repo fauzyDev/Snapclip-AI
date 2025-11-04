@@ -1,6 +1,9 @@
 "use client";
 
 import React from 'react';
+import HeroInput from '../ui/HeroInput';
+import HeroInputOtp from '../ui/HeroInputOtp';
+import HeroButton from '../ui/HeroButton';
 import { useRouter } from 'next/navigation';
 import { BASE_URL } from '@/config/env';
 import { FcGoogle } from "react-icons/fc";
@@ -60,66 +63,80 @@ export default function Auth() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-neutral-900 text-white px-4">
-      <div className="w-full max-w-md bg-neutral-800 border border-neutral-700 rounded-2xl p-8 space-y-6 shadow-xl">
+      <div className="w-full max-w-md bg-neutral-800 border border-neutral-800 rounded-2xl p-8 space-y-6 shadow-xl">
         {verify ? (
           <>
             <h2 className="text-2xl font-bold text-center">Verifikasi Email</h2>
 
             <form onSubmit={handleEmailVerify} className="space-y-4">
-              <div className="flex flex-col space-y-1">
-                <label htmlFor="email" className="text-sm font-medium mb-3">Verify OTP</label>
-                <input
+              <div className="flex flex-col space-y-1 items-center">
+                <label htmlFor="email" className="text-sm font-medium mb-3">Masukkan OTP</label>
+                <HeroInputOtp
                   id="token"
-                  type="number"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  length={6}
                   required
                   value={token}
-                  onChange={e => setToken(e.target.value)}
-                  className="bg-neutral-700 border border-neutral-600 rounded-lg px-4 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onValueChange={setToken}
+                  size="md"
+                  color="default"
+                  variant="faded"
+                  radius="md"
                   placeholder="Masukkan OTP"
                 />
               </div>
-              <button
+              <HeroButton
                 type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 cursor-pointer rounded-lg font-semibold transition-all">Verify OTP
-              </button>
+                size="md"
+                variant="solid"
+                color="primary"
+                className="w-full hover:bg-blue-700 text-white py-2 cursor-pointer rounded-lg font-semibold transition-all">Verify OTP
+              </HeroButton>
             </form>
           </>
         ) : (
           <>
-            <h2 className="text-2xl font-bold text-center">Masuk Akun</h2>
+            <h2 className="text-2xl font-bold text-center">Masuk</h2>
 
             <form onSubmit={handleEmailLogin} className="space-y-4">
               <div className="flex flex-col space-y-1">
-                <label htmlFor="email" className="text-sm font-medium mb-3">Email</label>
-                <input
+                <HeroInput
                   id="email"
+                  label="Email"
                   type="email"
                   required
                   value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  className="bg-neutral-700 border border-neutral-600 rounded-lg px-4 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="you@example.com"
+                  onChange={(e) => setEmail(e.target.value)}
+                  size="md"
+                  variant="faded"
+                  placeholder="Masukkan Email"
                 />
               </div>
-              <button
+              <HeroButton
                 type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 cursor-pointer rounded-lg font-semibold transition-all">Kirim OTP
-              </button>
+                size="md"
+                variant="solid"
+                color="primary"
+                className="w-full hover:bg-blue-700 p-2 cursor-pointer rounded-lg font-semibold transition-all">Kirim OTP
+              </HeroButton>
             </form>
 
             <div className="flex items-center gap-4">
-              <div className="flex-grow h-px bg-neutral-600" />
+              <div className="grow h-px bg-neutral-600" />
               <span className="text-sm text-neutral-400">ATAU</span>
-              <div className="flex-grow h-px bg-neutral-600" />
+              <div className="grow h-px bg-neutral-600" />
             </div>
 
-            <button
-              onClick={handleGoogleLogin}
-              className="w-full flex items-center justify-center gap-2 bg-white hover:bg-neutral-400 cursor-pointer text-black font-semibold py-2 rounded-lg transition"
+            <HeroButton
+              onPress={handleGoogleLogin}
+              size="md"
+              variant="solid"
+              className="w-full flex items-center justify-center gap-2 bg-white hover:bg-neutral-300 cursor-pointer text-black font-semibold p-2 rounded-lg transition"
             >
               <FcGoogle className="text-xl" />
               Masuk dengan Google
-            </button>
+            </HeroButton>
           </>
         )}
       </div>
