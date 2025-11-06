@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin 'tailwind-scrollbar';
 @config "../../tailwind.config.js";
 
 @layer utilities {
@@ -7,7 +8,7 @@
     }
 }
 
-/* Performance optimizations */
+/* Performance optimizations */ 
 @layer base {
     * {
         scroll-behavior: smooth;
@@ -54,4 +55,15 @@
 
 ::-webkit-scrollbar-track {
   background: transparent;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #525252;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #737373;
 }

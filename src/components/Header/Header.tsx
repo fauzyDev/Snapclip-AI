@@ -4,7 +4,7 @@ import { Menu } from "lucide-react";
 
 export default function Header({ onMenuClick }: { onMenuClick?: () => void }) {
     return (
-        <nav className="bg-linear-to-r from-neutral-900 via-neutral-800 to-neutral-900 shadow-md">
+        <nav className="bg-neutral-800 shadow">
             <div className="flex items-center justify-between px-4 py-2">
                 <div className="md:hidden">
                     <HeroButton

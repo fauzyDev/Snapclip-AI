@@ -7,18 +7,10 @@ import useSessionRedirect from '@/hooks/useSessionRedirect';
 
 export default function ButtonAuth() {
     const router = useRouter();
-    const { session, error } = useSessionRedirect();
+    const { session } = useSessionRedirect();
 
     const handleSession = () => {
-        if (error) {
-            router.push("/login")
-        }
-
-        if (session) {
-            router.push("/snapclip")
-        } else {
-            router.push("/login")
-        }
+        router.push(session ? "/snapclip" : "/login")
     }
 
     return (
